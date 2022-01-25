@@ -1,0 +1,5 @@
+package DB
+
+func InsertOneData() {
+
+}
