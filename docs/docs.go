@@ -33,7 +33,7 @@ var doc = `{
                 "parameters": [
                     {
                         "description": "JSON数据",
-                        "name": "body",
+                        "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
@@ -45,7 +45,10 @@ var doc = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/login.UserBody"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/login.UserBody"
+                            }
                         }
                     }
                 }
@@ -113,6 +116,25 @@ var doc = `{
         }
     },
     "definitions": {
+        "login.ForgetPassword": {
+            "type": "object",
+            "required": [
+                "code",
+                "name",
+                "phone"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                }
+            }
+        },
         "login.RepsGetCode": {
             "type": "object",
             "required": [
@@ -185,6 +207,77 @@ var doc = `{
                 },
                 "phone": {
                     "type": "string"
+                },
+                "testData": {
+                    "description": "测试代码",
+                    "$ref": "#/definitions/login.UserName"
+                }
+            }
+        },
+        "login.UserName": {
+            "type": "object",
+            "required": [
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "password": {
+                    "description": "用户密码",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "用户名",
+                    "type": "string"
+                },
+                "thereData": {
+                    "description": "三层嵌套",
+                    "$ref": "#/definitions/login.ForgetPassword"
+                }
+            }
+        },
+        "login.UserSignReps": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "login.UserSignType": {
+            "type": "object",
+            "required": [
+                "code",
+                "password",
+                "phone"
+            ],
+            "properties": {
+                "code": {
+                    "description": "手机验证码",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "用户密码",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "用户名",
+                    "type": "string"
+                },
+                "thereData": {
+                    "description": "三层嵌套",
+                    "$ref": "#/definitions/login.ForgetPassword"
                 }
             }
         },

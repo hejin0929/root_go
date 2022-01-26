@@ -54,7 +54,7 @@ func main() {
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	router.Run(":8080").Error()
+	router.Run(":8888").Error()
 }
 
 // Cors //// 跨域

@@ -1,4 +1,17 @@
 definitions:
+  login.ForgetPassword:
+    properties:
+      code:
+        type: string
+      name:
+        type: string
+      phone:
+        type: string
+    required:
+    - code
+    - name
+    - phone
+    type: object
   login.RepsGetCode:
     properties:
       body:
@@ -46,8 +59,59 @@ definitions:
         type: string
       phone:
         type: string
+      testData:
+        $ref: '#/definitions/login.UserName'
+        description: 测试代码
     required:
     - code
+    - phone
+    type: object
+  login.UserName:
+    properties:
+      password:
+        description: 用户密码
+        type: string
+      phone:
+        description: 用户名
+        type: string
+      thereData:
+        $ref: '#/definitions/login.ForgetPassword'
+        description: 三层嵌套
+    required:
+    - password
+    - phone
+    type: object
+  login.UserSignReps:
+    properties:
+      body:
+        type: string
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  login.UserSignType:
+    properties:
+      code:
+        description: 手机验证码
+        type: string
+      password:
+        description: 用户密码
+        type: string
+      phone:
+        description: 用户名
+        type: string
+      thereData:
+        $ref: '#/definitions/login.ForgetPassword'
+        description: 三层嵌套
+    required:
+    - code
+    - password
     - phone
     type: object
   loginPaths.UserSignReps:
@@ -84,7 +148,7 @@ paths:
       parameters:
       - description: JSON数据
         in: body
-        name: body
+        name: data
         required: true
         schema:
           $ref: '#/definitions/login.UserCode'
@@ -92,7 +156,9 @@ paths:
         "200":
           description: JSON数据
           schema:
-            $ref: '#/definitions/login.UserBody'
+            items:
+              $ref: '#/definitions/login.UserBody'
+            type: array
       summary: 用户登录操作
       tags:
       - Login

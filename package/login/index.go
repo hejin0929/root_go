@@ -83,7 +83,7 @@ type UserBody struct {
 // @Summary 用户登录操作
 // @ID LoginsUser
 // @Param data body	UserCode true "JSON数据"
-// @Success 200 {object} UserBody true "JSON数据"
+// @Success 200 {array} UserBody true "JSON数据"
 // @Router /login/user/login [post]
 func LoginsUser(r *gin.Context) {
 	body, err := ioutil.ReadAll(r.Request.Body)
@@ -161,16 +161,16 @@ func LoginsUser(r *gin.Context) {
 	r.JSON(200, resp)
 }
 
-//type UserSignType struct {
-//	UserName
-//	// 手机验证码
-//	Code string `json:"code" binding:"required"`
-//}
-//
-//type UserSignReps struct {
-//	module.Resp
-//	Body string `json:"body"`
-//}
+type UserSignType struct {
+	UserName
+	// 手机验证码
+	Code string `json:"code" binding:"required"`
+}
+
+type UserSignReps struct {
+	module.Resp
+	Body string `json:"body"`
+}
 
 type Users struct {
 	module.Model
