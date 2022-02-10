@@ -68,7 +68,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/loginPaths.UserSignType"
+                            "$ref": "#/definitions/login.UserSignType"
                         }
                     }
                 ],
@@ -76,7 +76,7 @@ var doc = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/loginPaths.UserSignReps"
+                            "$ref": "#/definitions/login.UserSignReps"
                         }
                     }
                 }
@@ -116,21 +116,13 @@ var doc = `{
         }
     },
     "definitions": {
-        "login.ForgetPassword": {
+        "login.GetPhoneCode": {
             "type": "object",
             "required": [
-                "code",
-                "name",
-                "phone"
+                "code"
             ],
             "properties": {
                 "code": {
-                    "type": "string"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "phone": {
                     "type": "string"
                 }
             }
@@ -144,15 +136,7 @@ var doc = `{
             "properties": {
                 "body": {
                     "description": "in Body",
-                    "type": "object",
-                    "required": [
-                        "code"
-                    ],
-                    "properties": {
-                        "code": {
-                            "type": "string"
-                        }
-                    }
+                    "$ref": "#/definitions/login.GetPhoneCode"
                 },
                 "mgsCode": {
                     "description": "返回体状态码",
@@ -160,6 +144,20 @@ var doc = `{
                 },
                 "mgsText": {
                     "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "login.User": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "token": {
                     "type": "string"
                 }
             }
@@ -172,18 +170,7 @@ var doc = `{
             ],
             "properties": {
                 "body": {
-                    "type": "object",
-                    "properties": {
-                        "id": {
-                            "type": "string"
-                        },
-                        "name": {
-                            "type": "string"
-                        },
-                        "token": {
-                            "type": "string"
-                        }
-                    }
+                    "$ref": "#/definitions/login.User"
                 },
                 "mgsCode": {
                     "description": "返回体状态码",
@@ -228,10 +215,6 @@ var doc = `{
                 "phone": {
                     "description": "用户名",
                     "type": "string"
-                },
-                "thereData": {
-                    "description": "三层嵌套",
-                    "$ref": "#/definitions/login.ForgetPassword"
                 }
             }
         },
@@ -274,18 +257,8 @@ var doc = `{
                 "phone": {
                     "description": "用户名",
                     "type": "string"
-                },
-                "thereData": {
-                    "description": "三层嵌套",
-                    "$ref": "#/definitions/login.ForgetPassword"
                 }
             }
-        },
-        "loginPaths.UserSignReps": {
-            "type": "object"
-        },
-        "loginPaths.UserSignType": {
-            "type": "object"
         }
     }
 }`

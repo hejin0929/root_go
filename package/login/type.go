@@ -10,8 +10,6 @@ type UserName struct {
 	Phone string `json:"phone" binding:"required"` // Phone
 	// 用户密码
 	Password string `json:"password" binding:"required"` // Password
-	// 三层嵌套
-	ThereData ForgetPassword `json:"thereData"`
 }
 
 // UserCode

@@ -20,9 +20,7 @@ import (
 type RepsGetCode struct {
 	module.Resp
 	// in Body
-	Body struct {
-		GetPhoneCode
-	}
+	Body GetPhoneCode
 }
 
 // GetSingCode
@@ -72,9 +70,7 @@ func GetSingCode(r *gin.Context) {
 // 用户登录成功的返回体
 type UserBody struct {
 	module.Resp
-	Body struct {
-		User
-	}
+	Body User
 }
 
 // LoginsUser
@@ -184,12 +180,13 @@ type Users struct {
 // @Tags Login
 // @Summary 用户登录操作
 // @ID SignUser
-// @Param NewUser body	UserSignType true "JSON数据"
+// @Param data body	UserSignType true "JSON数据"
 // @Success 200 {object} UserSignReps true "JSON数据"
 // @Router /login/user/sign [post]
 func SignUser(r *gin.Context) {
 
 	body, err := ioutil.ReadAll(r.Request.Body)
+	fmt.Println("this is body ?? value", string(body))
 
 	resp := UserBody{}
 
@@ -203,35 +200,46 @@ func SignUser(r *gin.Context) {
 		writeLog.Println(err)
 	}
 
-	newUser := Users{}
+	data := struct {
+		Data UserSignType `json:"data"`
+	}{}
 
-	err = json.Unmarshal(body, &newUser)
+	err = json.Unmarshal(body, &data)
+
 	if err != nil {
 		return
 	}
+	newUser := Users{}
 
-	if RgxPassword(r, newUser.Password) {
-		return
-	}
-	if IsCode(r, newUser.Code) {
-		return
-	}
+	//if RgxPassword(r, data.Data.Password) {
+	//	return
+	//}
+	//if IsCode(r, data.Data.Code) {
+	//	return
+	//}
+	//
+	//if RgxPhone(r, data.Data.Phone) {
+	//	return
+	//}
 
 	db, err := DB.CreateDB()
 
 	err = db.AutoMigrate(&Users{})
-	if err != nil {
-		return
-	}
 
 	isUser := Users{}
 
-	db.Model(&Users{}).Where("phone=?", newUser.Phone).First(&isUser)
+	err = db.Model(&Users{}).Where("phone=?", data.Data.Phone).First(&isUser).Error
 
-	if isUser.Phone == newUser.Phone {
+	if err != nil {
+
+		r.JSON(500, "服务器内部错误")
+		return
+	}
+
+	if isUser.Phone == data.Data.Phone {
 		resp.MgsCode = 500
 		resp.MgsText = "该账号已被注册!"
-		r.JSON(500, resp)
+		r.JSON(200, resp)
 		return
 	}
 
@@ -241,6 +249,10 @@ func SignUser(r *gin.Context) {
 	uid := strings.ReplaceAll(u2.String(), "-", "")
 
 	newUser.UUID = uid
+	//newUser.UserName = data.Data.Username
+	newUser.Phone = data.Data.Phone
+	newUser.Code = data.Data.Code
+	newUser.Password = data.Data.Password
 
 	db.Create(&newUser)
 
@@ -266,8 +278,6 @@ func SignUser(r *gin.Context) {
 		fmt.Println(err)
 		//writeLog.Println(isNameErr)
 	}
-
-	fmt.Println("this is ??", uid)
 
 	resp.MgsCode = 200
 	resp.MgsText = "欢迎你的加入!注册成功!"
@@ -380,7 +390,7 @@ func RgxPhone(r *gin.Context, phone string) bool {
 		writeLog.Println("手机号码不合法", "用户 -->", phone)
 		reps.MgsCode = 500
 		reps.MgsText = "手机号码不合法"
-		r.JSON(500, reps)
+		r.JSON(200, reps)
 		return true
 	}
 
@@ -402,7 +412,7 @@ func RgxPassword(r *gin.Context, password string) bool {
 		writeLog.Println("密码不合法", password)
 		reps.MgsCode = 500
 		reps.MgsText = "密码不合法"
-		r.JSON(500, reps)
+		r.JSON(200, reps)
 		return true
 	}
 
@@ -421,7 +431,7 @@ func IsCode(r *gin.Context, code string) bool {
 		resp.MgsCode = 500
 		resp.MgsText = "验证码为空"
 		writeLog.Println("登录验证码为空 ---> ", code)
-		r.JSON(500, resp)
+		r.JSON(200, resp)
 		return true
 
 	} else if len(code) > 6 {

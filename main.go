@@ -7,7 +7,6 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	_ "modTest/docs"
 	"modTest/package/login"
-	loginPaths "modTest/paths/login"
 	"modTest/service/socket"
 	"modTest/utlis/my_log"
 	"net/http"
@@ -23,7 +22,7 @@ func init() {
 func main() {
 	router.Use(UserVerify())
 	router.Use(Cors())
-	router.POST("/login", loginPaths.LoginPaths)
+	//router.POST("/login", loginPaths.LoginPaths)
 
 	router.GET("/ws", func(context *gin.Context) {
 		my_log.WriteLog().Println(context.Request.URL)
@@ -44,9 +43,9 @@ func main() {
 
 	//Login.POST("/user/login", login.LoginsUser) // 用户登录接口
 
-	Login.POST("/user/login", login.SignUser) // 用户登录接口
+	Login.POST("/user/login", login.LoginsUser) // 用户登录接口
 
-	//Login.POST("/user/sign", login.SignUser) // 用户注册接口
+	Login.POST("/user/sign", login.SignUser) // 用户注册接口
 	//
 	//Login.POST("/user/set_password", login.SetPasswordUser) // 修改密码
 

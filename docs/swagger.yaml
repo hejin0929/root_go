@@ -1,27 +1,16 @@
 definitions:
-  login.ForgetPassword:
+  login.GetPhoneCode:
     properties:
       code:
         type: string
-      name:
-        type: string
-      phone:
-        type: string
     required:
     - code
-    - name
-    - phone
     type: object
   login.RepsGetCode:
     properties:
       body:
+        $ref: '#/definitions/login.GetPhoneCode'
         description: in Body
-        properties:
-          code:
-            type: string
-        required:
-        - code
-        type: object
       mgsCode:
         description: 返回体状态码
         type: integer
@@ -32,17 +21,19 @@ definitions:
     - mgsCode
     - mgsText
     type: object
+  login.User:
+    properties:
+      id:
+        type: string
+      name:
+        type: string
+      token:
+        type: string
+    type: object
   login.UserBody:
     properties:
       body:
-        properties:
-          id:
-            type: string
-          name:
-            type: string
-          token:
-            type: string
-        type: object
+        $ref: '#/definitions/login.User'
       mgsCode:
         description: 返回体状态码
         type: integer
@@ -74,9 +65,6 @@ definitions:
       phone:
         description: 用户名
         type: string
-      thereData:
-        $ref: '#/definitions/login.ForgetPassword'
-        description: 三层嵌套
     required:
     - password
     - phone
@@ -106,17 +94,10 @@ definitions:
       phone:
         description: 用户名
         type: string
-      thereData:
-        $ref: '#/definitions/login.ForgetPassword'
-        description: 三层嵌套
     required:
     - code
     - password
     - phone
-    type: object
-  loginPaths.UserSignReps:
-    type: object
-  loginPaths.UserSignType:
     type: object
 info:
   contact: {}
@@ -171,12 +152,12 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/loginPaths.UserSignType'
+          $ref: '#/definitions/login.UserSignType'
       responses:
         "200":
           description: JSON数据
           schema:
-            $ref: '#/definitions/loginPaths.UserSignReps'
+            $ref: '#/definitions/login.UserSignReps'
       summary: 用户登录操作
       tags:
       - Login
