@@ -17,8 +17,6 @@ type UserName struct {
 type UserCode struct {
 	Phone string `json:"phone" binding:"required"`
 	Code  string `json:"code" binding:"required"`
-	// 测试代码
-	TestData UserName `json:"testData"`
 }
 
 // ForgetPassword

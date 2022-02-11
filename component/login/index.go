@@ -11,6 +11,7 @@ import (
 	"modTest/service/DB"
 	"modTest/utlis/my_log"
 	"modTest/utlis/token"
+	"net/http"
 	"regexp"
 	"strconv"
 	"strings"
@@ -20,7 +21,7 @@ import (
 type RepsGetCode struct {
 	module.Resp
 	// in Body
-	Body GetPhoneCode
+	Body GetPhoneCode `json:"body"` // 返回体
 }
 
 // GetSingCode
@@ -35,16 +36,16 @@ type RepsGetCode struct {
 // @Success 200 {object} RepsGetCode true "JSON数据"
 // @Router /login/user/{phone} [get]
 func GetSingCode(r *gin.Context) {
-	Phone, err := r.Params.Get("name")
+	Phone := r.Query("phone")
 	reps := RepsGetCode{}
 
 	myLog := my_log.GetLog()
 	defer myLog.CloseFileLog()
-	writeLog := myLog.GetLogger()
+	//writeLog := myLog.GetLogger()
 
-	if err {
-		writeLog.Println(err)
-	}
+	//if err {
+	//	writeLog.Println(err)
+	//}
 
 	if RgxPhone(r, Phone) {
 		return
@@ -60,9 +61,34 @@ func GetSingCode(r *gin.Context) {
 		code = code + strconv.Itoa(rand.Intn(10))
 	}
 
+	db, errDB := DB.CreateDB()
+
+	if errDB != nil {
+		r.JSON(http.StatusInternalServerError, errDB)
+		return
+	}
+
+	crateDBErr := db.AutoMigrate(&UserCode{})
+
+	if crateDBErr != nil {
+		r.JSON(http.StatusInternalServerError, crateDBErr)
+		return
+	}
+
+	isCode := UserCode{}
+
+	_ = db.Model(&UserCode{}).Where("phone=?", Phone).First(&isCode).Error
+
 	reps.Body.Code = code
 
-	r.JSON(200, reps)
+	if isCode.Code != "" {
+		db.Model(&UserCode{}).Where("phone=?", Phone).Update("code", code)
+
+		r.JSON(200, reps)
+		return
+	}
+
+	db.Model(&UserCode{}).Create(UserCode{Phone: Phone, Code: code})
 
 }
 
@@ -209,26 +235,39 @@ func SignUser(r *gin.Context) {
 	if err != nil {
 		return
 	}
+
 	newUser := Users{}
 
-	//if RgxPassword(r, data.Data.Password) {
-	//	return
-	//}
-	//if IsCode(r, data.Data.Code) {
-	//	return
-	//}
-	//
-	//if RgxPhone(r, data.Data.Phone) {
-	//	return
-	//}
+	if RgxPassword(r, data.Data.Password) {
+		return
+	}
+
+	if IsCode(r, data.Data.Code) {
+		return
+	}
+
+	if RgxPhone(r, data.Data.Phone) {
+		return
+	}
 
 	db, err := DB.CreateDB()
+
+	codeRgx := UserCode{}
+
+	db.Model(&UserCode{}).Where("phone=?", data.Data.Phone).First(&codeRgx)
+
+	if codeRgx.Code != data.Data.Code {
+		resp.MgsCode = 500
+		resp.MgsText = "验证码错误!"
+		r.JSON(200, resp)
+		return
+	}
 
 	err = db.AutoMigrate(&Users{})
 
 	isUser := Users{}
 
-	err = db.Model(&Users{}).Where("phone=?", data.Data.Phone).First(&isUser).Error
+	_ = db.Model(&Users{}).Where("phone=?", data.Data.Phone).First(&isUser).Error
 
 	if err != nil {
 
@@ -424,20 +463,17 @@ func RgxPassword(r *gin.Context, password string) bool {
 func IsCode(r *gin.Context, code string) bool {
 	myLog := my_log.GetLog()
 	defer myLog.CloseFileLog()
-	writeLog := myLog.GetLogger()
 	resp := module.Resp{}
 
 	if code == "" {
 		resp.MgsCode = 500
 		resp.MgsText = "验证码为空"
-		writeLog.Println("登录验证码为空 ---> ", code)
 		r.JSON(200, resp)
 		return true
 
-	} else if len(code) > 6 {
+	} else if len(code) != 6 {
 		resp.MgsCode = 500
-		resp.MgsText = "验证码位数错误"
-		writeLog.Println("验证码位数错误 ---> ", code)
+		resp.MgsText = "验证码错误"
 		r.JSON(500, resp)
 		return true
 	}
