@@ -125,7 +125,10 @@ func LoginsUser(r *gin.Context) {
 
 	userP := UserName{}
 
+	userMessage := Users{}
+
 	err = json.Unmarshal(body, &user)
+
 	if err != nil {
 		return
 	}
@@ -141,8 +144,8 @@ func LoginsUser(r *gin.Context) {
 	if user.Phone == "" {
 		resp.MgsCode = 500
 		resp.MgsText = "手机号码为空"
-		writeLog.Println("登录缺少手机号", user.Code)
-		r.JSON(500, resp)
+		//writeLog.Println("登录缺少手机号", user.Code)
+		r.JSON(200, resp)
 		return
 	}
 
@@ -150,24 +153,30 @@ func LoginsUser(r *gin.Context) {
 		return
 	}
 
-	Users := struct {
-		Phone    string `json:"phone"`
-		Password string `json:"password"`
-		Uid      string `json:"uid"`
-	}{}
+	db, _ := DB.CreateDB()
+
+	db.Model(Users{}).Where("phone=?", user.Phone).First(&userMessage)
+
+	if userMessage.ID == 0 {
+		resp.MgsCode = 500
+		resp.MgsText = "该手机好吗未注册"
+		r.JSON(200, resp)
+		return
+	}
 
 	if user.Code == "" {
-		if Users.Password != userP.Password {
+		if userMessage.Password != userP.Password {
 			resp.MgsCode = 500
 			resp.MgsText = "密码错误。登录失败"
 			r.JSON(200, resp)
 		}
 	}
+
 	claims := &module.JWTClaims{
 		UserID:      1,
-		Username:    Users.Phone,
-		Password:    Users.Password,
-		FullName:    Users.Phone,
+		Username:    userMessage.Phone,
+		Password:    userMessage.Password,
+		FullName:    userMessage.Phone,
 		Permissions: []string{},
 	}
 	claims.IssuedAt = time.Now().Unix()
@@ -175,10 +184,32 @@ func LoginsUser(r *gin.Context) {
 
 	resp.MgsCode = 200
 	resp.MgsText = "登录成功"
+
 	token, _ := token.CreateToken(claims)
+
+	loginUser := module.ActiveUserLogin{}
+
+	loginUser.Login = true
+
+	loginUser.Phone = user.Phone
+
+	loginUser.Token = token
+
+	login := module.ActiveUserLogin{}
+
+	db.AutoMigrate(module.ActiveUserLogin{})
+
+	_ = db.Model(&module.ActiveUserLogin{}).Where("phone=?", userMessage.Phone).First(&login).Error
+
+	if login.Phone == "" {
+		db.Model(&module.ActiveUserLogin{}).Create(loginUser)
+	} else {
+		db.Model(&userMessage).Where("phone=?", userMessage.Phone).Updates(loginUser)
+	}
+
 	resp.Body.Token = token
-	resp.Body.Name = Users.Phone
-	resp.Body.Uid = Users.Uid
+	resp.Body.Name = userMessage.Phone
+	resp.Body.Uid = userMessage.UUID
 
 	r.JSON(200, resp)
 }
@@ -212,7 +243,7 @@ type Users struct {
 func SignUser(r *gin.Context) {
 
 	body, err := ioutil.ReadAll(r.Request.Body)
-	fmt.Println("this is body ?? value", string(body))
+	//fmt.Println("this is body ?? value", string(body))
 
 	resp := UserBody{}
 
@@ -252,6 +283,8 @@ func SignUser(r *gin.Context) {
 
 	db, err := DB.CreateDB()
 
+	db.Model(Users{})
+
 	codeRgx := UserCode{}
 
 	db.Model(&UserCode{}).Where("phone=?", data.Data.Phone).First(&codeRgx)
@@ -288,7 +321,6 @@ func SignUser(r *gin.Context) {
 	uid := strings.ReplaceAll(u2.String(), "-", "")
 
 	newUser.UUID = uid
-	//newUser.UserName = data.Data.Username
 	newUser.Phone = data.Data.Phone
 	newUser.Code = data.Data.Code
 	newUser.Password = data.Data.Password
@@ -315,7 +347,6 @@ func SignUser(r *gin.Context) {
 
 	if err != nil {
 		fmt.Println(err)
-		//writeLog.Println(isNameErr)
 	}
 
 	resp.MgsCode = 200
@@ -323,90 +354,6 @@ func SignUser(r *gin.Context) {
 
 	r.JSON(200, resp)
 }
-
-//type SetPasswordResp struct {
-//	module.Resp
-//	Body string `json:"body"`
-//}
-//
-//// SetPasswordUser
-//// 设置修改密码的处理函数
-//// @Tags Login
-//// @Summary 用户休息密码操作
-//// @ID SetPasswordUser
-//// @Param body body	SetPassword true "JSON数据"
-//// @Success 200 {object} SetPasswordResp true "JSON数据"
-//// @Router /login/user/set_password [post]
-//func SetPasswordUser(r *gin.Context) {
-//	body, err := ioutil.ReadAll(r.Request.Body)
-//
-//	if err != nil {
-//		fmt.Println(err)
-//		my_log.WriteLog().Println(err)
-//	}
-//
-//	resp := SetPasswordResp{}
-//
-//	userMse := SetPassword{}
-//
-//	user := UserName{}
-//
-//	json.Unmarshal(body, &userMse)
-//
-//	logs := my_log.GetLog()
-//
-//	defer logs.CloseFileLog()
-//
-//	sql := mysql_link.InitDB("root:L6:D*v8GOoif@tcp(127.0.0.1:3306)/user")
-//
-//	selectNameTemplate := fmt.Sprintf(`SELECT phone, password FROM Users WHERE phone = '%s'`, userMse.Phone)
-//
-//	sql.SelectOneData(selectNameTemplate).Scan(&user.Phone, &user.Password)
-//
-//	if user.Phone == "" {
-//		resp.MgsCode = 500
-//		resp.MgsText = "修改密码异常!"
-//		r.JSON(500, resp)
-//		logs.GetLogger().Println("数据库未查到用户. ", user.Phone)
-//		return
-//	}
-//
-//	if userMse.OldPassword != user.Password {
-//		resp.MgsCode = 500
-//		resp.MgsText = "密码不正确"
-//		resp.Body = "密码不正确修改失败"
-//
-//		r.JSON(500, resp)
-//		return
-//	}
-//
-//	if userMse.NewPassword == user.Password {
-//		resp.MgsCode = 500
-//		resp.MgsText = "新旧密码不能相同!"
-//		resp.Body = "新旧密码相同，请更换其他密码"
-//		r.JSON(500, resp)
-//		return
-//	}
-//
-//
-//	id, err := sql.InsertOneData("update users set password=? where phone=?", logs.GetLogger(), userMse.NewPassword, userMse.Phone)
-//
-//	if err != nil {
-//		logs.GetLogger().Println(err)
-//		resp.MgsCode = 500
-//		resp.MgsText = "内部错误"
-//		resp.Body = err.Error()
-//
-//		r.JSON(500, resp)
-//	}
-//
-//	resp.MgsCode = 200
-//	resp.MgsText = "密码修改成功"
-//
-//	resp.Body = "请重新进行登录" + strconv.Itoa(int(id))
-//
-//	r.JSON(200, resp)
-//}
 
 var (
 	Secret     = "dong_tech" // 加盐
