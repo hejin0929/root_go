@@ -50,9 +50,6 @@ definitions:
         type: string
       phone:
         type: string
-      testData:
-        $ref: '#/definitions/login.UserName'
-        description: 测试代码
     required:
     - code
     - phone
@@ -125,7 +122,27 @@ paths:
       - Login
   /login/user/login:
     post:
-      operationId: LoginsUser
+      operationId: LoginsUserPassword
+      parameters:
+      - description: JSON数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/login.UserName'
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            items:
+              $ref: '#/definitions/login.UserBody'
+            type: array
+      summary: 用户登录操作
+      tags:
+      - Login
+  /login/user/login_code:
+    post:
+      operationId: LoginsUserCode
       parameters:
       - description: JSON数据
         in: body

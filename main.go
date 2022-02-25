@@ -43,7 +43,9 @@ func main() {
 
 	//Login.POST("/user/login", login.LoginsUser) // 用户登录接口
 
-	Login.POST("/user/login", login.LoginsUser) // 用户登录接口
+	Login.POST("/user/login", login.LoginsUserPassword) // 用户登录接口
+
+	Login.POST("user/login_code", login.LoginsUserCode) // 用户验证码登陆
 
 	Login.POST("/user/sign", login.SignUser) // 用户注册接口
 	//

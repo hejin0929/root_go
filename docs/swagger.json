@@ -10,7 +10,38 @@
                     "Login"
                 ],
                 "summary": "用户登录操作",
-                "operationId": "LoginsUser",
+                "operationId": "LoginsUserPassword",
+                "parameters": [
+                    {
+                        "description": "JSON数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/login.UserName"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/login.UserBody"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login/user/login_code": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "用户登录操作",
+                "operationId": "LoginsUserCode",
                 "parameters": [
                     {
                         "description": "JSON数据",
@@ -175,10 +206,6 @@
                 },
                 "phone": {
                     "type": "string"
-                },
-                "testData": {
-                    "description": "测试代码",
-                    "$ref": "#/definitions/login.UserName"
                 }
             }
         },

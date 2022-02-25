@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	Secret     = "dong_tech" // 加盐
-	ExpireTime = 3600        // token有效期
+	Secret     = "HeJin" // 加盐
+	ExpireTime = 3600    // token有效期
 
 )
 
@@ -23,7 +23,7 @@ func init() {
 // CreateToken
 // 创建token函数
 func CreateToken(claims jwt.Claims) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodES256, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	signedToken, err := token.SignedString([]byte(Secret))
 
 	if err != nil {
