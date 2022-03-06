@@ -12,3 +12,10 @@ type ResCode struct {
 	module.Resp
 	Body GetPhoneCode
 }
+
+// UserCode
+// 用户验证码登录
+type UserCode struct {
+	Phone string `json:"phone" binding:"required"`
+	Code  string `json:"code" binding:"required"`
+}

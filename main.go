@@ -7,6 +7,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"modTest/component/login"
 	_ "modTest/docs"
+	"modTest/paths/getCode"
 	"modTest/service/socket"
 	"modTest/utlis/my_log"
 	"net/http"
@@ -51,11 +52,16 @@ func main() {
 	//
 	//Login.POST("/user/set_password", login.SetPasswordUser) // 修改密码
 
+	// 验证码模块
+	code := router.Group("code")
+
+	code.GET("/user/:phone", getCode.GetPathsCode) // 获取验证码
+
 	ginSwagger.URL("http://localhost:8080/docs/swagger.json")
 
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	router.Run(":8888").Error()
+	router.Run(":8081").Error()
 }
 
 // Cors //// 跨域

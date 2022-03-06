@@ -2,6 +2,7 @@ package getCode
 
 import (
 	"github.com/gin-gonic/gin"
+	"modTest/component/getCode"
 	"net/http"
 )
 
@@ -16,9 +17,16 @@ import (
 // @Success 200 {object} ResCode true "JSON数据"
 // @Router /code/user/{phone} [get]
 func GetPathsCode(r *gin.Context) {
-	phone := r.Query("phone")
+	phone := r.Param("phone")
+	var res getCode.ResCode
+
 	if phone == "" {
-		r.JSON(http.StatusOK, "1")
+		res.MgsCode = 500
+		res.MgsText = "手机号码不能为空！"
+		res.Body.Code = "0"
+		r.JSON(http.StatusOK, res)
 		return
 	}
+
+	getCode.GetPhoneCodeMessage(r, phone)
 }

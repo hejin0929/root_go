@@ -35,6 +35,7 @@ type RepsGetCode struct {
 // @Router /login/user/{phone} [get]
 func GetSingCode(r *gin.Context) {
 	Phone := r.Query("phone")
+
 	reps := RepsGetCode{}
 
 	myLog := my_log.GetLog()
