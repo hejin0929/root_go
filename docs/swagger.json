@@ -4,6 +4,38 @@
         "contact": {}
     },
     "paths": {
+        "/code/user/{phone}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Code"
+                ],
+                "summary": "用户验证码登录",
+                "operationId": "GetPathsCode",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户手机号",
+                        "name": "phone",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/getCode.ResCode"
+                        }
+                    }
+                }
+            }
+        },
         "/login/user/login": {
             "post": {
                 "tags": [
@@ -80,7 +112,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/login.UserSignType"
+                            "$ref": "#/definitions/loginPaths.UserSignType"
                         }
                     }
                 ],
@@ -88,7 +120,7 @@
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/login.UserSignReps"
+                            "$ref": "#/definitions/loginPaths.UserSignReps"
                         }
                     }
                 }
@@ -128,6 +160,37 @@
         }
     },
     "definitions": {
+        "getCode.GetPhoneCode": {
+            "type": "object",
+            "required": [
+                "code"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                }
+            }
+        },
+        "getCode.ResCode": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/getCode.GetPhoneCode"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
         "login.GetPhoneCode": {
             "type": "object",
             "required": [
@@ -267,6 +330,12 @@
                     "type": "string"
                 }
             }
+        },
+        "loginPaths.UserSignReps": {
+            "type": "object"
+        },
+        "loginPaths.UserSignType": {
+            "type": "object"
         }
     }
 }

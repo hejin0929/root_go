@@ -38,12 +38,8 @@ func GetSingCode(r *gin.Context) {
 	reps := RepsGetCode{}
 
 	myLog := my_log.GetLog()
-	defer myLog.CloseFileLog()
-	//writeLog := myLog.GetLogger()
 
-	//if err {
-	//	writeLog.Println(err)
-	//}
+	defer myLog.CloseFileLog()
 
 	if RgxPhone(r, Phone) {
 		return
