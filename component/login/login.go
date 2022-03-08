@@ -19,7 +19,7 @@ import (
 // @ID LoginsUserPassword
 // @Param data body	UserName true "JSON数据"
 // @Success 200 {array} UserBody true "JSON数据"
-// @Router /login/user/login [post]
+// @Router /api/login/user/login [post]
 func LoginsUserPassword(r *gin.Context) {
 
 }
@@ -31,7 +31,7 @@ func LoginsUserPassword(r *gin.Context) {
 // @ID LoginsUserCode
 // @Param data body	UserCode true "JSON数据"
 // @Success 200 {array} UserBody true "JSON数据"
-// @Router /login/user/login_code [post]
+// @Router /api/login/user/login_code [post]
 func LoginsUserCode(r *gin.Context) {
 	body, err := ioutil.ReadAll(r.Request.Body)
 	myLog := my_log.GetLog()

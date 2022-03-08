@@ -33,16 +33,18 @@ func CreateToken(claims jwt.Claims) (string, error) {
 	return signedToken, nil
 }
 
-// verify
+// VerifyToken
 // token的验证
-func verify(c *gin.Context) {
+func VerifyToken(c *gin.Context) bool {
 	strToken := c.Param("token")
 	claim, err := verifyAction(strToken)
 	if err != nil {
 		c.String(http.StatusNotFound, err.Error())
-		return
+		return false
 	}
+	fmt.Println("this is a ?? ", claim)
 	c.String(http.StatusOK, "verify,", claim.Username)
+	return true
 }
 
 // refresh

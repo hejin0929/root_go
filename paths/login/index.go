@@ -12,7 +12,7 @@ import (
 // @ID SignUser
 // @Param data body	UserSignType true "JSON数据"
 // @Success 200 {object} UserSignReps true "JSON数据"
-// @Router /login/user/sign [post]
+// @Router /api/login/user/sign [post]
 func LoginPaths(g *gin.Context) {
 	user := new(UserName)
 	if g.Bind(user) != nil {

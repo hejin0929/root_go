@@ -32,7 +32,7 @@ type RepsGetCode struct {
 // @Accept  json
 // @Param phone path string true "用户手机号"
 // @Success 200 {object} RepsGetCode true "JSON数据"
-// @Router /login/user/{phone} [get]
+// @Router /api/login/user/{phone} [get]
 func GetSingCode(r *gin.Context) {
 	Phone := r.Query("phone")
 
@@ -119,7 +119,7 @@ type Users struct {
 // @ID SignUser
 // @Param data body	UserSignType true "JSON数据"
 // @Success 200 {object} UserSignReps true "JSON数据"
-// @Router /login/user/sign [post]
+// @Router /api/login/user/sign [post]
 func SignUser(r *gin.Context) {
 
 	body, err := ioutil.ReadAll(r.Request.Body)

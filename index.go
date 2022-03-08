@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
+	"modTest/utlis/token"
 	"strings"
 )
 
@@ -11,11 +11,18 @@ import (
 func UserVerify() gin.HandlerFunc {
 	return func(g *gin.Context) {
 		var url = g.Request.URL.Path
-		//fmt.Println("this is ？？", strings.Index(url, "login"))
-		if strings.Index(url, "login") == -1 {
-			fmt.Println("待写验证逻辑")
+
+		// 放行swagger文档
+		if strings.Index(url, "swagger") != -1 {
 			return
 		}
+
+		// 放行登陆 注册 验证码接口
+		if strings.Index(url, "login") != -1 || strings.Index(url, "phone_code") != -1 {
+			return
+		}
+		// token验证
+		token.VerifyToken(g)
 
 	}
 }
