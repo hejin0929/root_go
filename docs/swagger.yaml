@@ -117,10 +117,6 @@ definitions:
     - password
     - phone
     type: object
-  loginPaths.UserSignReps:
-    type: object
-  loginPaths.UserSignType:
-    type: object
 info:
   contact: {}
 paths:
@@ -215,12 +211,12 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/loginPaths.UserSignType'
+          $ref: '#/definitions/login.UserSignType'
       responses:
         "200":
           description: JSON数据
           schema:
-            $ref: '#/definitions/loginPaths.UserSignReps'
+            $ref: '#/definitions/login.UserSignReps'
       summary: 用户登录操作
       tags:
       - Login

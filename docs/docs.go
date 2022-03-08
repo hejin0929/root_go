@@ -124,7 +124,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/loginPaths.UserSignType"
+                            "$ref": "#/definitions/login.UserSignType"
                         }
                     }
                 ],
@@ -132,7 +132,7 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/loginPaths.UserSignReps"
+                            "$ref": "#/definitions/login.UserSignReps"
                         }
                     }
                 }
@@ -342,12 +342,6 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-        },
-        "loginPaths.UserSignReps": {
-            "type": "object"
-        },
-        "loginPaths.UserSignType": {
-            "type": "object"
         }
     }
 }`

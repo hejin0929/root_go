@@ -112,7 +112,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/loginPaths.UserSignType"
+                            "$ref": "#/definitions/login.UserSignType"
                         }
                     }
                 ],
@@ -120,7 +120,7 @@
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/loginPaths.UserSignReps"
+                            "$ref": "#/definitions/login.UserSignReps"
                         }
                     }
                 }
@@ -330,12 +330,6 @@
                     "type": "string"
                 }
             }
-        },
-        "loginPaths.UserSignReps": {
-            "type": "object"
-        },
-        "loginPaths.UserSignType": {
-            "type": "object"
         }
     }
 }
