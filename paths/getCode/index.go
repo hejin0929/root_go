@@ -15,7 +15,7 @@ import (
 // @Accept  json
 // @Param phone path string true "用户手机号"
 // @Success 200 {object} ResCode true "JSON数据"
-// @Router /code/user/{phone} [get]
+// @Router /api/phone_code/user/{phone} [get]
 func GetPathsCode(r *gin.Context) {
 	phone := r.Param("phone")
 	var res getCode.ResCode

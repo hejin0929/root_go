@@ -4,39 +4,7 @@
         "contact": {}
     },
     "paths": {
-        "/code/user/{phone}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Code"
-                ],
-                "summary": "用户验证码登录",
-                "operationId": "GetPathsCode",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户手机号",
-                        "name": "phone",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/getCode.ResCode"
-                        }
-                    }
-                }
-            }
-        },
-        "/login/user/login": {
+        "/api/login/user/login": {
             "post": {
                 "tags": [
                     "Login"
@@ -67,7 +35,7 @@
                 }
             }
         },
-        "/login/user/login_code": {
+        "/api/login/user/login_code": {
             "post": {
                 "tags": [
                     "Login"
@@ -98,7 +66,7 @@
                 }
             }
         },
-        "/login/user/sign": {
+        "/api/login/user/sign": {
             "post": {
                 "tags": [
                     "Login"
@@ -126,7 +94,7 @@
                 }
             }
         },
-        "/login/user/{phone}": {
+        "/api/login/user/{phone}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -153,6 +121,38 @@
                         "description": "JSON数据",
                         "schema": {
                             "$ref": "#/definitions/login.RepsGetCode"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/phone_code/user/{phone}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Code"
+                ],
+                "summary": "用户验证码登录",
+                "operationId": "GetPathsCode",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户手机号",
+                        "name": "phone",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/getCode.ResCode"
                         }
                     }
                 }

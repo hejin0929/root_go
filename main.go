@@ -25,20 +25,18 @@ func main() {
 	router.Use(Cors())
 	//router.POST("/login", loginPaths.LoginPaths)
 
-	router.GET("/ws", func(context *gin.Context) {
+	Api := router.Group("/api")
+
+	Api.GET("/ws", func(context *gin.Context) {
 		my_log.WriteLog().Println(context.Request.URL)
 		ws := service.NewWsServer()
 		ws.Start()
 		ws.ServeHTTP(context.Writer, context.Request)
 	})
 
-	Home := router.Group("/api")
+	Home := Api.Group("/api")
 
-	Home.GET("/user_get_code/:name", func(context *gin.Context) { // /user_get_code/{url}
-		fmt.Println(context)
-	})
-
-	Login := router.Group("/login")
+	Login := Home.Group("/login")
 
 	Login.GET("/user/:name", login.GetSingCode) // 用户获取验证码登录接口
 
@@ -53,13 +51,13 @@ func main() {
 	//Login.POST("/user/set_password", login.SetPasswordUser) // 修改密码
 
 	// 验证码模块
-	code := router.Group("code")
+	code := Api.Group("phone_code")
 
 	code.GET("/user/:phone", getCode.GetPathsCode) // 获取验证码
 
 	ginSwagger.URL("http://localhost:8080/docs/swagger.json")
 
-	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	Api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	router.Run(":8081").Error()
 }
