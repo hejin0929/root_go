@@ -19,6 +19,8 @@ func UploadImg(g *gin.Context) {
 		g.JSON(200, res)
 	}
 
+	fmt.Println("this is a", file)
+
 	filename := file.Filename
 	path, _ := filepath.Abs("./")
 	if err != nil {
