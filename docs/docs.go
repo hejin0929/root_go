@@ -90,8 +90,8 @@ var doc = `{
                 "tags": [
                     "Login"
                 ],
-                "summary": "用户登录操作",
-                "operationId": "SignUser",
+                "summary": "用户注册操作",
+                "operationId": "LoginNewsUserPaths",
                 "parameters": [
                     {
                         "description": "JSON数据",
@@ -108,41 +108,6 @@ var doc = `{
                         "description": "JSON数据",
                         "schema": {
                             "$ref": "#/definitions/login.UserSignReps"
-<<<<<<< HEAD
-=======
-                        }
-                    }
-                }
-            }
-        },
-        "/api/login/user/{phone}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Login"
-                ],
-                "summary": "用户验证码登录",
-                "operationId": "GetSingCode",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户手机号",
-                        "name": "phone",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/login.RepsGetCode"
->>>>>>> 727c934238e3e2b8eaa2cda72574b456fc17ce0a
                         }
                     }
                 }
@@ -175,6 +140,32 @@ var doc = `{
                         "description": "JSON数据",
                         "schema": {
                             "$ref": "#/definitions/getCode.ResCode"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/upload/images": {
+            "post": {
+                "tags": [
+                    "Upload"
+                ],
+                "summary": "上传图片操作",
+                "operationId": "UploadImages",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/uploadFiles.FilesRes"
                         }
                     }
                 }
@@ -317,6 +308,26 @@ var doc = `{
                 },
                 "phone": {
                     "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "uploadFiles.FilesRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
                     "type": "string"
                 }
             }

@@ -11,7 +11,7 @@ import (
 // 注册用户处理逻辑
 // @Tags Login
 // @Summary 用户注册操作
-// @ID SignUser
+// @ID LoginNewsUserPaths
 // @Param data body	login.UserSignType true "JSON数据"
 // @Success 200 {object} login.UserSignReps true "JSON数据"
 // @Router /api/login/user/sign [post]

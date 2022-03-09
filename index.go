@@ -12,6 +12,11 @@ func UserVerify() gin.HandlerFunc {
 	return func(g *gin.Context) {
 		var url = g.Request.URL.Path
 
+		// 过滤静态资源
+		if strings.Index(url, "oss") != -1 {
+			return
+		}
+
 		// 放行swagger文档
 		if strings.Index(url, "swagger") != -1 {
 			return

@@ -9,6 +9,7 @@ import (
 	_ "modTest/docs"
 	"modTest/paths/getCode"
 	loginPaths "modTest/paths/login"
+	"modTest/paths/uploadFiles"
 	"modTest/service/socket"
 	"modTest/utlis/my_log"
 	"net/http"
@@ -53,6 +54,23 @@ func main() {
 	code := Api.Group("phone_code")
 
 	code.GET("/user/:phone", getCode.GetPathsCode) // 获取验证码
+
+	// 文件上传模块
+	file := Api.Group("upload")
+
+	file.POST("/images", uploadFiles.UploadImages) // 上传图片
+	// 浏览oss文件资源
+	//Api.GET("/oss/:name", func(g *gin.Context) {
+	//	var name = g.Param("name")
+	//	path, _ := filepath.Abs("./")
+	//	var url = path + "/static/" + name
+	//	fmt.Println("this is a ?? ", url)
+	//	g.File(url)
+	//})
+
+	router.StaticFS("/oss", http.Dir("./static"))
+
+	//router.LoadHTMLFiles("./index.html")
 
 	ginSwagger.URL("http://localhost:8080/docs/swagger.json")
 

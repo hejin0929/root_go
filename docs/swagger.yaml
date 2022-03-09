@@ -95,6 +95,20 @@ definitions:
     - password
     - phone
     type: object
+  uploadFiles.FilesRes:
+    properties:
+      body:
+        type: string
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
 info:
   contact: {}
 paths:
@@ -140,7 +154,7 @@ paths:
       - Login
   /api/login/user/sign:
     post:
-      operationId: SignUser
+      operationId: LoginNewsUserPaths
       parameters:
       - description: JSON数据
         in: body
@@ -153,7 +167,7 @@ paths:
           description: JSON数据
           schema:
             $ref: '#/definitions/login.UserSignReps'
-      summary: 用户登录操作
+      summary: 用户注册操作
       tags:
       - Login
   /api/phone_code/user/{phone}:
@@ -177,4 +191,21 @@ paths:
       summary: 用户验证码登录
       tags:
       - Code
+  /api/upload/images:
+    post:
+      operationId: UploadImages
+      parameters:
+      - description: file
+        in: formData
+        name: image
+        required: true
+        type: file
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/uploadFiles.FilesRes'
+      summary: 上传图片操作
+      tags:
+      - Upload
 swagger: "2.0"
