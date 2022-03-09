@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"modTest/module"
+	login2 "modTest/module/login"
 	"modTest/service/DB"
 	"modTest/utlis/my_log"
 	"modTest/utlis/token"
@@ -13,13 +14,7 @@ import (
 )
 
 // LoginsUserPassword
-// 用户账号密码登录
-// @Tags Login
-// @Summary 用户登录操作
-// @ID LoginsUserPassword
-// @Param data body	UserName true "JSON数据"
-// @Success 200 {array} UserBody true "JSON数据"
-// @Router /api/login/user/login [post]
+// 密码登陆处理逻辑
 func LoginsUserPassword(r *gin.Context) {
 
 }
@@ -46,9 +41,9 @@ func LoginsUserCode(r *gin.Context) {
 
 	resp := UserBody{}
 
-	user := UserCode{}
+	user := login2.UserCode{}
 
-	userP := UserName{}
+	userP := login2.UserName{}
 
 	userMessage := Users{}
 

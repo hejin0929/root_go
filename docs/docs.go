@@ -29,7 +29,7 @@ var doc = `{
                     "Login"
                 ],
                 "summary": "用户登录操作",
-                "operationId": "LoginsUserPassword",
+                "operationId": "LoginInPasswordPaths",
                 "parameters": [
                     {
                         "description": "JSON数据",
@@ -99,7 +99,7 @@ var doc = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/loginPaths.UserSignType"
+                            "$ref": "#/definitions/login.UserSignType"
                         }
                     }
                 ],
@@ -107,39 +107,7 @@ var doc = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/loginPaths.UserSignReps"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/login/user/{phone}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Login"
-                ],
-                "summary": "用户验证码登录",
-                "operationId": "GetSingCode",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户手机号",
-                        "name": "phone",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/login.RepsGetCode"
+                            "$ref": "#/definitions/login.UserSignReps"
                         }
                     }
                 }
@@ -199,38 +167,6 @@ var doc = `{
             "properties": {
                 "body": {
                     "$ref": "#/definitions/getCode.GetPhoneCode"
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "login.GetPhoneCode": {
-            "type": "object",
-            "required": [
-                "code"
-            ],
-            "properties": {
-                "code": {
-                    "type": "string"
-                }
-            }
-        },
-        "login.RepsGetCode": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "description": "in Body",
-                    "$ref": "#/definitions/login.GetPhoneCode"
                 },
                 "mgsCode": {
                     "description": "返回体状态码",
@@ -349,12 +285,6 @@ var doc = `{
                     "type": "string"
                 }
             }
-        },
-        "loginPaths.UserSignReps": {
-            "type": "object"
-        },
-        "loginPaths.UserSignType": {
-            "type": "object"
         }
     }
 }`

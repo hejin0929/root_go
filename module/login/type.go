@@ -1,15 +1,12 @@
 package login
 
-// A UserName 这是一个账号登录接口
-// swagger:params UserName
-
 // UserName
 // 用户账号登录
 type UserName struct {
 	// 用户名
-	Phone string `json:"phone" binding:"required"` // Phone
+	Phone string `json:"phone" binding:"required"`
 	// 用户密码
-	Password string `json:"password" binding:"required"` // Password
+	Password string `json:"password" binding:"required"`
 }
 
 // UserCode

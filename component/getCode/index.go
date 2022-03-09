@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"math/rand"
 	"modTest/component/login"
+	login2 "modTest/module/login"
 	"modTest/service/DB"
 	"modTest/utlis/my_log"
 	"net/http"
@@ -40,7 +41,7 @@ func GetPhoneCodeMessage(r *gin.Context, phone string) {
 		return
 	}
 
-	crateDBErr := db.AutoMigrate(&login.UserCode{})
+	crateDBErr := db.AutoMigrate(&login2.UserCode{})
 
 	if crateDBErr != nil {
 		r.JSON(http.StatusInternalServerError, crateDBErr)

@@ -19,10 +19,11 @@ func UserVerify() gin.HandlerFunc {
 
 		// 放行登陆 注册 验证码接口
 		if strings.Index(url, "login") != -1 || strings.Index(url, "phone_code") != -1 {
+
 			return
 		}
 		// token验证
 		token.VerifyToken(g)
-
+		return
 	}
 }

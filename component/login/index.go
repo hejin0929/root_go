@@ -8,6 +8,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"modTest/module"
+	"modTest/module/login"
 	"modTest/service/DB"
 	"modTest/utlis/my_log"
 	"net/http"
@@ -19,20 +20,11 @@ import (
 type RepsGetCode struct {
 	module.Resp
 	// in Body
-	Body GetPhoneCode `json:"body"` // 返回体
+	Body login.GetPhoneCode `json:"body"` // 返回体
 }
 
 // GetSingCode
-// 获取登录验证码
-// GetSingCode
-// @Tags Login
-// @Summary 用户验证码登录
-// @ID GetSingCode
-// @Produce  json
-// @Accept  json
-// @Param phone path string true "用户手机号"
-// @Success 200 {object} RepsGetCode true "JSON数据"
-// @Router /api/login/user/{phone} [get]
+// 新增用户验证码
 func GetSingCode(r *gin.Context) {
 	Phone := r.Query("phone")
 
@@ -63,27 +55,27 @@ func GetSingCode(r *gin.Context) {
 		return
 	}
 
-	crateDBErr := db.AutoMigrate(&UserCode{})
+	crateDBErr := db.AutoMigrate(&login.UserCode{})
 
 	if crateDBErr != nil {
 		r.JSON(http.StatusInternalServerError, crateDBErr)
 		return
 	}
 
-	isCode := UserCode{}
+	isCode := login.UserCode{}
 
-	_ = db.Model(&UserCode{}).Where("phone=?", Phone).First(&isCode).Error
+	_ = db.Model(&login.UserCode{}).Where("phone=?", Phone).First(&isCode).Error
 
 	reps.Body.Code = code
 
 	if isCode.Code != "" {
-		db.Model(&UserCode{}).Where("phone=?", Phone).Update("code", code)
+		db.Model(&login.UserCode{}).Where("phone=?", Phone).Update("code", code)
 
 		r.JSON(200, reps)
 		return
 	}
 
-	db.Model(&UserCode{}).Create(UserCode{Phone: Phone, Code: code})
+	db.Model(&login.UserCode{}).Create(login.UserCode{Phone: Phone, Code: code})
 
 }
 
@@ -91,11 +83,11 @@ func GetSingCode(r *gin.Context) {
 // 用户登录成功的返回体
 type UserBody struct {
 	module.Resp
-	Body User
+	Body login.User
 }
 
 type UserSignType struct {
-	UserName
+	login.UserName
 	// 手机验证码
 	Code string `json:"code" binding:"required"`
 }
@@ -107,7 +99,7 @@ type UserSignReps struct {
 
 type Users struct {
 	module.Model
-	UserName
+	login.UserName
 	UUID string `json:"uuid"` // uuid
 	Code string `json:"code"` // Code
 }
@@ -165,9 +157,9 @@ func SignUser(r *gin.Context) {
 
 	db.Model(Users{})
 
-	codeRgx := UserCode{}
+	codeRgx := login.UserCode{}
 
-	db.Model(&UserCode{}).Where("phone=?", data.Data.Phone).First(&codeRgx)
+	db.Model(&login.UserCode{}).Where("phone=?", data.Data.Phone).First(&codeRgx)
 
 	if codeRgx.Code != data.Data.Code {
 		resp.MgsCode = 500

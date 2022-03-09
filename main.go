@@ -8,6 +8,7 @@ import (
 	"modTest/component/login"
 	_ "modTest/docs"
 	"modTest/paths/getCode"
+	loginPaths "modTest/paths/login"
 	"modTest/service/socket"
 	"modTest/utlis/my_log"
 	"net/http"
@@ -34,19 +35,17 @@ func main() {
 		ws.ServeHTTP(context.Writer, context.Request)
 	})
 
-	Home := Api.Group("/api")
-
-	Login := Home.Group("/login")
+	Login := Api.Group("/login")
 
 	Login.GET("/user/:name", login.GetSingCode) // 用户获取验证码登录接口
 
 	//Login.POST("/user/login", login.LoginsUser) // 用户登录接口
 
-	Login.POST("/user/login", login.LoginsUserPassword) // 用户登录接口
+	Login.POST("/user/login", loginPaths.LoginInPasswordPaths) // 用户登录接口
 
-	Login.POST("user/login_code", login.LoginsUserCode) // 用户验证码登陆
+	Login.POST("user/login_code", loginPaths.LoginInCodePaths) // 用户验证码登陆
 
-	Login.POST("/user/sign", login.SignUser) // 用户注册接口
+	Login.POST("/user/sign", loginPaths.LoginNewsUserPaths) // 用户注册接口
 	//
 	//Login.POST("/user/set_password", login.SetPasswordUser) // 修改密码
 
