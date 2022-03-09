@@ -108,6 +108,41 @@ var doc = `{
                         "description": "JSON数据",
                         "schema": {
                             "$ref": "#/definitions/login.UserSignReps"
+<<<<<<< HEAD
+=======
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login/user/{phone}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Login"
+                ],
+                "summary": "用户验证码登录",
+                "operationId": "GetSingCode",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户手机号",
+                        "name": "phone",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/login.RepsGetCode"
+>>>>>>> 727c934238e3e2b8eaa2cda72574b456fc17ce0a
                         }
                     }
                 }
