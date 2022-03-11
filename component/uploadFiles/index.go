@@ -1,7 +1,6 @@
 package uploadFiles
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"modTest/module/uploadFiles"
 	"net/http"
@@ -17,9 +16,10 @@ func UploadImg(g *gin.Context) {
 		res.MgsCode = http.StatusInternalServerError
 		res.MgsText = "图片上传失败！！！"
 		g.JSON(200, res)
+		return
 	}
 
-	fmt.Println("this is a", file)
+	//fmt.Println("this is a", file)
 
 	filename := file.Filename
 	path, _ := filepath.Abs("./")
@@ -27,7 +27,6 @@ func UploadImg(g *gin.Context) {
 		res.MgsCode = http.StatusInternalServerError
 		res.MgsText = "内部构建错误！！！"
 		g.JSON(200, res)
-		fmt.Println("err is a ?? ", err)
 		return
 	}
 
@@ -44,5 +43,7 @@ func UploadImg(g *gin.Context) {
 	res.MgsCode = http.StatusOK
 	res.MgsText = "图片上传成功"
 	res.Body = "http://localhost:8081/oss/" + filename
+
 	g.JSON(http.StatusOK, res)
+	return
 }

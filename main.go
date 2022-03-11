@@ -23,7 +23,7 @@ func init() {
 }
 
 func main() {
-	router.Use(UserVerify())
+	//router.Use(UserVerify())
 	router.Use(Cors())
 	//router.POST("/login", loginPaths.LoginPaths)
 
@@ -51,12 +51,12 @@ func main() {
 	//Login.POST("/user/set_password", login.SetPasswordUser) // 修改密码
 
 	// 验证码模块
-	code := Api.Group("phone_code")
+	code := Api.Group("/phone_code")
 
 	code.GET("/user/:phone", getCode.GetPathsCode) // 获取验证码
 
 	// 文件上传模块
-	file := Api.Group("upload")
+	file := Api.Group("/upload")
 
 	file.POST("/images", uploadFiles.UploadImages) // 上传图片
 	// 浏览oss文件资源
@@ -108,6 +108,7 @@ func Cors() gin.HandlerFunc {
 			c.Set("Access-Control-Allow-Origin", "*")    //  跨域请求是否需要带cookie信息 默认设置为true
 			c.Set("content-type", "application/json")    //  跨域请求是否需要带cookie信息 默认设置为true
 			c.Set("content-type", "multipart/form-data") // 设置返回格式是json
+			c.Set("content-type", "text/plain; charset=utf-8")
 		}
 
 		//放行所有OPTIONS方法
