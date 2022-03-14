@@ -59,6 +59,7 @@ func main() {
 	file := Api.Group("/upload")
 
 	file.POST("/images", uploadFiles.UploadImages) // 上传图片
+	file.POST("/videos", uploadFiles.UploadVideos) // 上传视频
 	// 浏览oss文件资源
 	//Api.GET("/oss/:name", func(g *gin.Context) {
 	//	var name = g.Param("name")
@@ -68,7 +69,7 @@ func main() {
 	//	g.File(url)
 	//})
 
-	router.StaticFS("/oss", http.Dir("./static"))
+	router.StaticFS("/oss/images", http.Dir("./static/images/"))
 	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))
 
 	//router.LoadHTMLFiles("./index.html")
