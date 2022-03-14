@@ -47,3 +47,49 @@ func UploadImg(g *gin.Context) {
 	g.JSON(http.StatusOK, res)
 	return
 }
+
+// DeleteImg
+// 删除照片逻辑
+func DeleteImg() {
+
+}
+
+// UploadVideo
+// 视频上传接口处理
+func UploadVideo(g *gin.Context) {
+	res := uploadFiles.FilesRes{}
+
+	video, err := g.FormFile("videos")
+
+	if err != nil {
+		res.MgsCode = http.StatusInternalServerError
+		res.MgsText = "视频处理失败！！！"
+		g.JSON(http.StatusOK, res)
+		return
+	}
+
+	videoName := video.Filename
+
+	path, _ := filepath.Abs("./")
+
+	url := path + "/static/videos/" + videoName
+
+	err = g.SaveUploadedFile(video, url)
+
+	if err != nil {
+		res.MgsCode = http.StatusInternalServerError
+		res.MgsText = "视频储存出错！！！"
+		g.JSON(http.StatusOK, res)
+		return
+	}
+
+	res.MgsCode = http.StatusOK
+
+	res.MgsText = "success"
+
+	res.Body = "http://localhost:8081/oss/videos/" + videoName
+
+	g.JSON(http.StatusOK, res)
+
+	return
+}

@@ -69,6 +69,7 @@ func main() {
 	//})
 
 	router.StaticFS("/oss", http.Dir("./static"))
+	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))
 
 	//router.LoadHTMLFiles("./index.html")
 
