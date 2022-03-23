@@ -191,6 +191,23 @@ paths:
       summary: 用户验证码登录
       tags:
       - Code
+  /api/upload/deleteImg:
+    get:
+      operationId: UploadImagesDelete
+      parameters:
+      - description: 图片名称
+        in: query
+        name: name
+        required: true
+        type: string
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/uploadFiles.FilesRes'
+      summary: 删除图片操作
+      tags:
+      - Upload
   /api/upload/images:
     post:
       operationId: UploadImages
@@ -206,6 +223,23 @@ paths:
           schema:
             $ref: '#/definitions/uploadFiles.FilesRes'
       summary: 上传图片操作
+      tags:
+      - Upload
+  /api/upload/videos:
+    post:
+      operationId: UploadVideos
+      parameters:
+      - description: file
+        in: formData
+        name: videos
+        required: true
+        type: file
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/uploadFiles.FilesRes'
+      summary: 上传视频操作
       tags:
       - Upload
 swagger: "2.0"

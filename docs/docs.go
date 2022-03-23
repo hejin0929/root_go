@@ -145,6 +145,32 @@ var doc = `{
                 }
             }
         },
+        "/api/upload/deleteImg": {
+            "get": {
+                "tags": [
+                    "Upload"
+                ],
+                "summary": "删除图片操作",
+                "operationId": "UploadImagesDelete",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "图片名称",
+                        "name": "name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/uploadFiles.FilesRes"
+                        }
+                    }
+                }
+            }
+        },
         "/api/upload/images": {
             "post": {
                 "tags": [
@@ -157,6 +183,32 @@ var doc = `{
                         "type": "file",
                         "description": "file",
                         "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/uploadFiles.FilesRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/upload/videos": {
+            "post": {
+                "tags": [
+                    "Upload"
+                ],
+                "summary": "上传视频操作",
+                "operationId": "UploadVideos",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "file",
+                        "name": "videos",
                         "in": "formData",
                         "required": true
                     }

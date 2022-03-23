@@ -58,8 +58,11 @@ func main() {
 	// 文件上传模块
 	file := Api.Group("/upload")
 
-	file.POST("/images", uploadFiles.UploadImages) // 上传图片
-	file.POST("/videos", uploadFiles.UploadVideos) // 上传视频
+	file.POST("/images", uploadFiles.UploadImages)         // 上传图片
+	file.POST("/videos", uploadFiles.UploadVideos)         // 上传视频
+	file.GET("/deleteImg", uploadFiles.UploadImagesDelete) // 删除图片
+	file.GET("deleteVideo", uploadFiles.UploadVideoDelete) // 删除视频
+
 	// 浏览oss文件资源
 	//Api.GET("/oss/:name", func(g *gin.Context) {
 	//	var name = g.Param("name")

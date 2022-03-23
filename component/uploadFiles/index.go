@@ -4,6 +4,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"modTest/module/uploadFiles"
 	"net/http"
+	"os"
 	"path/filepath"
 )
 
@@ -30,7 +31,7 @@ func UploadImg(g *gin.Context) {
 		return
 	}
 
-	var url = path + "/static/" + filename
+	var url = path + "/static/images/" + filename
 
 	err = g.SaveUploadedFile(file, url)
 	if err != nil {
@@ -48,10 +49,35 @@ func UploadImg(g *gin.Context) {
 	return
 }
 
-// DeleteImg
+// DeleteImgDelete
 // 删除照片逻辑
-func DeleteImg() {
+func DeleteImgDelete(g *gin.Context) {
+	name := g.Query("name")
 
+	res := uploadFiles.FileImageDelete{}
+
+	if name == "" {
+		res.MgsCode = http.StatusInternalServerError
+		res.MgsText = "删除图片名称为空！！！"
+		g.JSON(http.StatusOK, res)
+		return
+	}
+
+	path, _ := filepath.Abs("./")
+
+	err := os.Remove(path + "/static/images/" + name)
+	if err != nil {
+		res.MgsCode = http.StatusInternalServerError
+		res.MgsText = "图片删除失败！！！"
+		g.JSON(http.StatusOK, res)
+		return
+	}
+
+	res.MgsCode = http.StatusOK
+	res.MgsText = "success"
+	res.Body = "删除成功！！！"
+
+	g.JSON(http.StatusOK, res)
 }
 
 // UploadVideo
@@ -92,4 +118,44 @@ func UploadVideo(g *gin.Context) {
 	g.JSON(http.StatusOK, res)
 
 	return
+}
+
+// UploadVideoDelete
+// 删除视频接口处理
+func UploadVideoDelete(g *gin.Context) {
+	name := g.Query("name")
+
+	res := uploadFiles.FileImageDelete{}
+
+	if name == "" {
+		res.MgsCode = http.StatusLocked
+		res.MgsText = "删除视频不能为空！！！"
+		g.JSON(http.StatusOK, res)
+
+		return
+	}
+
+	path, _ := filepath.Abs("./")
+
+	err := os.Remove(path + "/static/videos/" + name)
+
+	if err != nil {
+
+		res.MgsCode = http.StatusInternalServerError
+
+		res.MgsText = "删除视频失败！！！"
+
+		g.JSON(http.StatusOK, res)
+
+		return
+	}
+
+	res.MgsCode = http.StatusOK
+
+	res.MgsText = "success"
+
+	res.Body = "删除视频成功！！！"
+
+	g.JSON(http.StatusOK, res)
+
 }

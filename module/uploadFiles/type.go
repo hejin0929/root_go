@@ -13,3 +13,8 @@ type FileImageSql struct {
 	Url  string `json:"url"`
 	Data string `json:"data"`
 }
+
+type FileImageDelete struct {
+	module.Resp
+	Body string `json:"body"`
+}
