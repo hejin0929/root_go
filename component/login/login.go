@@ -16,7 +16,12 @@ import (
 // LoginsUserPassword
 // 密码登陆处理逻辑
 func LoginsUserPassword(r *gin.Context) {
+	bytes, err := ioutil.ReadAll(r.Request.Body)
 
+	if err != nil {
+		fmt.Println("this is err ?? ", err)
+	}
+	fmt.Println("this is a ? ", string(bytes))
 }
 
 // LoginsUserCode
@@ -29,6 +34,9 @@ func LoginsUserPassword(r *gin.Context) {
 // @Router /api/login/user/login_code [post]
 func LoginsUserCode(r *gin.Context) {
 	body, err := ioutil.ReadAll(r.Request.Body)
+
+	fmt.Println("this is a update ?? ", string(body), r.PostForm("data"))
+
 	myLog := my_log.GetLog()
 	defer myLog.CloseFileLog()
 	writeLog := myLog.GetLogger()
@@ -123,7 +131,6 @@ func LoginsUserCode(r *gin.Context) {
 
 	if login.Phone == "" {
 		db.Model(&module.ActiveUserLogin{}).Create(&loginUser)
-		fmt.Println("this is a Error ?? ")
 	} else {
 		db.Model(&module.ActiveUserLogin{}).Where("phone=?", userMessage.Phone).Updates(map[string]interface{}{"login": loginUser.Login, "token": loginUser.Token, "updated_at": time.Now()})
 	}
@@ -133,4 +140,5 @@ func LoginsUserCode(r *gin.Context) {
 	resp.Body.Uid = userMessage.UUID
 
 	r.JSON(200, resp)
+	return
 }

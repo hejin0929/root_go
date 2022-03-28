@@ -1,7 +1,9 @@
 package uploadFiles
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"modTest/component/uploadFiles"
 )
 
@@ -45,10 +47,24 @@ func UploadImagesDelete(g *gin.Context) {
 // ** 图片删除逻辑
 // @Tags Upload
 // @Summary 删除图片操作
-// @ID UploadImagesDelete
+// @ID UploadVideoDelete
 // @Param video query string true "视频名称"
 // @Success 200 {object} uploadFiles.FilesRes true "JSON数据"
 // @Router /api/upload/deleteVideo [get]
 func UploadVideoDelete(g *gin.Context) {
 	uploadFiles.UploadVideoDelete(g)
+}
+
+// UploadTestPaths
+// ** 图片删除逻辑
+// @Tags Upload
+// @Summary 删除图片操作
+// @ID UploadTestPaths
+// @Param video body uploadFiles.FileTest true "视频名称"
+// @Success 200 {object} uploadFiles.FilesRes true "JSON数据"
+// @Router /api/upload/test [post]
+func UploadTestPaths(g *gin.Context) {
+	bytes, _ := ioutil.ReadAll(g.Request.Body)
+
+	fmt.Println("this is a value ?? ", string(bytes))
 }

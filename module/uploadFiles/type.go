@@ -18,3 +18,7 @@ type FileImageDelete struct {
 	module.Resp
 	Body string `json:"body"`
 }
+
+type FileTest struct {
+	Code string `json:"code"`
+}

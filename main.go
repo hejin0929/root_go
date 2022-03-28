@@ -36,17 +36,17 @@ func main() {
 		ws.ServeHTTP(context.Writer, context.Request)
 	})
 
-	Login := Api.Group("/login")
+	loginGroup := Api.Group("/login")
 
-	Login.GET("/user/:name", login.GetSingCode) // 用户获取验证码登录接口
+	loginGroup.GET("/user/:name", login.GetSingCode) // 用户获取验证码登录接口
 
 	//Login.POST("/user/login", login.LoginsUser) // 用户登录接口
 
-	Login.POST("/user/login", loginPaths.LoginInPasswordPaths) // 用户登录接口
+	loginGroup.POST("/user/login", loginPaths.LoginInPasswordPaths) // 用户登录接口
 
-	Login.POST("user/login_code", loginPaths.LoginInCodePaths) // 用户验证码登陆
+	loginGroup.POST("/user/login_code", loginPaths.LoginInCodePaths) // 用户验证码登陆
 
-	Login.POST("/user/sign", loginPaths.LoginNewsUserPaths) // 用户注册接口
+	loginGroup.POST("/user/sign", loginPaths.LoginNewsUserPaths) // 用户注册接口
 	//
 	//Login.POST("/user/set_password", login.SetPasswordUser) // 修改密码
 
@@ -58,10 +58,11 @@ func main() {
 	// 文件上传模块
 	file := Api.Group("/upload")
 
-	file.POST("/images", uploadFiles.UploadImages)         // 上传图片
-	file.POST("/videos", uploadFiles.UploadVideos)         // 上传视频
-	file.GET("/deleteImg", uploadFiles.UploadImagesDelete) // 删除图片
-	file.GET("deleteVideo", uploadFiles.UploadVideoDelete) // 删除视频
+	file.POST("/images", uploadFiles.UploadImages)          // 上传图片
+	file.POST("/videos", uploadFiles.UploadVideos)          // 上传视频
+	file.GET("/deleteImg", uploadFiles.UploadImagesDelete)  // 删除图片
+	file.GET("/deleteVideo", uploadFiles.UploadVideoDelete) // 删除视频
+	file.POST("/test", uploadFiles.UploadTestPaths)         // 测试
 
 	// 浏览oss文件资源
 	//Api.GET("/oss/:name", func(g *gin.Context) {

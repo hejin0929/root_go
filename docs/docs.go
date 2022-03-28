@@ -171,6 +171,32 @@ var doc = `{
                 }
             }
         },
+        "/api/upload/deleteVideo": {
+            "get": {
+                "tags": [
+                    "Upload"
+                ],
+                "summary": "删除图片操作",
+                "operationId": "UploadVideoDelete",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "视频名称",
+                        "name": "video",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/uploadFiles.FilesRes"
+                        }
+                    }
+                }
+            }
+        },
         "/api/upload/images": {
             "post": {
                 "tags": [
@@ -185,6 +211,34 @@ var doc = `{
                         "name": "image",
                         "in": "formData",
                         "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/uploadFiles.FilesRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/upload/test": {
+            "post": {
+                "tags": [
+                    "Upload"
+                ],
+                "summary": "删除图片操作",
+                "operationId": "UploadTestPaths",
+                "parameters": [
+                    {
+                        "description": "视频名称",
+                        "name": "video",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/uploadFiles.FileTest"
+                        }
                     }
                 ],
                 "responses": {
@@ -360,6 +414,14 @@ var doc = `{
                 },
                 "phone": {
                     "description": "用户名",
+                    "type": "string"
+                }
+            }
+        },
+        "uploadFiles.FileTest": {
+            "type": "object",
+            "properties": {
+                "code": {
                     "type": "string"
                 }
             }

@@ -95,6 +95,11 @@ definitions:
     - password
     - phone
     type: object
+  uploadFiles.FileTest:
+    properties:
+      code:
+        type: string
+    type: object
   uploadFiles.FilesRes:
     properties:
       body:
@@ -208,6 +213,23 @@ paths:
       summary: 删除图片操作
       tags:
       - Upload
+  /api/upload/deleteVideo:
+    get:
+      operationId: UploadVideoDelete
+      parameters:
+      - description: 视频名称
+        in: query
+        name: video
+        required: true
+        type: string
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/uploadFiles.FilesRes'
+      summary: 删除图片操作
+      tags:
+      - Upload
   /api/upload/images:
     post:
       operationId: UploadImages
@@ -223,6 +245,24 @@ paths:
           schema:
             $ref: '#/definitions/uploadFiles.FilesRes'
       summary: 上传图片操作
+      tags:
+      - Upload
+  /api/upload/test:
+    post:
+      operationId: UploadTestPaths
+      parameters:
+      - description: 视频名称
+        in: body
+        name: video
+        required: true
+        schema:
+          $ref: '#/definitions/uploadFiles.FileTest'
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/uploadFiles.FilesRes'
+      summary: 删除图片操作
       tags:
       - Upload
   /api/upload/videos:
