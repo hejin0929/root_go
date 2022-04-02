@@ -2,7 +2,6 @@ package login
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"io/ioutil"
@@ -115,7 +114,6 @@ type Users struct {
 func SignUser(r *gin.Context) {
 
 	body, err := ioutil.ReadAll(r.Request.Body)
-	//fmt.Println("this is body ?? value", string(body))
 
 	resp := UserBody{}
 
@@ -129,9 +127,7 @@ func SignUser(r *gin.Context) {
 		writeLog.Println(err)
 	}
 
-	data := struct {
-		Data UserSignType `json:"data"`
-	}{}
+	data := UserSignType{}
 
 	err = json.Unmarshal(body, &data)
 
@@ -141,15 +137,15 @@ func SignUser(r *gin.Context) {
 
 	newUser := Users{}
 
-	if RgxPassword(r, data.Data.Password) {
+	if RgxPassword(r, data.Password) {
 		return
 	}
 
-	if IsCode(r, data.Data.Code) {
+	if IsCode(r, data.Code) {
 		return
 	}
 
-	if RgxPhone(r, data.Data.Phone) {
+	if RgxPhone(r, data.Phone) {
 		return
 	}
 
@@ -159,9 +155,9 @@ func SignUser(r *gin.Context) {
 
 	codeRgx := login.UserCode{}
 
-	db.Model(&login.UserCode{}).Where("phone=?", data.Data.Phone).First(&codeRgx)
+	db.Model(&login.UserCode{}).Where("phone=?", data.Phone).First(&codeRgx)
 
-	if codeRgx.Code != data.Data.Code {
+	if codeRgx.Code != data.Code {
 		resp.MgsCode = 500
 		resp.MgsText = "验证码错误!"
 		r.JSON(200, resp)
@@ -172,7 +168,7 @@ func SignUser(r *gin.Context) {
 
 	isUser := Users{}
 
-	_ = db.Model(&Users{}).Where("phone=?", data.Data.Phone).First(&isUser).Error
+	_ = db.Model(&Users{}).Where("phone=?", data.Phone).First(&isUser).Error
 
 	if err != nil {
 
@@ -180,7 +176,7 @@ func SignUser(r *gin.Context) {
 		return
 	}
 
-	if isUser.Phone == data.Data.Phone {
+	if isUser.Phone == data.Phone {
 		resp.MgsCode = 500
 		resp.MgsText = "该账号已被注册!"
 		r.JSON(200, resp)
@@ -193,9 +189,9 @@ func SignUser(r *gin.Context) {
 	uid := strings.ReplaceAll(u2.String(), "-", "")
 
 	newUser.UUID = uid
-	newUser.Phone = data.Data.Phone
-	newUser.Code = data.Data.Code
-	newUser.Password = data.Data.Password
+	newUser.Phone = data.Phone
+	newUser.Code = data.Code
+	newUser.Password = data.Password
 
 	db.Create(&newUser)
 
@@ -205,20 +201,10 @@ func SignUser(r *gin.Context) {
 	}
 
 	if err != nil {
+		resp.MgsCode = 500
+		resp.MgsText = err.Error()
+		r.JSON(200, resp)
 		return
-	}
-
-	if err != nil {
-		fmt.Println("ERR IS ?? ", err)
-		return
-	}
-
-	if err != nil {
-		writeLog.Println(err)
-	}
-
-	if err != nil {
-		fmt.Println(err)
 	}
 
 	resp.MgsCode = 200

@@ -14,12 +14,7 @@ import (
 // @Success 200 {object} login.UserSignReps true "JSON数据"
 // @Router /api/login/user/sign [post]
 func LoginNewsUserPaths(g *gin.Context) {
-	//user := new(login2.UserName)
-	//if g.Bind(user) != nil {
-	//	g.JSON(http.StatusUnprocessableEntity, "参数错误")
-	//}
 	login.SignUser(g)
-
 }
 
 // LoginInPasswordPaths

@@ -2,6 +2,6 @@ package index
 
 import "github.com/gin-gonic/gin"
 
-func AppHone(r *gin.Context) {
+func AppHone(g *gin.Context) {
 
 }

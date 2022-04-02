@@ -10,8 +10,6 @@ import (
 	"modTest/paths/getCode"
 	loginPaths "modTest/paths/login"
 	"modTest/paths/uploadFiles"
-	"modTest/service/socket"
-	"modTest/utlis/my_log"
 	"net/http"
 	"strings"
 )
@@ -29,12 +27,12 @@ func main() {
 
 	Api := router.Group("/api")
 
-	Api.GET("/ws", func(context *gin.Context) {
-		my_log.WriteLog().Println(context.Request.URL)
-		ws := service.NewWsServer()
-		ws.Start()
-		ws.ServeHTTP(context.Writer, context.Request)
-	})
+	//Api.GET("/ws", func(context *gin.Context) {
+	//	my_log.WriteLog().Println(context.Request.URL)
+	//	ws := service.NewWsServer()
+	//	ws.Start()
+	//	ws.ServeHTTP(context.Writer, context.Request)
+	//})
 
 	loginGroup := Api.Group("/login")
 
@@ -64,19 +62,8 @@ func main() {
 	file.GET("/deleteVideo", uploadFiles.UploadVideoDelete) // 删除视频
 	file.POST("/test", uploadFiles.UploadTestPaths)         // 测试
 
-	// 浏览oss文件资源
-	//Api.GET("/oss/:name", func(g *gin.Context) {
-	//	var name = g.Param("name")
-	//	path, _ := filepath.Abs("./")
-	//	var url = path + "/static/" + name
-	//	fmt.Println("this is a ?? ", url)
-	//	g.File(url)
-	//})
-
 	router.StaticFS("/oss/images", http.Dir("./static/images/"))
 	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))
-
-	//router.LoadHTMLFiles("./index.html")
 
 	ginSwagger.URL("http://localhost:8080/docs/swagger.json")
 

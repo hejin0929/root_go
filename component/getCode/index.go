@@ -50,16 +50,25 @@ func GetPhoneCodeMessage(r *gin.Context, phone string) {
 
 	isCode := UserCode{}
 
-	_ = db.Model(&UserCode{}).Where("phone=?", phone).First(&isCode).Error
+	db.Model(&UserCode{}).Where("phone=?", phone).First(&isCode)
+
+	//if err != nil {
+	//	reps.MgsCode = 500
+	//	reps.MgsText = err.Error()
+	//	r.JSON(200, reps)
+	//	return
+	//}
 
 	reps.Body.Code = code
 
 	if isCode.Code != "" {
 		db.Model(&UserCode{}).Where("phone=?", phone).Update("code", code)
-
 		r.JSON(200, reps)
+		db.Model(&UserCode{}).Create(UserCode{Phone: phone, Code: code})
 		return
 	}
 
 	db.Model(&UserCode{}).Create(UserCode{Phone: phone, Code: code})
+	r.JSON(200, reps)
+
 }

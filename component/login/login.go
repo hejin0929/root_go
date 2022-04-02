@@ -1,6 +1,7 @@
 package login
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -8,20 +9,79 @@ import (
 	"modTest/module"
 	login2 "modTest/module/login"
 	"modTest/service/DB"
+	"modTest/service/redis"
 	"modTest/utlis/my_log"
 	"modTest/utlis/token"
+	"net/http"
 	"time"
 )
 
 // LoginsUserPassword
 // 密码登陆处理逻辑
-func LoginsUserPassword(r *gin.Context) {
-	bytes, err := ioutil.ReadAll(r.Request.Body)
+func LoginsUserPassword(g *gin.Context) {
+
+	user := new(login2.UserName)
+	if g.Bind(user) != nil {
+		g.JSON(http.StatusBadRequest, "参数错误")
+	}
+
+	res := struct {
+		module.Resp
+		Body login2.User
+	}{}
+
+	mqlUser := Users{}
+
+	db, err := DB.CreateDB()
 
 	if err != nil {
-		fmt.Println("this is err ?? ", err)
+		res.MgsCode = 500
+		res.MgsText = err.Error()
+
+		g.JSON(200, res)
 	}
-	fmt.Println("this is a ? ", string(bytes))
+
+	db.Model(Users{}).Where("phone=?", user.Phone).First(&mqlUser)
+
+	if mqlUser.Phone == "" {
+		res.MgsCode = 500
+		res.MgsText = "暂未注册"
+		g.JSON(200, res)
+		return
+	}
+
+	if mqlUser.Password != user.Password {
+		res.MgsCode = 500
+		res.MgsText = "密码错误"
+		g.JSON(200, res)
+		return
+	}
+
+	claims := &module.JWTClaims{
+		UserID:      1,
+		Username:    user.Phone,
+		Password:    user.Password,
+		FullName:    user.Phone,
+		Permissions: []string{},
+	}
+	claims.IssuedAt = time.Now().Unix()
+	claims.ExpiresAt = time.Now().Add(time.Second * time.Duration(ExpireTime)).Unix()
+
+	token, _ := token.CreateToken(claims)
+
+	res.Body.Token = token
+	res.Body.Uid = mqlUser.UUID
+	res.Body.Name = mqlUser.Phone
+
+	redisToken := redis.CreateRedis(0)
+
+	redisToken.Set(context.Background(), mqlUser.UUID, token, 0)
+
+	res.MgsCode = 200
+	res.MgsText = "登陆成功"
+
+	g.JSON(http.StatusOK, res)
+
 }
 
 // LoginsUserCode
@@ -101,7 +161,7 @@ func LoginsUserCode(r *gin.Context) {
 	}
 
 	claims := &module.JWTClaims{
-		UserID:      1,
+		UserID:      userMessage.ID,
 		Username:    userMessage.Phone,
 		Password:    userMessage.Password,
 		FullName:    userMessage.Phone,
