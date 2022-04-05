@@ -95,6 +95,18 @@ definitions:
     - password
     - phone
     type: object
+  module.HttpErrs:
+    properties:
+      mgsText:
+        description: 报错信息
+        type: string
+      msgCode:
+        description: 状态码
+        type: integer
+    required:
+    - mgsText
+    - msgCode
+    type: object
   uploadFiles.FileTest:
     properties:
       code:
@@ -117,6 +129,44 @@ definitions:
 info:
   contact: {}
 paths:
+  /api/home/message:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 首页接口
+      tags:
+      - Home
   /api/login/user/login:
     post:
       operationId: LoginInPasswordPaths

@@ -58,7 +58,7 @@ func LoginsUserPassword(g *gin.Context) {
 	}
 
 	claims := &module.JWTClaims{
-		UserID:      1,
+		UserID:      mqlUser.ID,
 		Username:    user.Phone,
 		Password:    user.Password,
 		FullName:    user.Phone,

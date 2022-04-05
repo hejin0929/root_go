@@ -16,8 +16,8 @@ type ResponsesData struct {
 }
 
 type HttpErrs struct {
-	MsgCode int    `json:"msg_code" binding:"required"` // 状态码
-	MgsText string `json:"mgs_text" binding:"required"` // 报错信息
+	MsgCode int    `json:"msgCode" binding:"required"` // 状态码
+	MgsText string `json:"mgsText" binding:"required"` // 报错信息
 }
 
 // Model gorm.Model 定义

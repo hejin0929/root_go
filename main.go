@@ -8,6 +8,7 @@ import (
 	"modTest/component/login"
 	_ "modTest/docs"
 	"modTest/paths/getCode"
+	home2 "modTest/paths/home"
 	loginPaths "modTest/paths/login"
 	"modTest/paths/uploadFiles"
 	"net/http"
@@ -61,6 +62,11 @@ func main() {
 	file.GET("/deleteImg", uploadFiles.UploadImagesDelete)  // 删除图片
 	file.GET("/deleteVideo", uploadFiles.UploadVideoDelete) // 删除视频
 	file.POST("/test", uploadFiles.UploadTestPaths)         // 测试
+
+	// 首页
+	home := Api.Group("/home")
+
+	home.GET("/message", home2.AppHomePaths) // 首页信息模块
 
 	router.StaticFS("/oss/images", http.Dir("./static/images/"))
 	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))

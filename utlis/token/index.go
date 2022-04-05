@@ -3,8 +3,8 @@ package token
 import (
 	"errors"
 	"fmt"
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
+	"github.com/golang-jwt/jwt"
 	"modTest/module"
 	"net/http"
 	"time"
@@ -35,23 +35,35 @@ func CreateToken(claims jwt.Claims) (string, error) {
 
 // VerifyToken
 // token的验证
-func VerifyToken(c *gin.Context) bool {
-	strToken := c.Param("token")
-	claim, err := verifyAction(strToken)
+func VerifyToken(c *gin.Context) (bool, error) {
+	strToken := c.Request.Header.Get("Authorization")
+	claim, err := VerifyAction(strToken)
 	if err != nil {
 		c.String(http.StatusNotFound, err.Error())
-		return false
+		return false, err
 	}
+
 	fmt.Println("this is a ?? ", claim)
-	c.String(http.StatusOK, "verify,", claim.Username)
-	return true
+
+	nowTime := time.Now().Unix()
+
+	fmt.Println("now ??? ", nowTime < claim.StandardClaims.IssuedAt, claim.StandardClaims.IssuedAt, claim.StandardClaims.ExpiresAt)
+
+	if nowTime < claim.StandardClaims.IssuedAt { // IssuedAt token过期时间
+		return false, errors.New("token已过期")
+	}
+
+	//claim.StandardClaims.IssuedAt
+
+	//c.String(http.StatusOK, "verify,", claim.Username)
+	return true, nil
 }
 
 // refresh
 // token的刷新
 func refresh(c *gin.Context) {
 	strToken := c.Param("token")
-	claims, err := verifyAction(strToken)
+	claims, err := VerifyAction(strToken)
 	if err != nil {
 		c.String(http.StatusNotFound, err.Error())
 		return
@@ -67,9 +79,9 @@ func refresh(c *gin.Context) {
 	c.String(http.StatusOK, signedToken)
 }
 
-// verifyAction
+// VerifyAction
 // token的验证
-func verifyAction(strToken string) (*module.JWTClaims, error) {
+func VerifyAction(strToken string) (*module.JWTClaims, error) {
 	token, err := jwt.ParseWithClaims(strToken, &module.JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
 		return []byte(Secret), nil
 	})
@@ -83,6 +95,9 @@ func verifyAction(strToken string) (*module.JWTClaims, error) {
 	if err := token.Claims.Valid(); err != nil {
 		return nil, errors.New("ErrorReason_ReLogin")
 	}
-	fmt.Println("verify")
+
+	fmt.Println("this is a ?? ", claims)
+
+	//fmt.Println("verify")
 	return claims, nil
 }
