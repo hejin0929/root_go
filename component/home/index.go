@@ -1,7 +1,12 @@
 package home
 
-import "github.com/gin-gonic/gin"
+import (
+	"fmt"
+	"github.com/gin-gonic/gin"
+)
 
 func AppHone(g *gin.Context) {
+
+	fmt.Println("验证通过了 ！！！")
 
 }

@@ -28,7 +28,15 @@ func UserVerify() gin.HandlerFunc {
 			return
 		}
 		// token验证
-		token.VerifyToken(g)
+		_, err := token.VerifyToken(g)
+		if err != nil {
+			err := g.ShouldBind(gin.H{"err": err.Error()})
+			if err != nil {
+				return
+			}
+			return
+		}
+
 		return
 	}
 }

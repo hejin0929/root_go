@@ -22,18 +22,19 @@ func init() {
 }
 
 func main() {
-	//router.Use(UserVerify())
 	router.Use(Cors())
+	router.Use(UserVerify())
 	//router.POST("/login", loginPaths.LoginPaths)
 
 	Api := router.Group("/api")
 
-	//Api.GET("/ws", func(context *gin.Context) {
-	//	my_log.WriteLog().Println(context.Request.URL)
-	//	ws := service.NewWsServer()
-	//	ws.Start()
-	//	ws.ServeHTTP(context.Writer, context.Request)
-	//})
+	Api.GET("/ws", func(context *gin.Context) {
+
+		//ws := web_socket.WebSocketNews()
+		
+		//ws.Start()
+		//ws.ServeHTTP(context.Writer, context.Request)
+	})
 
 	loginGroup := Api.Group("/login")
 

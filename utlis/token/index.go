@@ -43,19 +43,11 @@ func VerifyToken(c *gin.Context) (bool, error) {
 		return false, err
 	}
 
-	fmt.Println("this is a ?? ", claim)
-
 	nowTime := time.Now().Unix()
-
-	fmt.Println("now ??? ", nowTime < claim.StandardClaims.IssuedAt, claim.StandardClaims.IssuedAt, claim.StandardClaims.ExpiresAt)
 
 	if nowTime < claim.StandardClaims.IssuedAt { // IssuedAt token过期时间
 		return false, errors.New("token已过期")
 	}
-
-	//claim.StandardClaims.IssuedAt
-
-	//c.String(http.StatusOK, "verify,", claim.Username)
 	return true, nil
 }
 

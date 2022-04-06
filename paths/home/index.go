@@ -1,9 +1,8 @@
 package home
 
 import (
-	"fmt"
 	"github.com/gin-gonic/gin"
-	"modTest/utlis/token"
+	"modTest/component/home"
 )
 
 // AppHomePaths 登陆首页
@@ -20,15 +19,5 @@ import (
 // @Failure      500  {object}  module.HttpErrs
 // @Router       /api/home/message [get]
 func AppHomePaths(g *gin.Context) {
-	//authData := g.Request.Header.Get("Authorization") // 获取token
-
-	action, err := token.VerifyToken(g)
-
-	if err != nil {
-
-		g.JSON(200, gin.H{"err": err.Error()})
-		return
-	}
-
-	fmt.Println("this is a ?? ", action)
+	home.AppHone(g)
 }
