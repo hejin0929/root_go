@@ -3,8 +3,8 @@ package web_socket
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"net"
 	"net/http"
 	"time"
 )
@@ -37,7 +37,7 @@ var web = websocket.Upgrader{
 
 		return true
 	},
-	EnableCompression: false,
+	//EnableCompression: false,
 }
 
 type Client struct {
@@ -50,35 +50,48 @@ type Client struct {
 	HeartbeatTime uint64          // 上次心跳
 	LoginTime     uint64          // 登陆时间
 	Read          []byte          // 读取数据
+	Status        int             // 状态
+	Addr          string          // 开启ws的端口
+	Listener      net.Listener    // net 连接
+
 }
 
-func WebSocketNews(g *gin.Context) (*Client, error) {
+func WebSocketNews() (*Client, error) {
 
-	var ws Client
+	ws := new(Client)
+
 	var err error
-	ws.Socket, err = web.Upgrade(g.Writer, g.Request, nil)
+
+	ws.Addr = "0.0.0.0:10215"
+
+	// 待写逻辑
 
 	if err != nil {
-		err = ws.Socket.WriteMessage(200, []byte("服务端创建socket失败"))
-		err = ws.Socket.Close()
+		err = ws.Socket.WriteMessage(http.StatusNotFound, []byte("服务端创建socket失败"))
 		if err != nil {
 			return nil, err
 		}
 		return nil, err
 	}
-	return &ws, nil
+	return ws, nil
 }
 
 // Start 启动websocket
-func (_this *Client) Start() {
+func (_this *Client) Start() error {
 	_this.FirstTime = uint64(time.Now().Unix())
+	var err error = nil
+	_this.Listener, err = net.Listen("tcp", _this.Addr)
 
+	http.Serve(_this.Listener, nil)
+
+	return err
 }
 
 // Sends 发送数据
 func (_this *Client) Sends() {
-	err := _this.Socket.WriteMessage(http.StatusOK, _this.Send)
+	err := _this.Socket.WriteMessage(websocket.TextMessage, _this.Send)
 	if err != nil {
+		fmt.Println("this is sends ?? ", err)
 		err = _this.Socket.Close()
 		return
 	}
@@ -88,12 +101,19 @@ func (_this *Client) Sends() {
 func (_this *Client) Reads() {
 	message, read, err := _this.Socket.ReadMessage()
 
-	_this.Read = read
+	_this.Status = message
 
-	fmt.Println("this is a ?? ", message, read)
+	_this.Read = read
 
 	if err != nil {
 		return
 	}
 }
 
+// Close 关闭socket服务
+func (_this *Client) Close() {
+	err := _this.Socket.Close()
+	if err != nil {
+		return
+	}
+}

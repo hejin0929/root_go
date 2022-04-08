@@ -11,6 +11,7 @@ import (
 	home2 "modTest/paths/home"
 	loginPaths "modTest/paths/login"
 	"modTest/paths/uploadFiles"
+	"modTest/web_socket"
 	"net/http"
 	"strings"
 )
@@ -24,17 +25,28 @@ func init() {
 func main() {
 	router.Use(Cors())
 	router.Use(UserVerify())
-	//router.POST("/login", loginPaths.LoginPaths)
 
 	Api := router.Group("/api")
 
 	Api.GET("/ws", func(context *gin.Context) {
 
-		//ws := web_socket.WebSocketNews()
-		
-		//ws.Start()
-		//ws.ServeHTTP(context.Writer, context.Request)
+		fmt.Println("this is a ?? ?")
+
+		ws := web_socket.NewWsServer()
+		_ = ws.Start()
 	})
+
+	ws := web_socket.NewWsServer()
+	_ = ws.Start()
+
+	//ws, err := web_socket.WebSocketNews()
+	//
+	//if err != nil {
+	//	fmt.Println("this is err ", err)
+	//	return
+	//}
+	//
+	//ws.Start()
 
 	loginGroup := Api.Group("/login")
 
