@@ -29,24 +29,12 @@ func main() {
 	Api := router.Group("/api")
 
 	Api.GET("/ws", func(context *gin.Context) {
-
-		fmt.Println("this is a ?? ?")
-
 		ws := web_socket.NewWsServer()
 		_ = ws.Start()
 	})
 
 	ws := web_socket.NewWsServer()
 	_ = ws.Start()
-
-	//ws, err := web_socket.WebSocketNews()
-	//
-	//if err != nil {
-	//	fmt.Println("this is err ", err)
-	//	return
-	//}
-	//
-	//ws.Start()
 
 	loginGroup := Api.Group("/login")
 
