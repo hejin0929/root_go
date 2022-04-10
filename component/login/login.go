@@ -3,7 +3,6 @@ package login
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"modTest/module"
@@ -94,8 +93,6 @@ func LoginsUserPassword(g *gin.Context) {
 // @Router /api/login/user/login_code [post]
 func LoginsUserCode(r *gin.Context) {
 	body, err := ioutil.ReadAll(r.Request.Body)
-
-	fmt.Println("this is a update ?? ", string(body), r.PostForm("data"))
 
 	myLog := my_log.GetLog()
 	defer myLog.CloseFileLog()
