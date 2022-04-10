@@ -3,6 +3,7 @@ package login
 import (
 	"context"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"modTest/module"
@@ -19,14 +20,26 @@ import (
 // 密码登陆处理逻辑
 func LoginsUserPassword(g *gin.Context) {
 
-	user := new(login2.UserName)
-	if g.Bind(user) != nil {
-		g.JSON(http.StatusBadRequest, "参数错误")
-	}
+	//user := new(login2.UserName)
+	//if g.Bind(user) != nil {
+	//	g.JSON(http.StatusBadRequest, "参数错误")
+	//}
+
+	bytes, err := ioutil.ReadAll(g.Request.Body)
+
+	reqData := struct {
+		Data login2.UserName
+	}{}
+
+	_ = json.Unmarshal(bytes, &reqData)
+
+	user := reqData.Data
+
+	fmt.Println("this is value ?? ", string(bytes))
 
 	res := struct {
 		module.Resp
-		Body login2.User
+		Body login2.User `json:"body"`
 	}{}
 
 	mqlUser := Users{}
@@ -40,19 +53,21 @@ func LoginsUserPassword(g *gin.Context) {
 		g.JSON(200, res)
 	}
 
-	db.Model(Users{}).Where("phone=?", user.Phone).First(&mqlUser)
+	fmt.Println("this is a ?? ", user)
+
+	err = db.Model(Users{}).Where("phone=?", user.Phone).First(&mqlUser).Error
 
 	if mqlUser.Phone == "" {
 		res.MgsCode = 500
 		res.MgsText = "暂未注册"
-		g.JSON(200, res)
+		g.JSON(http.StatusBadRequest, res)
 		return
 	}
 
 	if mqlUser.Password != user.Password {
 		res.MgsCode = 500
 		res.MgsText = "密码错误"
-		g.JSON(200, res)
+		g.JSON(http.StatusOK, res)
 		return
 	}
 

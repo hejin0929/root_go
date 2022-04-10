@@ -82,7 +82,7 @@ func GetSingCode(r *gin.Context) {
 // 用户登录成功的返回体
 type UserBody struct {
 	module.Resp
-	Body login.User
+	Body login.User `json:"body"`
 }
 
 type UserSignType struct {
@@ -127,9 +127,13 @@ func SignUser(r *gin.Context) {
 		writeLog.Println(err)
 	}
 
-	data := UserSignType{}
+	inData := struct {
+		Data UserSignType `json:"data"`
+	}{}
 
-	err = json.Unmarshal(body, &data)
+	err = json.Unmarshal(body, &inData)
+
+	data := inData.Data
 
 	if err != nil {
 		return

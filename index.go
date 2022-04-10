@@ -17,6 +17,10 @@ func UserVerify() gin.HandlerFunc {
 			return
 		}
 
+		if strings.Index(url, "ws") != -1 {
+			return
+		}
+
 		// 放行swagger文档
 		if strings.Index(url, "swagger") != -1 {
 			return

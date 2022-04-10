@@ -10,7 +10,7 @@ type GetPhoneCode struct {
 
 type ResCode struct {
 	module.Resp
-	Body GetPhoneCode
+	Body GetPhoneCode `json:"body"`
 }
 
 // UserCode

@@ -64,11 +64,16 @@ func (_this *WsServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	fmt.Println("this is list ？？ ")
+
 	conn, err := _this.Upgrade.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println("websocket error:", err)
 		return
 	}
+	res := []byte("???")
+
+	fmt.Println("res", res)
 
 	go _this.connHandle(conn)
 
@@ -112,7 +117,7 @@ func (_this *WsServer) connHandle(conn *websocket.Conn) {
 		}
 
 		if _this.UserId == "" {
-			err := _this.setLogin(msg)
+			err := _this.login(msg)
 
 			if err != nil {
 				_this.Send = []byte(err.Error())
@@ -132,7 +137,7 @@ func (_this *WsServer) connHandle(conn *websocket.Conn) {
 	}
 }
 
-func (_this *WsServer) setLogin(data []byte) error {
+func (_this *WsServer) login(data []byte) error {
 	err := json.Unmarshal(data, _this)
 	_this.LoginTime = uint64(time.Now().Unix())
 
@@ -196,15 +201,17 @@ func (_this *WsServer) send(conn *websocket.Conn, stopCh chan int) {
 func (_this *WsServer) Start() (err error) {
 	_this.Listener, err = net.Listen("tcp", _this.Addr)
 	if err != nil {
-		fmt.Println("net listen error:", err)
 		return
 	}
+
 	err = http.Serve(_this.Listener, _this)
+
 	_this.FirstTime = uint64(time.Now().Unix())
 
 	if err != nil {
 		fmt.Println("http serve error:", err)
 		return
 	}
+
 	return nil
 }
