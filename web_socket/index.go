@@ -59,21 +59,15 @@ func (_this *WsServer) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	if r.URL.Path != "/ws" {
 		httpCode := http.StatusInternalServerError
 		errText := http.StatusText(httpCode)
-		//fmt.Println("path error ", errText)
 		http.Error(w, errText, httpCode)
 		return
 	}
-
-	fmt.Println("this is list ？？ ")
 
 	conn, err := _this.Upgrade.Upgrade(w, r, nil)
 	if err != nil {
 		fmt.Println("websocket error:", err)
 		return
 	}
-	res := []byte("???")
-
-	fmt.Println("res", res)
 
 	go _this.connHandle(conn)
 
@@ -199,12 +193,16 @@ func (_this *WsServer) send(conn *websocket.Conn, stopCh chan int) {
 }
 
 func (_this *WsServer) Start() (err error) {
-	_this.Listener, err = net.Listen("tcp", _this.Addr)
-	if err != nil {
-		return
-	}
 
-	err = http.Serve(_this.Listener, _this)
+	//fmt.Println("this is a value ?? ", _this.Listener)
+	//
+	//_this.Listener, err = net.Listen("tcp", _this.Addr)
+	//
+	//if err != nil {
+	//	return
+	//}
+
+	err = http.ListenAndServe(_this.Addr, _this)
 
 	_this.FirstTime = uint64(time.Now().Unix())
 
