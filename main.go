@@ -29,13 +29,14 @@ func main() {
 	Api := router.Group("/api")
 
 	Api.GET("/ws", func(g *gin.Context) {
-		//ws := web_socket.NewWsServer()
+
+		ws := web_socket.NewWsServer()
 		g.JSON(http.StatusOK, gin.H{"mgsCode": 200, "msgText": "开启成功"})
-		//err := ws.Start()
-		//if err != nil {
-		//	g.JSON(http.StatusBadRequest, err)
-		//	return
-		//}
+		err := ws.Start()
+		if err != nil {
+			g.JSON(http.StatusBadRequest, err)
+			return
+		}
 
 	})
 
@@ -78,11 +79,6 @@ func main() {
 	ginSwagger.URL("http://localhost:8080/docs/swagger.json")
 
 	Api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	ws := web_socket.NewWsServer()
-	err := ws.Start()
-	if err != nil {
-		fmt.Println("this is err ?? ", err)
-	}
 	router.Run(":8081").Error()
 
 }
