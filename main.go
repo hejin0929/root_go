@@ -26,16 +26,21 @@ func main() {
 	router.Use(Cors())
 	router.Use(UserVerify())
 
+	// socket 通信
 	Api := router.Group("/api")
 
-	Api.GET("/ws", func(g *gin.Context) {
-		ws := web_socket.NewWsServer()
-		err := ws.Start()
-		if err != nil {
-			g.JSON(http.StatusBadRequest, err)
-			return
-		}
+	//Api.GET("/ws", func(g *gin.Context) {
+	//	ws := web_socket.NewWsServer()
+	//	err := ws.Start()
+	//	if err != nil {
+	//		g.JSON(http.StatusBadRequest, err)
+	//		return
+	//	}
+	//
+	//})
 
+	Api.GET("/ws", func(g *gin.Context) {
+		web_socket.WebSocketNews(g)
 	})
 
 	//ws := web_socket.NewWsServer()
