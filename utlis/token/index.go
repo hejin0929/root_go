@@ -2,7 +2,6 @@ package token
 
 import (
 	"errors"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 	"modTest/module"
@@ -78,17 +77,15 @@ func VerifyAction(strToken string) (*module.JWTClaims, error) {
 		return []byte(Secret), nil
 	})
 	if err != nil {
-		return nil, errors.New("ErrorReason_ServerBusy")
+		return nil, errors.New(err.Error())
 	}
 	claims, ok := token.Claims.(*module.JWTClaims)
 	if !ok {
 		return nil, errors.New("ErrorReason_ReLogin")
 	}
 	if err := token.Claims.Valid(); err != nil {
-		return nil, errors.New("ErrorReason_ReLogin")
+		return nil, errors.New(err.Error())
 	}
-
-	fmt.Println("this is a ?? ", claims)
 
 	//fmt.Println("verify")
 	return claims, nil

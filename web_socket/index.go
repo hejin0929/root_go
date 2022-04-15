@@ -1,10 +1,14 @@
 package web_socket
 
 import (
+	"context"
 	"encoding/json"
 	"fmt"
 	"github.com/gin-gonic/gin"
+	"github.com/go-redis/redis/v8"
 	"github.com/gorilla/websocket"
+	redis2 "modTest/service/redis"
+	"modTest/utlis/token"
 	"net"
 	"net/http"
 	"time"
@@ -53,6 +57,7 @@ type Client struct {
 	Status        int             // 状态
 	Addr          string          // 开启ws的端口
 	Listener      net.Listener    // net 连接
+	Redis         *redis.Client   // Redis 数据交互
 
 }
 
@@ -75,66 +80,111 @@ func WebSocketNews(g *gin.Context) (*Client, error) {
 		}
 		return nil, err
 	}
-	//
-	//for {
-	//	//读取ws中的数据
-	//	mt, message, err := ws.Upgrade.ReadMessage()
-	//
-	//	fmt.Println("this is data ", mt, message)
-	//
-	//	if err != nil {
-	//		break
-	//	}
-	//}
-
-	ws.SendHeartbeat()
+	ws.FirstTime = uint64(time.Now().Unix())
+	ws.Redis = redis2.CreateRedis(2)
+	go ws.ReadMessage()
+	go ws.SendHeartbeat()
 
 	return ws, nil
 }
 
-// Start 启动websocket
-func (_this *Client) Start() error {
-	_this.FirstTime = uint64(time.Now().Unix())
-	var err error = nil
-	//_this.Listener, err = net.Listen("tcp", _this.Addr)
-
-	//var test *WsServer
-
-	//http.Serve(_this.Listener, _this)
-
-	return err
-}
-
 func (_this *Client) SendHeartbeat() {
-	select {
-	case <-time.After(time.Second * 10):
-		_this.FirstTime = uint64(time.Now().Unix())
-		fmt.Println("this is a send")
-		var res = struct {
-			Heartbeat uint64 `json:"heartbeat"`
-			Message   string `json:"message"`
-		}{
-			Heartbeat: _this.HeartbeatTime,
-			Message:   "❤️",
+	times := time.NewTicker(time.Second * 3)
+	for {
+		select {
+		case <-times.C:
+			{
+				_this.HeartbeatTime = uint64(time.Now().Unix())
+
+				var res = struct {
+					Heartbeat uint64 `json:"heartbeat"`
+					Message   string `json:"message"`
+				}{
+					Heartbeat: _this.HeartbeatTime,
+					Message:   "❤️",
+				}
+
+				bytes, _ := json.Marshal(res)
+
+				_this.Upgrade.WriteMessage(websocket.TextMessage, bytes)
+			}
+
 		}
 
-		bytes, _ := json.Marshal(res)
-
-		_this.Upgrade.WriteMessage(websocket.TextMessage, bytes)
 	}
 }
 
-func (_this *Client) ReadMessage() {
+func (_this *Client) ReadMessage() error {
+
 	for {
-		mt, message, err := _this.Upgrade.ReadMessage()
+
+		_, message, err := _this.Upgrade.ReadMessage()
 
 		if err != nil {
-			_this.Upgrade.WriteMessage(websocket.CloseMessage, []byte(err.Error()))
-			break
+			err := _this.Upgrade.WriteMessage(websocket.CloseMessage, []byte(err.Error()))
+			if err != nil {
+				return err
+			}
 		}
 
-		fmt.Println("mt", mt, message)
+		if _this.UserId == "" {
+
+			var data = struct {
+				UserID string `json:"user_id"`
+				Token  string `json:"token"`
+			}{}
+
+			_ = json.Unmarshal(message, &data)
+
+			if data.UserID == "" {
+				_this.Send = []byte("缺少user_id !")
+				_this.Sends()
+				_ = _this.Upgrade.Close()
+				break
+			}
+
+			claim, err := token.VerifyAction(data.Token)
+
+			if err != nil {
+				_this.Send = []byte(err.Error())
+				_this.Sends()
+				_ = _this.Upgrade.Close()
+				break
+			}
+
+			if time.Now().Unix() < claim.StandardClaims.IssuedAt { // IssuedAt token过期时间
+				_this.Send = []byte("token时间过期 !")
+				_this.Sends()
+				_ = _this.Upgrade.Close()
+				break
+			}
+
+			_this.UserId = data.UserID
+			_this.Send = []byte("Success")
+			_this.Sends()
+		}
+
+		var channel = struct {
+			ReceiveId string `json:"receive_id"`
+			Message   string `json:"message"`
+			SendId    string `json:"send_id"`
+		}{
+			SendId: _this.UserId,
+		}
+
+		_ = json.Unmarshal(message, &channel)
+
+		if channel.ReceiveId != "" {
+			//bytes, _ := json.Marshal(channel)
+			data := _this.Redis.Get(context.Background(), channel.ReceiveId)
+
+			fmt.Println("this is a data ?? ", data.Val())
+
+			//_this.Redis.Set(context.Background(), channel.ReceiveId, string(bytes), 0)
+		}
 	}
+
+	return nil
 }
 
 // Sends 发送数据
