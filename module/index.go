@@ -1,6 +1,9 @@
 package module
 
-import "time"
+import (
+	"net/http"
+	"time"
+)
 
 // A Resp 项目统一返回的结构
 // swagger:response Resp
@@ -26,4 +29,22 @@ type Model struct {
 	CreatedAt *time.Time `json:"created_at"`
 	UpdatedAt *time.Time `json:"updated_at"`
 	DeletedAt *time.Time `json:"deleted_at"`
+}
+
+type Response struct {
+	// 返回体状态码
+	MgsCode int `json:"mgsCode" binding:"required"`
+	// 返回体信息
+	MgsText string `json:"mgsText" binding:"required"`
+	// body
+	Body interface{} `json:"body"`
+}
+
+// ResponseSuccess 统一返回类型
+func ResponseSuccess(data interface{}) Response {
+	return Response{
+		Body:    data,
+		MgsCode: http.StatusOK,
+		MgsText: "Success",
+	}
 }

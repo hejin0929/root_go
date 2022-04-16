@@ -3,7 +3,6 @@ package web_socket
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis/v8"
 	"github.com/gorilla/websocket"
@@ -58,7 +57,13 @@ type Client struct {
 	Addr          string          // 开启ws的端口
 	Listener      net.Listener    // net 连接
 	Redis         *redis.Client   // Redis 数据交互
+}
 
+// MessageChannel 消息交互
+type MessageChannel struct {
+	ReceiveId string `json:"receive_id"`
+	Message   string `json:"message"`
+	SendId    string `json:"send_id"`
 }
 
 func WebSocketNews(g *gin.Context) (*Client, error) {
@@ -164,23 +169,24 @@ func (_this *Client) ReadMessage() error {
 			_this.Sends()
 		}
 
-		var channel = struct {
-			ReceiveId string `json:"receive_id"`
-			Message   string `json:"message"`
-			SendId    string `json:"send_id"`
-		}{
-			SendId: _this.UserId,
-		}
+		var channel MessageChannel
+		channel.SendId = _this.UserId
 
 		_ = json.Unmarshal(message, &channel)
 
 		if channel.ReceiveId != "" {
-			//bytes, _ := json.Marshal(channel)
+			var messageMap []MessageChannel
+
 			data := _this.Redis.Get(context.Background(), channel.ReceiveId)
+			if data != nil {
+				json.Unmarshal([]byte(data.Val()), &messageMap)
+			}
 
-			fmt.Println("this is a data ?? ", data.Val())
+			messageMap = append(messageMap, channel)
 
-			//_this.Redis.Set(context.Background(), channel.ReceiveId, string(bytes), 0)
+			bytes, _ := json.Marshal(messageMap)
+
+			_this.Redis.Set(context.Background(), channel.ReceiveId, string(bytes), 0)
 		}
 	}
 
@@ -189,10 +195,10 @@ func (_this *Client) ReadMessage() error {
 
 // Sends 发送数据
 func (_this *Client) Sends() {
+
 	err := _this.Upgrade.WriteMessage(websocket.TextMessage, _this.Send)
 
 	if err != nil {
-		fmt.Println("this is sends ?? ", err)
 		err = _this.Upgrade.Close()
 		return
 	}
