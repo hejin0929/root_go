@@ -16,6 +16,38 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/chum/search/{phone}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chum"
+                ],
+                "summary": "用户验证码登录",
+                "operationId": "SearchUserPaths",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "朋友手机号",
+                        "name": "phone",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/chum.ResChum"
+                        }
+                    }
+                }
+            }
+        },
         "/api/home/message": {
             "get": {
                 "description": "get string by ID",
@@ -329,6 +361,17 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "chum.ResChum": {
+            "type": "object",
+            "required": [
+                "name"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
         "getCode.GetPhoneCode": {
             "type": "object",
             "required": [

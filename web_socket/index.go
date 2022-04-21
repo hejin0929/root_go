@@ -16,11 +16,11 @@ import (
 // socket 配置
 var web = websocket.Upgrader{
 	//HandshakeTimeout: 1024,
-	//ReadBufferSize:   1024,
-	//WriteBufferSize:  1024,
-	//WriteBufferPool:  nil,
-	//Subprotocols:     nil,
-	//Error:            nil,
+	ReadBufferSize:  1024,
+	WriteBufferSize: 1024,
+	WriteBufferPool: nil,
+	Subprotocols:    nil,
+	Error:           nil,
 	CheckOrigin: func(r *http.Request) bool {
 		if r.Method != "GET" {
 			r.Response.StatusCode = 400
@@ -40,7 +40,6 @@ var web = websocket.Upgrader{
 
 		return true
 	},
-	//EnableCompression: false,
 }
 
 type Client struct {
@@ -111,7 +110,7 @@ func (_this *Client) SendHeartbeat() {
 
 				bytes, _ := json.Marshal(res)
 
-				_this.Upgrade.WriteMessage(websocket.TextMessage, bytes)
+				_ = _this.Upgrade.WriteMessage(websocket.TextMessage, bytes)
 			}
 
 		}

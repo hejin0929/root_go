@@ -48,3 +48,12 @@ func ResponseSuccess(data interface{}) Response {
 		MgsText: "Success",
 	}
 }
+
+// ResponseErrorParams 统一参数报错返回
+func ResponseErrorParams(err interface{}) Response {
+	return Response{
+		Body:    err,
+		MgsCode: http.StatusBadRequest,
+		MgsText: "Params Not",
+	}
+}

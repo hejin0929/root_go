@@ -7,6 +7,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	"modTest/component/login"
 	_ "modTest/docs"
+	chum2 "modTest/paths/chum"
 	"modTest/paths/getCode"
 	home2 "modTest/paths/home"
 	loginPaths "modTest/paths/login"
@@ -78,6 +79,11 @@ func main() {
 	home := Api.Group("/home")
 
 	home.GET("/message", home2.AppHomePaths) // 首页信息模块
+
+	// 好友功能
+	chum := Api.Group("/chum")
+
+	chum.GET("/search", chum2.SearchUserPaths) // 搜素好友
 
 	router.StaticFS("/oss/images", http.Dir("./static/images/"))
 	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))

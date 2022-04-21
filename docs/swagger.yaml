@@ -1,4 +1,11 @@
 definitions:
+  chum.ResChum:
+    properties:
+      name:
+        type: string
+    required:
+    - name
+    type: object
   getCode.GetPhoneCode:
     properties:
       code:
@@ -129,6 +136,27 @@ definitions:
 info:
   contact: {}
 paths:
+  /api/chum/search/{phone}:
+    get:
+      consumes:
+      - application/json
+      operationId: SearchUserPaths
+      parameters:
+      - description: 朋友手机号
+        in: path
+        name: phone
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/chum.ResChum'
+      summary: 用户验证码登录
+      tags:
+      - Chum
   /api/home/message:
     get:
       consumes:
