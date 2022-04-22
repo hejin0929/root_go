@@ -65,7 +65,7 @@ type MessageChannel struct {
 	SendId    string `json:"send_id"`
 }
 
-func WebSocketNews(g *gin.Context) (*Client, error) {
+func WebSocketNews(g *gin.Context) {
 
 	ws := new(Client)
 
@@ -80,16 +80,16 @@ func WebSocketNews(g *gin.Context) (*Client, error) {
 
 		err = ws.Upgrade.WriteMessage(http.StatusNotFound, []byte("服务端创建socket失败"))
 		if err != nil {
-			return nil, err
+			return
 		}
-		return nil, err
+		return
 	}
 	ws.FirstTime = uint64(time.Now().Unix())
 	ws.Redis = redis2.CreateRedis(2)
 	go ws.ReadMessage()
 	go ws.SendHeartbeat()
 
-	return ws, nil
+	return
 }
 
 func (_this *Client) SendHeartbeat() {

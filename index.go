@@ -2,7 +2,9 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"modTest/module"
 	"modTest/utlis/token"
+	"net/http"
 	"strings"
 )
 
@@ -13,34 +15,15 @@ func UserVerify() gin.HandlerFunc {
 		var url = g.Request.URL.Path
 
 		// 过滤静态资源
-		if strings.Index(url, "oss") != -1 {
+		if strings.Index(url, "oss") != -1 || strings.Index(url, "ws") != -1 || strings.Index(url, "swagger") != -1 || strings.Index(url, "login") != -1 || strings.Index(url, "phone_code") != -1 {
 			return
 		}
 
-		if strings.Index(url, "ws") != -1 {
-			return
-		}
-
-		// 放行swagger文档
-		if strings.Index(url, "swagger") != -1 {
-			return
-		}
-
-		// 放行登陆 注册 验证码接口
-		if strings.Index(url, "login") != -1 || strings.Index(url, "phone_code") != -1 {
-
-			return
-		}
 		// token验证
 		_, err := token.VerifyToken(g)
 		if err != nil {
-			err := g.ShouldBind(gin.H{"err": err.Error()})
-			if err != nil {
-				return
-			}
-			return
+			g.JSON(http.StatusOK, module.Resp{MgsCode: 500, MgsText: "token失败"})
+			g.Abort()
 		}
-
-		return
 	}
 }

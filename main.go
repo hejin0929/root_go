@@ -80,6 +80,11 @@ func main() {
 
 	home.GET("/message", home2.AppHomePaths) // 首页信息模块
 
+	// 个人信息获取
+	user := Api.Group("/user")
+
+	user.GET("/user_message/:id", home2.GetUserMessagePaths)
+
 	// 好友功能
 	chum := Api.Group("/chum")
 

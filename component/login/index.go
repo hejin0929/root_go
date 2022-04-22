@@ -7,6 +7,7 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"modTest/module"
+	"modTest/module/center"
 	"modTest/module/login"
 	"modTest/service/DB"
 	"modTest/utlis/my_log"
@@ -210,6 +211,18 @@ func SignUser(r *gin.Context) {
 		r.JSON(200, resp)
 		return
 	}
+
+	message := new(center.Message)
+
+	message.Uuid = newUser.UUID
+	message.Phone = newUser.Phone
+	message.Image = "images/001.jpg"
+	message.Name = "user_" + newUser.Phone
+	message.Sex = 2
+
+	db.AutoMigrate(center.Message{})
+
+	db.Model(&center.Message{}).Create(&message)
 
 	resp.MgsCode = 200
 	resp.MgsText = "欢迎你的加入!注册成功!"

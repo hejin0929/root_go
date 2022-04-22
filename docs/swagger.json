@@ -346,6 +346,63 @@
                     }
                 }
             }
+        },
+        "/api/user/user_message/{id}": {
+            "get": {
+                "description": "get string by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "首页接口",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/home.UserMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -387,6 +444,51 @@
                 },
                 "mgsText": {
                     "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "home.UserMessage": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "description": "生日",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "introduce": {
+                    "description": "介绍",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "用户名称",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "用户手机",
+                    "type": "string"
+                },
+                "region": {
+                    "description": "地区",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "性别",
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "状态 0 离线 1 在线",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户设置ID",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "用户uuid",
                     "type": "string"
                 }
             }

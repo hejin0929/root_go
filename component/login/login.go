@@ -3,7 +3,6 @@ package login
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"modTest/module"
@@ -35,8 +34,6 @@ func LoginsUserPassword(g *gin.Context) {
 
 	user := reqData.Data
 
-	fmt.Println("this is value ?? ", string(bytes))
-
 	res := struct {
 		module.Resp
 		Body login2.User `json:"body"`
@@ -53,14 +50,12 @@ func LoginsUserPassword(g *gin.Context) {
 		g.JSON(200, res)
 	}
 
-	fmt.Println("this is a ?? ", user)
-
-	err = db.Model(Users{}).Where("phone=?", user.Phone).First(&mqlUser).Error
+	_ = db.Model(Users{}).Where("phone=?", user.Phone).First(&mqlUser).Error
 
 	if mqlUser.Phone == "" {
 		res.MgsCode = 500
 		res.MgsText = "暂未注册"
-		g.JSON(http.StatusBadRequest, res)
+		g.JSON(http.StatusOK, res)
 		return
 	}
 

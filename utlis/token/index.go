@@ -35,10 +35,10 @@ func CreateToken(claims jwt.Claims) (string, error) {
 // VerifyToken
 // token的验证
 func VerifyToken(c *gin.Context) (bool, error) {
-	strToken := c.Request.Header.Get("Authorization")
+	strToken := c.Request.Header.Get("token")
 	claim, err := VerifyAction(strToken)
 	if err != nil {
-		c.String(http.StatusNotFound, err.Error())
+		//c.String(http.StatusNotFound, err.Error())
 		return false, err
 	}
 

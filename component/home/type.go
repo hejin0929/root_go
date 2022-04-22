@@ -1,10 +1,8 @@
-package center
+package home
 
-import "modTest/module"
+// 接口返回的格式定义
 
-// Message sql 数据表结构
-type Message struct {
-	module.Model
+type UserMessage struct {
 	Name      string `json:"name"`      // 用户名称
 	Uuid      string `json:"uuid"`      // 用户uuid
 	Introduce string `json:"introduce"` // 介绍
