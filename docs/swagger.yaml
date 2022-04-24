@@ -27,6 +27,26 @@ definitions:
     - mgsCode
     - mgsText
     type: object
+  home.MessageUpdateRes:
+    properties:
+      body:
+        description: 返回结构体
+        properties:
+          message:
+            $ref: '#/definitions/home.UserMessage'
+          res:
+            type: string
+        type: object
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
   home.UserMessage:
     properties:
       birthday:
@@ -416,6 +436,45 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/home.UserMessage'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 首页接口
+      tags:
+      - User
+  /api/user/user_message/update:
+    post:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: 修改的数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/home.UserMessage'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/home.MessageUpdateRes'
         "400":
           description: Bad Request
           schema:

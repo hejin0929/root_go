@@ -21,3 +21,20 @@ import (
 func GetUserMessagePaths(g *gin.Context) {
 	home.GetUserMessage(g)
 }
+
+// UpdateUserMessagePaths 修改个人信息
+// @Tags User
+// @Summary 首页接口
+// @Description  get string by ID
+// @Accept       json
+// @Produce      json
+// @Param        data   body      home.UserMessage  true  "修改的数据"
+// @Param token header  string true "token"
+// @Success      200  {object}  home.MessageUpdateRes
+// @Failure      400  {object}  module.HttpErrs
+// @Failure      404  {object}  module.HttpErrs
+// @Failure      500  {object}  module.HttpErrs
+// @Router       /api/user/user_message/update [post]
+func UpdateUserMessagePaths(g *gin.Context) {
+	home.UpdateUserMessage(g)
+}

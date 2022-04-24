@@ -232,7 +232,7 @@ func SignUser(r *gin.Context) {
 
 var (
 	Secret     = "dong_tech" // 加盐
-	ExpireTime = 3600        // token有效期
+	ExpireTime = 36000       // token有效期
 )
 
 // RgxPhone

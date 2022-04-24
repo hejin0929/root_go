@@ -359,6 +359,65 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/user/user_message/update": {
+            "post": {
+                "description": "get string by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "首页接口",
+                "parameters": [
+                    {
+                        "description": "修改的数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/home.UserMessage"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/home.MessageUpdateRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
         "/api/user/user_message/{id}": {
             "get": {
                 "description": "get string by ID",
@@ -449,6 +508,35 @@ const docTemplate = `{
             "properties": {
                 "body": {
                     "$ref": "#/definitions/getCode.GetPhoneCode"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "home.MessageUpdateRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "description": "返回结构体",
+                    "type": "object",
+                    "properties": {
+                        "message": {
+                            "$ref": "#/definitions/home.UserMessage"
+                        },
+                        "res": {
+                            "type": "string"
+                        }
+                    }
                 },
                 "mgsCode": {
                     "description": "返回体状态码",

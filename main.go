@@ -84,6 +84,7 @@ func main() {
 	user := Api.Group("/user")
 
 	user.GET("/user_message/:id", home2.GetUserMessagePaths)
+	user.POST("/user_message/update", home2.UpdateUserMessagePaths)
 
 	// 好友功能
 	chum := Api.Group("/chum")

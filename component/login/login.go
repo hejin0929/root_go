@@ -133,7 +133,7 @@ func LoginsUserCode(r *gin.Context) {
 			return
 		}
 	} else {
-		json.Unmarshal(body, &userP)
+		_ = json.Unmarshal(body, &userP)
 	}
 
 	if user.Phone == "" {
