@@ -29,23 +29,10 @@ definitions:
     type: object
   home.MessageUpdateRes:
     properties:
-      body:
-        description: 返回结构体
-        properties:
-          message:
-            $ref: '#/definitions/home.UserMessage'
-          res:
-            type: string
-        type: object
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
+      message:
+        $ref: '#/definitions/home.UserMessage'
+      res:
         type: string
-    required:
-    - mgsCode
-    - mgsText
     type: object
   home.UserMessage:
     properties:

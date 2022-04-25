@@ -43,7 +43,7 @@ func UploadImg(g *gin.Context) {
 
 	res.MgsCode = http.StatusOK
 	res.MgsText = "图片上传成功"
-	res.Body = "http://localhost:8081/oss/" + filename
+	res.Body = "http://localhost:8081/oss/images/" + filename
 
 	g.JSON(http.StatusOK, res)
 	return

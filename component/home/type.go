@@ -1,7 +1,5 @@
 package home
 
-import "modTest/module"
-
 // 接口返回的格式定义
 
 type UserMessage struct {
@@ -18,9 +16,6 @@ type UserMessage struct {
 }
 
 type MessageUpdateRes struct {
-	module.Resp
-	Body struct {
-		Message UserMessage `json:"message"`
-		Res     string      `json:"res"`
-	} `json:"body"` // 返回结构体
+	Message UserMessage `json:"message"`
+	Res     string      `json:"res"`
 }

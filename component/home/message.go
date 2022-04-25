@@ -8,6 +8,7 @@ import (
 	"modTest/service/DB"
 	"net/http"
 	"reflect"
+	"strings"
 )
 
 func GetUserMessage(g *gin.Context) {
@@ -36,7 +37,7 @@ func GetUserMessage(g *gin.Context) {
 
 	_ = json.Unmarshal(data, &resp)
 
-	resp.Image = "http://localhost:8081/oss/" + resp.Image
+	resp.Image = "http://localhost:8081/oss" + resp.Image
 
 	g.JSON(http.StatusOK, module.ResponseSuccess(resp))
 	return
@@ -44,15 +45,15 @@ func GetUserMessage(g *gin.Context) {
 
 func UpdateUserMessage(g *gin.Context) {
 
-	reqData := new(UserMessage)
+	reqData := new(struct {
+		Data UserMessage `json:"data"`
+	})
 	res := new(MessageUpdateRes)
 
 	if g.Bind(reqData) != nil {
-		res.MgsText = "Error"
-		res.MgsCode = http.StatusPreconditionFailed
-		res.Body.Res = "参数不全"
-		_ = g.Bind(res.Body.Message)
-		g.JSON(http.StatusOK, res)
+		res.Res = "参数不全"
+		_ = g.Bind(res.Message)
+		g.JSON(http.StatusOK, module.ResponseErrorParams(res))
 		return
 	}
 
@@ -60,13 +61,15 @@ func UpdateUserMessage(g *gin.Context) {
 
 	user := new(center.Message)
 
-	user.Uuid = reqData.Uuid
+	data := reqData.Data
+
+	user.Uuid = data.Uuid
 
 	db.First(&user)
 
-	types := reflect.TypeOf(reqData).Elem()
+	types := reflect.TypeOf(&data).Elem()
 
-	values := reflect.ValueOf(reqData).Elem()
+	values := reflect.ValueOf(&data).Elem()
 
 	userT := reflect.TypeOf(user).Elem()
 
@@ -84,6 +87,13 @@ func UpdateUserMessage(g *gin.Context) {
 		}
 	}
 
-	db.Save(&userV)
+	user.Image = strings.Split(user.Image, "oss")[1]
+
+	res.Res = "修改成功"
+	res.Message = reqData.Data
+
+	db.Save(user)
+
+	g.JSON(http.StatusOK, module.ResponseSuccess(res))
 
 }

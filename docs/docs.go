@@ -521,29 +521,11 @@ const docTemplate = `{
         },
         "home.MessageUpdateRes": {
             "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
             "properties": {
-                "body": {
-                    "description": "返回结构体",
-                    "type": "object",
-                    "properties": {
-                        "message": {
-                            "$ref": "#/definitions/home.UserMessage"
-                        },
-                        "res": {
-                            "type": "string"
-                        }
-                    }
+                "message": {
+                    "$ref": "#/definitions/home.UserMessage"
                 },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
+                "res": {
                     "type": "string"
                 }
             }

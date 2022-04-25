@@ -216,7 +216,7 @@ func SignUser(r *gin.Context) {
 
 	message.Uuid = newUser.UUID
 	message.Phone = newUser.Phone
-	message.Image = "images/001.jpg"
+	message.Image = "/images/001.jpg"
 	message.Name = "user_" + newUser.Phone
 	message.Sex = 2
 
