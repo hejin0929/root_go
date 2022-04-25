@@ -36,13 +36,38 @@ const docTemplate = `{
                         "name": "phone",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/chum.ResChum"
+                            "$ref": "#/definitions/home.UserMessage"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
                         }
                     }
                 }
@@ -371,7 +396,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "首页接口",
+                "summary": "修改个人信息",
                 "parameters": [
                     {
                         "description": "修改的数据",
@@ -430,7 +455,7 @@ const docTemplate = `{
                 "tags": [
                     "User"
                 ],
-                "summary": "首页接口",
+                "summary": "获取个人信息",
                 "parameters": [
                     {
                         "type": "string",
@@ -477,17 +502,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "chum.ResChum": {
-            "type": "object",
-            "required": [
-                "name"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                }
-            }
-        },
         "getCode.GetPhoneCode": {
             "type": "object",
             "required": [

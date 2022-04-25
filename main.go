@@ -89,7 +89,7 @@ func main() {
 	// 好友功能
 	chum := Api.Group("/chum")
 
-	chum.GET("/search", chum2.SearchUserPaths) // 搜素好友
+	chum.GET("/search/:phone", chum2.SearchUserPaths) // 搜素好友
 
 	router.StaticFS("/oss/images", http.Dir("./static/images/"))
 	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))

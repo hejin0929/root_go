@@ -7,7 +7,7 @@ import (
 
 // GetUserMessagePaths 登陆首页
 // @Tags User
-// @Summary 首页接口
+// @Summary 获取个人信息
 // @Description  get string by ID
 // @Accept       json
 // @Produce      json
@@ -24,7 +24,7 @@ func GetUserMessagePaths(g *gin.Context) {
 
 // UpdateUserMessagePaths 修改个人信息
 // @Tags User
-// @Summary 首页接口
+// @Summary 修改个人信息
 // @Description  get string by ID
 // @Accept       json
 // @Produce      json

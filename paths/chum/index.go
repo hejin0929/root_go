@@ -13,7 +13,11 @@ import (
 // @Produce  json
 // @Accept  json
 // @Param phone path string true "朋友手机号"
-// @Success 200 {object} ResChum true "JSON数据"
+// @Param token header  string true "token"
+// @Success 200 {object} home.UserMessage true "JSON数据"
+// @Failure      400  {object}  module.HttpErrs
+// @Failure      404  {object}  module.HttpErrs
+// @Failure      500  {object}  module.HttpErrs
 // @Router /api/chum/search/{phone} [get]
 func SearchUserPaths(g *gin.Context) {
 	chum.SearchUser(g)
