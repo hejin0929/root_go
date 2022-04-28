@@ -73,6 +73,63 @@ const docTemplate = `{
                 }
             }
         },
+        "/api/home/key": {
+            "get": {
+                "description": "get string by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Home"
+                ],
+                "summary": "获取数据加密",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/home.KeysRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
         "/api/home/message": {
             "get": {
                 "description": "get string by ID",
@@ -476,7 +533,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/home.UserMessage"
+                            "$ref": "#/definitions/home.MessageRes"
                         }
                     },
                     "400": {
@@ -533,13 +590,83 @@ const docTemplate = `{
                 }
             }
         },
-        "home.MessageUpdateRes": {
+        "home.KeysRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "private": {
+                            "description": "私有密钥",
+                            "type": "string"
+                        },
+                        "public": {
+                            "description": "共有密钥",
+                            "type": "string"
+                        }
+                    }
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "home.MessageRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/home.UserMessage"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "home.MessageUpdate": {
             "type": "object",
             "properties": {
                 "message": {
                     "$ref": "#/definitions/home.UserMessage"
                 },
                 "res": {
+                    "type": "string"
+                }
+            }
+        },
+        "home.MessageUpdateRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/home.MessageUpdate"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
                     "type": "string"
                 }
             }

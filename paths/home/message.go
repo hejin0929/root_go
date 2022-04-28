@@ -13,7 +13,7 @@ import (
 // @Produce      json
 // @Param        id   path      string  true  "Account ID"
 // @Param Authorization header  string true "token"
-// @Success      200  {object}  home.UserMessage
+// @Success      200  {object}  home.MessageRes
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs

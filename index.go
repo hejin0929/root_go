@@ -1,10 +1,16 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
 	"modTest/module"
+	"modTest/utlis/key"
 	"modTest/utlis/token"
 	"net/http"
+	"path/filepath"
 	"strings"
 )
 
@@ -25,5 +31,39 @@ func UserVerify() gin.HandlerFunc {
 			g.JSON(http.StatusOK, module.Resp{MgsCode: 500, MgsText: "token失败"})
 			g.Abort()
 		}
+
+		if g.Request.Header.Get("key") != "" {
+			baseUrl, _ := filepath.Abs("./static/keys/")
+
+			text := key.RSA_Decrypt([]byte(g.Request.Header.Get("key")), baseUrl+"/private.pem")
+
+			post, _ := ioutil.ReadAll(g.Request.Body)
+
+			var PostData = struct {
+				Data interface{} `json:"data"`
+			}{}
+			g.Request.Body = ioutil.NopCloser(bytes.NewBuffer(post))
+
+			_ = json.Unmarshal(post, &PostData)
+
+			post, _ = json.Marshal(PostData.Data)
+
+			if string(post) == "null" {
+				return
+			}
+
+			//passText := key.RSA_Encrypt(post, baseUrl+"/public.pem")
+
+			//fmt.Println("this is a ?? ", , passText)
+
+			fmt.Println("this is a ?? ", text)
+
+			fmt.Println("this is a ?? ", string(post))
+
+			//if text == string(post) {
+			//	fmt.Println("你没修改数据")
+			//}
+		}
+
 	}
 }

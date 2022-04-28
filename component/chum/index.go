@@ -44,3 +44,9 @@ func SearchUser(g *gin.Context) {
 	g.JSON(http.StatusOK, module.ResponseSuccess(message))
 
 }
+
+// AddChumUser 函数不在返回请求
+func AddChumUser(mainID string, friendID string) error {
+
+	return nil
+}

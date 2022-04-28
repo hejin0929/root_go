@@ -48,7 +48,7 @@ func UpdateUserMessage(g *gin.Context) {
 	reqData := new(struct {
 		Data UserMessage `json:"data"`
 	})
-	res := new(MessageUpdateRes)
+	res := new(MessageUpdate)
 
 	if g.Bind(reqData) != nil {
 		res.Res = "参数不全"

@@ -15,7 +15,7 @@ type UserMessage struct {
 	Birthday  string `json:"birthday"`  // 生日
 }
 
-type MessageUpdateRes struct {
+type MessageUpdate struct {
 	Message UserMessage `json:"message"`
 	Res     string      `json:"res"`
 }

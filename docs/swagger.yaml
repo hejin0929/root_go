@@ -20,12 +20,61 @@ definitions:
     - mgsCode
     - mgsText
     type: object
-  home.MessageUpdateRes:
+  home.KeysRes:
+    properties:
+      body:
+        properties:
+          private:
+            description: 私有密钥
+            type: string
+          public:
+            description: 共有密钥
+            type: string
+        type: object
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  home.MessageRes:
+    properties:
+      body:
+        $ref: '#/definitions/home.UserMessage'
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  home.MessageUpdate:
     properties:
       message:
         $ref: '#/definitions/home.UserMessage'
       res:
         type: string
+    type: object
+  home.MessageUpdateRes:
+    properties:
+      body:
+        $ref: '#/definitions/home.MessageUpdate'
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
     type: object
   home.UserMessage:
     properties:
@@ -207,6 +256,44 @@ paths:
       summary: 用户验证码登录
       tags:
       - Chum
+  /api/home/key:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/home.KeysRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 获取数据加密
+      tags:
+      - Home
   /api/home/message:
     get:
       consumes:
@@ -432,7 +519,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/home.UserMessage'
+            $ref: '#/definitions/home.MessageRes'
         "400":
           description: Bad Request
           schema:

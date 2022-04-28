@@ -80,6 +80,8 @@ func main() {
 
 	home.GET("/message", home2.AppHomePaths) // 首页信息模块
 
+	home.GET("/key", home2.AppHomeKeyPaths)
+
 	// 个人信息获取
 	user := Api.Group("/user")
 
