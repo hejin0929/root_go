@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"modTest/module"
@@ -42,6 +41,15 @@ func UserVerify() gin.HandlerFunc {
 			var PostData = struct {
 				Data interface{} `json:"data"`
 			}{}
+
+			var keyData interface{}
+
+			var bytesPost []byte
+
+			_ = json.Unmarshal([]byte(text), &keyData)
+
+			bytesPost, _ = json.Marshal(keyData)
+
 			g.Request.Body = ioutil.NopCloser(bytes.NewBuffer(post))
 
 			_ = json.Unmarshal(post, &PostData)
@@ -52,17 +60,10 @@ func UserVerify() gin.HandlerFunc {
 				return
 			}
 
-			//passText := key.RSA_Encrypt(post, baseUrl+"/public.pem")
-
-			//fmt.Println("this is a ?? ", , passText)
-
-			fmt.Println("this is a ?? ", text)
-
-			fmt.Println("this is a ?? ", string(post))
-
-			//if text == string(post) {
-			//	fmt.Println("你没修改数据")
-			//}
+			if string(bytesPost) != string(post) {
+				g.JSON(http.StatusOK, module.Resp{MgsCode: 500, MgsText: "休想修改数据"})
+				g.Abort()
+			}
 		}
 
 	}
