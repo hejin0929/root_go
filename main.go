@@ -92,6 +92,7 @@ func main() {
 	chum := Api.Group("/chum")
 
 	chum.GET("/search/:phone", chum2.SearchUserPaths) // 搜素好友
+	chum.POST("/add", chum2.AddUserFriendPaths)
 
 	router.StaticFS("/oss/images", http.Dir("./static/images/"))
 	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))

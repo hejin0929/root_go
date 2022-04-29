@@ -1,4 +1,33 @@
 definitions:
+  chum.AddReq:
+    properties:
+      friend_id:
+        description: 朋友ID
+        type: string
+      permissions:
+        description: 权限
+        type: string
+      source:
+        description: 来源
+        type: string
+      uuid:
+        description: 本人ID
+        type: string
+    type: object
+  chum.AddRes:
+    properties:
+      body:
+        type: string
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
   getCode.GetPhoneCode:
     properties:
       code:
@@ -218,6 +247,45 @@ definitions:
 info:
   contact: {}
 paths:
+  /api/chum/add:
+    post:
+      consumes:
+      - application/json
+      operationId: AddUserFriendPaths
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 发送数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/chum.AddReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/chum.AddRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 用户验证码登录
+      tags:
+      - Chum
   /api/chum/search/{phone}:
     get:
       consumes:

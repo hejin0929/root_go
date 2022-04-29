@@ -57,3 +57,11 @@ func ResponseErrorParams(err interface{}) Response {
 		MgsText: "Params Not",
 	}
 }
+
+func ResponseServerError(err interface{}) Response {
+	return Response{
+		Body:    err,
+		MgsCode: http.StatusInternalServerError,
+		MgsText: "Fail",
+	}
+}

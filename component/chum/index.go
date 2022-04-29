@@ -7,6 +7,7 @@ import (
 	"modTest/module"
 	"modTest/module/center"
 	"modTest/service/DB"
+	chum2 "modTest/types/chum"
 	"net/http"
 	"regexp"
 )
@@ -46,7 +47,19 @@ func SearchUser(g *gin.Context) {
 }
 
 // AddChumUser 函数不在返回请求
-func AddChumUser(mainID string, friendID string) error {
+func AddChumUser(params *chum2.AddReq) error {
+
+	newChum := new(chum2.UserChum)
+
+	bytes, _ := json.Marshal(params)
+
+	_ = json.Unmarshal(bytes, &newChum)
+
+	db, _ := DB.CreateDB()
+
+	_ = db.AutoMigrate(chum2.UserChum{})
+
+	db.Create(&newChum)
 
 	return nil
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"modTest/module"
@@ -59,6 +60,8 @@ func UserVerify() gin.HandlerFunc {
 			if string(post) == "null" {
 				return
 			}
+
+			fmt.Println(string(bytesPost), string(post))
 
 			if string(bytesPost) != string(post) {
 				g.JSON(http.StatusOK, module.Resp{MgsCode: 500, MgsText: "休想修改数据"})
