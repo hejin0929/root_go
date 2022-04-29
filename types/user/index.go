@@ -1,8 +1,8 @@
-package home
+package user
 
 // 接口返回的格式定义
 
-type UserMessage struct {
+type Message struct {
 	Name      string `json:"name"`      // 用户名称
 	Uuid      string `json:"uuid"`      // 用户uuid
 	Introduce string `json:"introduce"` // 介绍
@@ -16,6 +16,6 @@ type UserMessage struct {
 }
 
 type MessageUpdate struct {
-	Message UserMessage `json:"message"`
-	Res     string      `json:"res"`
+	Message Message `json:"message"`
+	Res     string  `json:"res"`
 }

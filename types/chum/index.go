@@ -32,3 +32,6 @@ type UserChum struct {
 	Source      string     `json:"source"`      // 来源
 	Permissions string     `json:"permissions"` // 权限
 }
+
+type SearchUserRes struct {
+}

@@ -6,6 +6,7 @@ import (
 	"modTest/module"
 	"modTest/module/center"
 	"modTest/service/DB"
+	user2 "modTest/types/user"
 	"net/http"
 	"reflect"
 	"strings"
@@ -23,7 +24,7 @@ func GetUserMessage(g *gin.Context) {
 
 	user := new(center.Message)
 
-	resp := new(UserMessage)
+	resp := new(user2.Message)
 
 	db.Model(&center.Message{}).First(&user, "uuid = ?", id)
 
@@ -46,9 +47,9 @@ func GetUserMessage(g *gin.Context) {
 func UpdateUserMessage(g *gin.Context) {
 
 	reqData := new(struct {
-		Data UserMessage `json:"data"`
+		Data user2.Message `json:"data"`
 	})
-	res := new(MessageUpdate)
+	res := new(user2.MessageUpdate)
 
 	if g.Bind(reqData) != nil {
 		res.Res = "参数不全"

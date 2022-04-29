@@ -3,11 +3,11 @@ package chum
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"modTest/component/home"
 	"modTest/module"
 	"modTest/module/center"
 	"modTest/service/DB"
 	chum2 "modTest/types/chum"
+	user2 "modTest/types/user"
 	"net/http"
 	"regexp"
 )
@@ -24,7 +24,7 @@ func SearchUser(g *gin.Context) {
 
 	user := new(center.Message)
 
-	message := new(home.UserMessage)
+	message := new(user2.Message)
 
 	user.Phone = phone
 

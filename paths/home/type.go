@@ -1,8 +1,8 @@
 package home
 
 import (
-	"modTest/component/home"
 	"modTest/module"
+	user2 "modTest/types/user"
 )
 
 type KeysRes struct {
@@ -15,10 +15,10 @@ type KeysRes struct {
 
 type MessageRes struct {
 	module.Resp
-	Body home.UserMessage
+	Body user2.Message
 }
 
 type MessageUpdateRes struct {
 	module.Resp
-	Body home.MessageUpdate `json:"body"`
+	Body user2.MessageUpdate `json:"body"`
 }

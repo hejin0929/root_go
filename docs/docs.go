@@ -86,7 +86,7 @@ const docTemplate = `{
                 "tags": [
                     "Chum"
                 ],
-                "summary": "用户验证码登录",
+                "summary": "索搜好友信息",
                 "operationId": "SearchUserPaths",
                 "parameters": [
                     {
@@ -108,7 +108,7 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/home.UserMessage"
+                            "$ref": "#/definitions/user.Message"
                         }
                     },
                     "400": {
@@ -520,7 +520,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/home.UserMessage"
+                            "$ref": "#/definitions/user.Message"
                         }
                     },
                     {
@@ -728,7 +728,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "body": {
-                    "$ref": "#/definitions/home.UserMessage"
+                    "$ref": "#/definitions/user.Message"
                 },
                 "mgsCode": {
                     "description": "返回体状态码",
@@ -736,17 +736,6 @@ const docTemplate = `{
                 },
                 "mgsText": {
                     "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "home.MessageUpdate": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "$ref": "#/definitions/home.UserMessage"
-                },
-                "res": {
                     "type": "string"
                 }
             }
@@ -759,7 +748,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "body": {
-                    "$ref": "#/definitions/home.MessageUpdate"
+                    "$ref": "#/definitions/user.MessageUpdate"
                 },
                 "mgsCode": {
                     "description": "返回体状态码",
@@ -767,51 +756,6 @@ const docTemplate = `{
                 },
                 "mgsText": {
                     "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "home.UserMessage": {
-            "type": "object",
-            "properties": {
-                "birthday": {
-                    "description": "生日",
-                    "type": "string"
-                },
-                "image": {
-                    "description": "头像",
-                    "type": "string"
-                },
-                "introduce": {
-                    "description": "介绍",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "用户名称",
-                    "type": "string"
-                },
-                "phone": {
-                    "description": "用户手机",
-                    "type": "string"
-                },
-                "region": {
-                    "description": "地区",
-                    "type": "string"
-                },
-                "sex": {
-                    "description": "性别",
-                    "type": "integer"
-                },
-                "state": {
-                    "description": "状态 0 离线 1 在线",
-                    "type": "integer"
-                },
-                "user_id": {
-                    "description": "用户设置ID",
-                    "type": "string"
-                },
-                "uuid": {
-                    "description": "用户uuid",
                     "type": "string"
                 }
             }
@@ -965,6 +909,62 @@ const docTemplate = `{
                 },
                 "mgsText": {
                     "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "user.Message": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "description": "生日",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "introduce": {
+                    "description": "介绍",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "用户名称",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "用户手机",
+                    "type": "string"
+                },
+                "region": {
+                    "description": "地区",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "性别",
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "状态 0 离线 1 在线",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户设置ID",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "用户uuid",
+                    "type": "string"
+                }
+            }
+        },
+        "user.MessageUpdate": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/user.Message"
+                },
+                "res": {
                     "type": "string"
                 }
             }
