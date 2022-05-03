@@ -108,7 +108,7 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/user.Message"
+                            "$ref": "#/definitions/chum.SearchUserRes"
                         }
                     },
                     "400": {
@@ -648,6 +648,26 @@ const docTemplate = `{
             "properties": {
                 "body": {
                     "type": "string"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "chum.SearchUserRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/user.Message"
                 },
                 "mgsCode": {
                     "description": "返回体状态码",

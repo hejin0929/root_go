@@ -28,6 +28,20 @@ definitions:
     - mgsCode
     - mgsText
     type: object
+  chum.SearchUserRes:
+    properties:
+      body:
+        $ref: '#/definitions/user.Message'
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
   getCode.GetPhoneCode:
     properties:
       code:
@@ -308,7 +322,7 @@ paths:
         "200":
           description: JSON数据
           schema:
-            $ref: '#/definitions/user.Message'
+            $ref: '#/definitions/chum.SearchUserRes'
         "400":
           description: Bad Request
           schema:

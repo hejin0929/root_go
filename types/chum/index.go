@@ -2,6 +2,7 @@ package chum
 
 import (
 	"modTest/module"
+	user2 "modTest/types/user"
 	"time"
 )
 
@@ -34,4 +35,6 @@ type UserChum struct {
 }
 
 type SearchUserRes struct {
+	module.Resp
+	Body user2.Message `json:"body"`
 }
