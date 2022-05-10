@@ -2,11 +2,8 @@ package chum
 
 import (
 	"modTest/module"
-<<<<<<< HEAD
 	"modTest/module/user"
-=======
 	user2 "modTest/types/user"
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 	"time"
 )
 

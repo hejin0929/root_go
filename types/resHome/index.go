@@ -2,11 +2,7 @@ package resHome
 
 import (
 	"modTest/module"
-<<<<<<< HEAD:types/resHome/index.go
 	"modTest/module/user"
-=======
-	user2 "modTest/types/user"
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051:paths/home/type.go
 )
 
 type MessageUpdate struct {
@@ -24,18 +20,10 @@ type KeysRes struct {
 
 type MessageRes struct {
 	module.Resp
-<<<<<<< HEAD:types/resHome/index.go
 	Body user.Message
-=======
-	Body user2.Message
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051:paths/home/type.go
 }
 
 type MessageUpdateRes struct {
 	module.Resp
-<<<<<<< HEAD:types/resHome/index.go
 	Body user.Message `json:"body"`
-=======
-	Body user2.MessageUpdate `json:"body"`
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051:paths/home/type.go
 }
