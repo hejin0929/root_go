@@ -2,15 +2,20 @@ package chum
 
 import (
 	"encoding/json"
+<<<<<<< HEAD
 	"github.com/gin-gonic/gin"
 	"modTest/module"
 	"modTest/module/user"
+=======
+	"modTest/module/center"
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 	"modTest/service/DB"
 	chum2 "modTest/types/chum"
-	"net/http"
+	user2 "modTest/types/user"
 	"regexp"
 )
 
+<<<<<<< HEAD
 func SearchUser(g *gin.Context) {
 	phone := g.Query("phone")
 
@@ -18,22 +23,31 @@ func SearchUser(g *gin.Context) {
 		g.JSON(http.StatusOK, module.ResponseErrorParams("参数不全"))
 		return
 	}
+=======
+func SearchUser(phone string) *user2.Message {
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 
 	db, _ := DB.CreateDB()
 
 	newUser := new(user.User)
 
+<<<<<<< HEAD
 	res := new(chum2.ResChum)
+=======
+	message := new(user2.Message)
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 
 	newUser.Phone = phone
 
-	reg := `^1([38][0-9]|14[57]|5[^4])\d{8}$`
-	rgx := regexp.MustCompile(reg)
+	result, _ := regexp.MatchString(`^(1[3|4|5|8][0-9]\d{4,8})$`, phone)
 
-	if rgx.MatchString(phone) {
-
+<<<<<<< HEAD
 		db.Model(&user.User{}).Where("phone=?", phone).First(&newUser)
 		res.Body.Source = 1
+=======
+	if result {
+		db.Model(&center.Message{}).Where("phone=?", phone).First(&user)
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 
 	} else {
 		db.Model(&user.Message{}).Where("user_id=?", phone).First(&newUser)
@@ -45,8 +59,12 @@ func SearchUser(g *gin.Context) {
 
 	res.Body.User.Image = "http://localhost:8081/oss" + res.Body.User.Image
 
+<<<<<<< HEAD
 	g.JSON(http.StatusOK, module.ResponseSuccess(res.Body))
 
+=======
+	return message
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 }
 
 // AddChumUser 函数不在返回请求

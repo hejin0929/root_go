@@ -2,7 +2,11 @@ package chum
 
 import (
 	"modTest/module"
+<<<<<<< HEAD
 	"modTest/module/user"
+=======
+	user2 "modTest/types/user"
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 	"time"
 )
 
@@ -44,4 +48,9 @@ type UserChum struct {
 	Star        string     `json:"star"`        // 星标
 	Source      int        `json:"source"`      // 来源
 	Permissions string     `json:"permissions"` // 权限
+}
+
+type SearchUserRes struct {
+	module.Resp
+	Body user2.Message `json:"body"`
 }

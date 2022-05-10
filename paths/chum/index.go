@@ -2,7 +2,7 @@ package chum
 
 import (
 	"github.com/gin-gonic/gin"
-	chum "modTest/component/chum"
+	"modTest/component/chum"
 	"modTest/module"
 	chum2 "modTest/types/chum"
 	"net/http"
@@ -11,19 +11,35 @@ import (
 // SearchUserPaths
 // 获取验证码
 // @Tags Chum
-// @Summary 用户验证码登录
+// @Summary 索搜好友信息
 // @ID SearchUserPaths
 // @Produce  json
 // @Accept  json
 // @Param phone path string true "朋友手机号"
 // @Param token header  string true "token"
+<<<<<<< HEAD
 // @Success 200 {object} chum2.ResChum true "JSON数据"
+=======
+// @Success 200 {object} chum2.SearchUserRes true "JSON数据"
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
 // @Router /api/chum/search/{phone} [get]
 func SearchUserPaths(g *gin.Context) {
-	chum.SearchUser(g)
+
+	mobile := g.Query("phone")
+
+	if mobile == "" {
+		g.JSON(http.StatusOK, module.ResponseErrorParams("参数不全"))
+		return
+	}
+
+	user := chum.SearchUser(mobile)
+
+	g.JSON(http.StatusOK, module.ResponseSuccess(user))
+
+	return
 }
 
 // AddUserFriendPaths

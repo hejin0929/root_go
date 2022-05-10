@@ -28,7 +28,46 @@ definitions:
     - mgsCode
     - mgsText
     type: object
+<<<<<<< HEAD
   chum.ResChum:
+=======
+  chum.SearchUserRes:
+    properties:
+      body:
+        $ref: '#/definitions/user.Message'
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  getCode.GetPhoneCode:
+    properties:
+      code:
+        type: string
+    required:
+    - code
+    type: object
+  getCode.ResCode:
+    properties:
+      body:
+        $ref: '#/definitions/getCode.GetPhoneCode'
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  home.KeysRes:
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
     properties:
       body:
         properties:
@@ -51,6 +90,7 @@ definitions:
     type: object
   getCode.GetPhoneCode:
     properties:
+<<<<<<< HEAD
       code:
         type: string
     required:
@@ -60,6 +100,24 @@ definitions:
     properties:
       body:
         $ref: '#/definitions/getCode.GetPhoneCode'
+=======
+      body:
+        $ref: '#/definitions/user.Message'
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  home.MessageUpdateRes:
+    properties:
+      body:
+        $ref: '#/definitions/user.MessageUpdate'
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
       mgsCode:
         description: 返回体状态码
         type: integer
@@ -258,6 +316,16 @@ definitions:
         description: 用户uuid
         type: string
     type: object
+<<<<<<< HEAD
+=======
+  user.MessageUpdate:
+    properties:
+      message:
+        $ref: '#/definitions/user.Message'
+      res:
+        type: string
+    type: object
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 info:
   contact: {}
 paths:
@@ -322,7 +390,11 @@ paths:
         "200":
           description: JSON数据
           schema:
+<<<<<<< HEAD
             $ref: '#/definitions/chum.ResChum'
+=======
+            $ref: '#/definitions/chum.SearchUserRes'
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
         "400":
           description: Bad Request
           schema:
@@ -335,7 +407,7 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/module.HttpErrs'
-      summary: 用户验证码登录
+      summary: 索搜好友信息
       tags:
       - Chum
   /api/home/key:

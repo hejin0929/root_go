@@ -86,7 +86,7 @@ const docTemplate = `{
                 "tags": [
                     "Chum"
                 ],
-                "summary": "用户验证码登录",
+                "summary": "索搜好友信息",
                 "operationId": "SearchUserPaths",
                 "parameters": [
                     {
@@ -108,7 +108,11 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
+<<<<<<< HEAD
                             "$ref": "#/definitions/chum.ResChum"
+=======
+                            "$ref": "#/definitions/chum.SearchUserRes"
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
                         }
                     },
                     "400": {
@@ -659,7 +663,62 @@ const docTemplate = `{
                 }
             }
         },
+<<<<<<< HEAD
         "chum.ResChum": {
+=======
+        "chum.SearchUserRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/user.Message"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "getCode.GetPhoneCode": {
+            "type": "object",
+            "required": [
+                "code"
+            ],
+            "properties": {
+                "code": {
+                    "type": "string"
+                }
+            }
+        },
+        "getCode.ResCode": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/getCode.GetPhoneCode"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "home.KeysRes": {
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
             "type": "object",
             "required": [
                 "mgsCode",
@@ -695,12 +754,28 @@ const docTemplate = `{
                 "code"
             ],
             "properties": {
+<<<<<<< HEAD
                 "code": {
+=======
+                "body": {
+                    "$ref": "#/definitions/user.Message"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
                     "type": "string"
                 }
             }
         },
+<<<<<<< HEAD
         "getCode.ResCode": {
+=======
+        "home.MessageUpdateRes": {
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
             "type": "object",
             "required": [
                 "mgsCode",
@@ -708,7 +783,11 @@ const docTemplate = `{
             ],
             "properties": {
                 "body": {
+<<<<<<< HEAD
                     "$ref": "#/definitions/getCode.GetPhoneCode"
+=======
+                    "$ref": "#/definitions/user.MessageUpdate"
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
                 },
                 "mgsCode": {
                     "description": "返回体状态码",
@@ -987,6 +1066,20 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
+<<<<<<< HEAD
+=======
+        },
+        "user.MessageUpdate": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "$ref": "#/definitions/user.Message"
+                },
+                "res": {
+                    "type": "string"
+                }
+            }
+>>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
         }
     }
 }`
