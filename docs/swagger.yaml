@@ -9,7 +9,7 @@ definitions:
         type: string
       source:
         description: 来源
-        type: string
+        type: integer
       uuid:
         description: 本人ID
         type: string
@@ -18,6 +18,27 @@ definitions:
     properties:
       body:
         type: string
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  chum.ResChum:
+    properties:
+      body:
+        properties:
+          source:
+            description: 搜索方式
+            type: integer
+          user:
+            $ref: '#/definitions/user.Message'
+            description: 用户信息
+        type: object
       mgsCode:
         description: 返回体状态码
         type: integer
@@ -48,95 +69,6 @@ definitions:
     required:
     - mgsCode
     - mgsText
-    type: object
-  home.KeysRes:
-    properties:
-      body:
-        properties:
-          private:
-            description: 私有密钥
-            type: string
-          public:
-            description: 共有密钥
-            type: string
-        type: object
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
-  home.MessageRes:
-    properties:
-      body:
-        $ref: '#/definitions/home.UserMessage'
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
-  home.MessageUpdate:
-    properties:
-      message:
-        $ref: '#/definitions/home.UserMessage'
-      res:
-        type: string
-    type: object
-  home.MessageUpdateRes:
-    properties:
-      body:
-        $ref: '#/definitions/home.MessageUpdate'
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
-  home.UserMessage:
-    properties:
-      birthday:
-        description: 生日
-        type: string
-      image:
-        description: 头像
-        type: string
-      introduce:
-        description: 介绍
-        type: string
-      name:
-        description: 用户名称
-        type: string
-      phone:
-        description: 用户手机
-        type: string
-      region:
-        description: 地区
-        type: string
-      sex:
-        description: 性别
-        type: integer
-      state:
-        description: 状态 0 离线 1 在线
-        type: integer
-      user_id:
-        description: 用户设置ID
-        type: string
-      uuid:
-        description: 用户uuid
-        type: string
     type: object
   login.User:
     properties:
@@ -225,6 +157,55 @@ definitions:
     - mgsText
     - msgCode
     type: object
+  resHome.KeysRes:
+    properties:
+      body:
+        properties:
+          private:
+            description: 私有密钥
+            type: string
+          public:
+            description: 共有密钥
+            type: string
+        type: object
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  resHome.MessageRes:
+    properties:
+      body:
+        $ref: '#/definitions/user.Message'
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  resHome.MessageUpdateRes:
+    properties:
+      body:
+        $ref: '#/definitions/user.Message'
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
   uploadFiles.FileTest:
     properties:
       code:
@@ -243,6 +224,39 @@ definitions:
     required:
     - mgsCode
     - mgsText
+    type: object
+  user.Message:
+    properties:
+      birthday:
+        description: 生日
+        type: string
+      image:
+        description: 头像
+        type: string
+      introduce:
+        description: 介绍
+        type: string
+      name:
+        description: 用户名称
+        type: string
+      phone:
+        description: 用户手机
+        type: string
+      region:
+        description: 地区
+        type: string
+      sex:
+        description: 性别
+        type: integer
+      state:
+        description: 状态 0 离线 1 在线
+        type: integer
+      user_id:
+        description: 用户设置ID
+        type: string
+      uuid:
+        description: 用户uuid
+        type: string
     type: object
 info:
   contact: {}
@@ -308,7 +322,7 @@ paths:
         "200":
           description: JSON数据
           schema:
-            $ref: '#/definitions/home.UserMessage'
+            $ref: '#/definitions/chum.ResChum'
         "400":
           description: Bad Request
           schema:
@@ -346,7 +360,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/home.KeysRes'
+            $ref: '#/definitions/resHome.KeysRes'
         "400":
           description: Bad Request
           schema:
@@ -587,7 +601,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/home.MessageRes'
+            $ref: '#/definitions/resHome.MessageRes'
         "400":
           description: Bad Request
           schema:
@@ -614,7 +628,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/home.UserMessage'
+          $ref: '#/definitions/user.Message'
       - description: token
         in: header
         name: token
@@ -626,7 +640,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/home.MessageUpdateRes'
+            $ref: '#/definitions/resHome.MessageUpdateRes'
         "400":
           description: Bad Request
           schema:

@@ -3,9 +3,8 @@ package chum
 import (
 	"encoding/json"
 	"github.com/gin-gonic/gin"
-	"modTest/component/home"
 	"modTest/module"
-	"modTest/module/center"
+	"modTest/module/user"
 	"modTest/service/DB"
 	chum2 "modTest/types/chum"
 	"net/http"
@@ -13,7 +12,7 @@ import (
 )
 
 func SearchUser(g *gin.Context) {
-	phone := g.Param("phone")
+	phone := g.Query("phone")
 
 	if phone == "" {
 		g.JSON(http.StatusOK, module.ResponseErrorParams("参数不全"))
@@ -22,27 +21,31 @@ func SearchUser(g *gin.Context) {
 
 	db, _ := DB.CreateDB()
 
-	user := new(center.Message)
+	newUser := new(user.User)
 
-	message := new(home.UserMessage)
+	res := new(chum2.ResChum)
 
-	user.Phone = phone
+	newUser.Phone = phone
 
 	reg := `^1([38][0-9]|14[57]|5[^4])\d{8}$`
 	rgx := regexp.MustCompile(reg)
 
 	if rgx.MatchString(phone) {
 
-		db.Model(&center.Message{}).Where("phone=?", phone).First(&user)
+		db.Model(&user.User{}).Where("phone=?", phone).First(&newUser)
+		res.Body.Source = 1
+
 	} else {
-		db.Model(&center.Message{}).Where("user_id=?", phone).First(&user)
+		db.Model(&user.Message{}).Where("user_id=?", phone).First(&newUser)
 	}
 
-	bytes, _ := json.Marshal(user)
+	bytes, _ := json.Marshal(newUser)
 
-	_ = json.Unmarshal(bytes, &message)
+	_ = json.Unmarshal(bytes, &res.Body.User)
 
-	g.JSON(http.StatusOK, module.ResponseSuccess(message))
+	res.Body.User.Image = "http://localhost:8081/oss" + res.Body.User.Image
+
+	g.JSON(http.StatusOK, module.ResponseSuccess(res.Body))
 
 }
 

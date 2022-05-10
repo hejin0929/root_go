@@ -1,8 +1,16 @@
-package home
+package user
 
-// 接口返回的格式定义
+import "modTest/module"
 
-type UserMessage struct {
+// User sql 数据表结构
+type User struct {
+	module.Model
+	Message
+}
+
+// Message 用户数据
+
+type Message struct {
 	Name      string `json:"name"`      // 用户名称
 	Uuid      string `json:"uuid"`      // 用户uuid
 	Introduce string `json:"introduce"` // 介绍
@@ -13,9 +21,4 @@ type UserMessage struct {
 	Sex       int    `json:"sex"`       // 性别
 	Region    string `json:"region"`    // 地区
 	Birthday  string `json:"birthday"`  // 生日
-}
-
-type MessageUpdate struct {
-	Message UserMessage `json:"message"`
-	Res     string      `json:"res"`
 }

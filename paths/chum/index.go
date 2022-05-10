@@ -17,7 +17,7 @@ import (
 // @Accept  json
 // @Param phone path string true "朋友手机号"
 // @Param token header  string true "token"
-// @Success 200 {object} home.UserMessage true "JSON数据"
+// @Success 200 {object} chum2.ResChum true "JSON数据"
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs

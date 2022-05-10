@@ -1,9 +1,14 @@
-package home
+package resHome
 
 import (
-	"modTest/component/home"
 	"modTest/module"
+	"modTest/module/user"
 )
+
+type MessageUpdate struct {
+	Message user.Message `json:"message"`
+	Res     string       `json:"res"`
+}
 
 type KeysRes struct {
 	module.Resp
@@ -15,10 +20,10 @@ type KeysRes struct {
 
 type MessageRes struct {
 	module.Resp
-	Body home.UserMessage
+	Body user.Message
 }
 
 type MessageUpdateRes struct {
 	module.Resp
-	Body home.MessageUpdate `json:"body"`
+	Body user.Message `json:"body"`
 }

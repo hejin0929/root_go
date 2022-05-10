@@ -108,7 +108,7 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-                            "$ref": "#/definitions/home.UserMessage"
+                            "$ref": "#/definitions/chum.ResChum"
                         }
                     },
                     "400": {
@@ -165,7 +165,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/home.KeysRes"
+                            "$ref": "#/definitions/resHome.KeysRes"
                         }
                     },
                     "400": {
@@ -520,7 +520,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/home.UserMessage"
+                            "$ref": "#/definitions/user.Message"
                         }
                     },
                     {
@@ -535,7 +535,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/home.MessageUpdateRes"
+                            "$ref": "#/definitions/resHome.MessageUpdateRes"
                         }
                     },
                     "400": {
@@ -592,7 +592,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/home.MessageRes"
+                            "$ref": "#/definitions/resHome.MessageRes"
                         }
                     },
                     "400": {
@@ -631,7 +631,7 @@ const docTemplate = `{
                 },
                 "source": {
                     "description": "来源",
-                    "type": "string"
+                    "type": "integer"
                 },
                 "uuid": {
                     "description": "本人ID",
@@ -648,6 +648,36 @@ const docTemplate = `{
             "properties": {
                 "body": {
                     "type": "string"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "chum.ResChum": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "source": {
+                            "description": "搜索方式",
+                            "type": "integer"
+                        },
+                        "user": {
+                            "description": "用户信息",
+                            "$ref": "#/definitions/user.Message"
+                        }
+                    }
                 },
                 "mgsCode": {
                     "description": "返回体状态码",
@@ -686,132 +716,6 @@ const docTemplate = `{
                 },
                 "mgsText": {
                     "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "home.KeysRes": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "type": "object",
-                    "properties": {
-                        "private": {
-                            "description": "私有密钥",
-                            "type": "string"
-                        },
-                        "public": {
-                            "description": "共有密钥",
-                            "type": "string"
-                        }
-                    }
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "home.MessageRes": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "$ref": "#/definitions/home.UserMessage"
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "home.MessageUpdate": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "$ref": "#/definitions/home.UserMessage"
-                },
-                "res": {
-                    "type": "string"
-                }
-            }
-        },
-        "home.MessageUpdateRes": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "$ref": "#/definitions/home.MessageUpdate"
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "home.UserMessage": {
-            "type": "object",
-            "properties": {
-                "birthday": {
-                    "description": "生日",
-                    "type": "string"
-                },
-                "image": {
-                    "description": "头像",
-                    "type": "string"
-                },
-                "introduce": {
-                    "description": "介绍",
-                    "type": "string"
-                },
-                "name": {
-                    "description": "用户名称",
-                    "type": "string"
-                },
-                "phone": {
-                    "description": "用户手机",
-                    "type": "string"
-                },
-                "region": {
-                    "description": "地区",
-                    "type": "string"
-                },
-                "sex": {
-                    "description": "性别",
-                    "type": "integer"
-                },
-                "state": {
-                    "description": "状态 0 离线 1 在线",
-                    "type": "integer"
-                },
-                "user_id": {
-                    "description": "用户设置ID",
-                    "type": "string"
-                },
-                "uuid": {
-                    "description": "用户uuid",
                     "type": "string"
                 }
             }
@@ -941,6 +845,76 @@ const docTemplate = `{
                 }
             }
         },
+        "resHome.KeysRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "private": {
+                            "description": "私有密钥",
+                            "type": "string"
+                        },
+                        "public": {
+                            "description": "共有密钥",
+                            "type": "string"
+                        }
+                    }
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "resHome.MessageRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/user.Message"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "resHome.MessageUpdateRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "$ref": "#/definitions/user.Message"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
         "uploadFiles.FileTest": {
             "type": "object",
             "properties": {
@@ -965,6 +939,51 @@ const docTemplate = `{
                 },
                 "mgsText": {
                     "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "user.Message": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "description": "生日",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "introduce": {
+                    "description": "介绍",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "用户名称",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "用户手机",
+                    "type": "string"
+                },
+                "region": {
+                    "description": "地区",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "性别",
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "状态 0 离线 1 在线",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户设置ID",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "用户uuid",
                     "type": "string"
                 }
             }

@@ -7,8 +7,8 @@ import (
 	"io/ioutil"
 	"math/rand"
 	"modTest/module"
-	"modTest/module/center"
 	"modTest/module/login"
+	"modTest/module/user"
 	"modTest/service/DB"
 	"modTest/utlis/my_log"
 	"net/http"
@@ -212,17 +212,18 @@ func SignUser(r *gin.Context) {
 		return
 	}
 
-	message := new(center.Message)
+	message := new(user.Message)
 
 	message.Uuid = newUser.UUID
 	message.Phone = newUser.Phone
 	message.Image = "/images/001.jpg"
 	message.Name = "user_" + newUser.Phone
+	message.UserID = "id_" + newUser.Phone
 	message.Sex = 2
 
-	db.AutoMigrate(center.Message{})
+	db.AutoMigrate(user.Message{})
 
-	db.Model(&center.Message{}).Create(&message)
+	db.Model(&user.Message{}).Create(&message)
 
 	resp.MgsCode = 200
 	resp.MgsText = "欢迎你的加入!注册成功!"
