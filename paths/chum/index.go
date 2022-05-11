@@ -18,7 +18,6 @@ import (
 // @Param phone path string true "朋友手机号"
 // @Param token header  string true "token"
 // @Success 200 {object} chum2.ResChum true "JSON数据"
-// @Success 200 {object} chum2.SearchUserRes true "JSON数据"
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
@@ -34,7 +33,7 @@ func SearchUserPaths(g *gin.Context) {
 
 	user := chum.SearchUser(mobile)
 
-	g.JSON(http.StatusOK, module.ResponseSuccess(user))
+	g.JSON(http.StatusOK, module.ResponseSuccess(user.Body))
 
 	return
 }
@@ -54,9 +53,10 @@ func SearchUserPaths(g *gin.Context) {
 // @Failure      500  {object}  module.HttpErrs
 // @Router /api/chum/add [post]
 func AddUserFriendPaths(g *gin.Context) {
+
 	reqChum := new(chum2.AddReq)
 
-	if g.Bind(reqChum) != nil {
+	if g.Bind(&reqChum) != nil {
 		g.JSON(http.StatusOK, module.ResponseErrorParams("参数不全"))
 		return
 	}
@@ -64,7 +64,17 @@ func AddUserFriendPaths(g *gin.Context) {
 	err := chum.AddChumUser(reqChum)
 
 	if err != nil {
-		g.JSON(http.StatusOK, module.ResponseServerError("添加失败"))
+		if err.Error() == "" {
+			g.JSON(http.StatusOK, module.ResponseServerError("添加失败"))
+			return
+		}
+
+		if err.Error() == "添加次数已限制" {
+			g.JSON(http.StatusOK, module.ResponseSuccess(err.Error()))
+			return
+		}
+
+		g.JSON(http.StatusOK, module.ResponseServerError(err.Error()))
 		return
 	}
 

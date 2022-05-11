@@ -26,13 +26,9 @@ func LoginsUserPassword(g *gin.Context) {
 
 	bytes, err := ioutil.ReadAll(g.Request.Body)
 
-	reqData := struct {
-		Data login2.UserName
-	}{}
+	reqData := login2.UserName{}
 
 	_ = json.Unmarshal(bytes, &reqData)
-
-	user := reqData.Data
 
 	res := struct {
 		module.Resp
@@ -50,7 +46,7 @@ func LoginsUserPassword(g *gin.Context) {
 		g.JSON(200, res)
 	}
 
-	_ = db.Model(Users{}).Where("phone=?", user.Phone).First(&mqlUser).Error
+	_ = db.Model(Users{}).Where("phone=?", reqData.Phone).First(&mqlUser).Error
 
 	if mqlUser.Phone == "" {
 		res.MgsCode = 500
@@ -59,7 +55,7 @@ func LoginsUserPassword(g *gin.Context) {
 		return
 	}
 
-	if mqlUser.Password != user.Password {
+	if mqlUser.Password != reqData.Password {
 		res.MgsCode = 500
 		res.MgsText = "密码错误"
 		g.JSON(http.StatusOK, res)
@@ -68,9 +64,9 @@ func LoginsUserPassword(g *gin.Context) {
 
 	claims := &module.JWTClaims{
 		UserID:      mqlUser.ID,
-		Username:    user.Phone,
-		Password:    user.Password,
-		FullName:    user.Phone,
+		Username:    reqData.Phone,
+		Password:    reqData.Password,
+		FullName:    reqData.Phone,
 		Permissions: []string{},
 	}
 	claims.IssuedAt = time.Now().Unix()

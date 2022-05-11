@@ -212,7 +212,7 @@ func SignUser(r *gin.Context) {
 		return
 	}
 
-	message := new(user.Message)
+	message := new(user.MessageSql)
 
 	message.Uuid = newUser.UUID
 	message.Phone = newUser.Phone
@@ -221,9 +221,9 @@ func SignUser(r *gin.Context) {
 	message.UserID = "id_" + newUser.Phone
 	message.Sex = 2
 
-	db.AutoMigrate(user.Message{})
+	db.AutoMigrate(user.MessageSql{})
 
-	db.Model(&user.Message{}).Create(&message)
+	db.Model(&user.MessageSql{}).Create(&message)
 
 	resp.MgsCode = 200
 	resp.MgsText = "欢迎你的加入!注册成功!"

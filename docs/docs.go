@@ -108,11 +108,7 @@ const docTemplate = `{
                     "200": {
                         "description": "JSON数据",
                         "schema": {
-<<<<<<< HEAD
                             "$ref": "#/definitions/chum.ResChum"
-=======
-                            "$ref": "#/definitions/chum.SearchUserRes"
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
                         }
                     },
                     "400": {
@@ -524,7 +520,7 @@ const docTemplate = `{
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/user.Message"
+                            "$ref": "#/definitions/resHome.Message"
                         }
                     },
                     {
@@ -663,62 +659,7 @@ const docTemplate = `{
                 }
             }
         },
-<<<<<<< HEAD
         "chum.ResChum": {
-=======
-        "chum.SearchUserRes": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "$ref": "#/definitions/user.Message"
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "getCode.GetPhoneCode": {
-            "type": "object",
-            "required": [
-                "code"
-            ],
-            "properties": {
-                "code": {
-                    "type": "string"
-                }
-            }
-        },
-        "getCode.ResCode": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "$ref": "#/definitions/getCode.GetPhoneCode"
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "home.KeysRes": {
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
             "type": "object",
             "required": [
                 "mgsCode",
@@ -754,28 +695,12 @@ const docTemplate = `{
                 "code"
             ],
             "properties": {
-<<<<<<< HEAD
                 "code": {
-=======
-                "body": {
-                    "$ref": "#/definitions/user.Message"
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
                     "type": "string"
                 }
             }
         },
-<<<<<<< HEAD
         "getCode.ResCode": {
-=======
-        "home.MessageUpdateRes": {
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
             "type": "object",
             "required": [
                 "mgsCode",
@@ -783,11 +708,7 @@ const docTemplate = `{
             ],
             "properties": {
                 "body": {
-<<<<<<< HEAD
                     "$ref": "#/definitions/getCode.GetPhoneCode"
-=======
-                    "$ref": "#/definitions/user.MessageUpdate"
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
                 },
                 "mgsCode": {
                     "description": "返回体状态码",
@@ -954,6 +875,51 @@ const docTemplate = `{
                 }
             }
         },
+        "resHome.Message": {
+            "type": "object",
+            "properties": {
+                "birthday": {
+                    "description": "生日",
+                    "type": "string"
+                },
+                "image": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "introduce": {
+                    "description": "介绍",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "用户名称",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "用户手机",
+                    "type": "string"
+                },
+                "region": {
+                    "description": "地区",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "性别",
+                    "type": "integer"
+                },
+                "state": {
+                    "description": "状态 0 离线 1 在线",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "用户设置ID",
+                    "type": "string"
+                },
+                "uuid": {
+                    "description": "用户uuid",
+                    "type": "string"
+                }
+            }
+        },
         "resHome.MessageRes": {
             "type": "object",
             "required": [
@@ -1066,20 +1032,6 @@ const docTemplate = `{
                     "type": "string"
                 }
             }
-<<<<<<< HEAD
-=======
-        },
-        "user.MessageUpdate": {
-            "type": "object",
-            "properties": {
-                "message": {
-                    "$ref": "#/definitions/user.Message"
-                },
-                "res": {
-                    "type": "string"
-                }
-            }
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
         }
     }
 }`

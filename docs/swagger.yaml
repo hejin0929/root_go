@@ -28,46 +28,7 @@ definitions:
     - mgsCode
     - mgsText
     type: object
-<<<<<<< HEAD
   chum.ResChum:
-=======
-  chum.SearchUserRes:
-    properties:
-      body:
-        $ref: '#/definitions/user.Message'
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
-  getCode.GetPhoneCode:
-    properties:
-      code:
-        type: string
-    required:
-    - code
-    type: object
-  getCode.ResCode:
-    properties:
-      body:
-        $ref: '#/definitions/getCode.GetPhoneCode'
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
-  home.KeysRes:
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
     properties:
       body:
         properties:
@@ -90,7 +51,6 @@ definitions:
     type: object
   getCode.GetPhoneCode:
     properties:
-<<<<<<< HEAD
       code:
         type: string
     required:
@@ -100,24 +60,6 @@ definitions:
     properties:
       body:
         $ref: '#/definitions/getCode.GetPhoneCode'
-=======
-      body:
-        $ref: '#/definitions/user.Message'
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
-  home.MessageUpdateRes:
-    properties:
-      body:
-        $ref: '#/definitions/user.MessageUpdate'
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
       mgsCode:
         description: 返回体状态码
         type: integer
@@ -236,6 +178,39 @@ definitions:
     - mgsCode
     - mgsText
     type: object
+  resHome.Message:
+    properties:
+      birthday:
+        description: 生日
+        type: string
+      image:
+        description: 头像
+        type: string
+      introduce:
+        description: 介绍
+        type: string
+      name:
+        description: 用户名称
+        type: string
+      phone:
+        description: 用户手机
+        type: string
+      region:
+        description: 地区
+        type: string
+      sex:
+        description: 性别
+        type: integer
+      state:
+        description: 状态 0 离线 1 在线
+        type: integer
+      user_id:
+        description: 用户设置ID
+        type: string
+      uuid:
+        description: 用户uuid
+        type: string
+    type: object
   resHome.MessageRes:
     properties:
       body:
@@ -316,16 +291,6 @@ definitions:
         description: 用户uuid
         type: string
     type: object
-<<<<<<< HEAD
-=======
-  user.MessageUpdate:
-    properties:
-      message:
-        $ref: '#/definitions/user.Message'
-      res:
-        type: string
-    type: object
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
 info:
   contact: {}
 paths:
@@ -390,11 +355,7 @@ paths:
         "200":
           description: JSON数据
           schema:
-<<<<<<< HEAD
             $ref: '#/definitions/chum.ResChum'
-=======
-            $ref: '#/definitions/chum.SearchUserRes'
->>>>>>> 7c5cfbafc3b65ab7e1446ab7bf96cee5a60d0051
         "400":
           description: Bad Request
           schema:
@@ -700,7 +661,7 @@ paths:
         name: data
         required: true
         schema:
-          $ref: '#/definitions/user.Message'
+          $ref: '#/definitions/resHome.Message'
       - description: token
         in: header
         name: token

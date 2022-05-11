@@ -12,7 +12,11 @@ const (
 	SourceMobile        // 手机号
 	SourceShare         // 分享
 	SourceGroup         // 群组
+)
 
+const (
+	Relation = iota
+	NotRelation
 )
 
 type AddReq struct {
@@ -30,8 +34,9 @@ type AddRes struct {
 type ResChum struct {
 	module.Resp
 	Body struct {
-		User   user.Message `json:"user"`   // 用户信息
-		Source int          `json:"source"` // 搜索方式
+		User     user.Message `json:"user"`     // 用户信息
+		Source   int          `json:"source"`   // 搜索方式
+		Relation int          `json:"relation"` // 是否为好友
 	} `json:"body"`
 }
 

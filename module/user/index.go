@@ -2,8 +2,8 @@ package user
 
 import "modTest/module"
 
-// User sql 数据表结构
-type User struct {
+// MessageSql sql 数据表结构
+type MessageSql struct {
 	module.Model
 	Message
 }

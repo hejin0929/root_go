@@ -28,7 +28,7 @@ func GetUserMessagePaths(g *gin.Context) {
 // @Description  get string by ID
 // @Accept       json
 // @Produce      json
-// @Param        data   body      user.Message  true  "修改的数据"
+// @Param        data   body      resHome.Message  true  "修改的数据"
 // @Param token header  string true "token"
 // @Success      200  {object}  resHome.MessageUpdateRes
 // @Failure      400  {object}  module.HttpErrs
