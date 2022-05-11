@@ -69,15 +69,21 @@ func AddChumUser(params *chum2.AddReq) error {
 
 	_ = db.AutoMigrate(chum.ApplyChumSql{})
 
-	now := time.Now().Format("2006-01-02 15:04:05")
+	times := time.Now()
 
-	start := time.Date(time.Now().Year(), time.Now().Month(), time.Now().Day(), 0, 0, 0, 0, time.Now().Location()).Format("2006-01-02 15:04:05")
+	now := times.Format("2006-01-02 15:04:05")
+
+	start := time.Date(times.Year(), times.Month(), times.Day(), 0, 0, 0, 0, times.Location()).Format("2006-01-02 15:04:05")
 
 	var applyList []chum.ApplyChumSql
 
+	oldTime := time.Date(times.Year(), times.Month(), times.Day()-3, 0, 0, 0, 0, times.Location()).Format("2006-01-02 15:04:05")
+
+	db.Unscoped().Where("created_at < ?", oldTime).Delete(&chum.ApplyChumSql{})
+
 	db.Model(chum.ApplyChumSql{}).Where("created_at BETWEEN ? AND ?", start, now).Find(&applyList)
 
-	if len(applyList) < 0 {
+	if len(applyList) < 5 {
 		db.Create(&newChum)
 	} else {
 		return errors.New("添加次数已限制")
