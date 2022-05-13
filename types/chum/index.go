@@ -56,3 +56,16 @@ type SearchUserRes struct {
 	module.Resp
 	Body user2.Message `json:"body"`
 }
+
+type ApplyUser struct {
+	UserName string   `json:"user_name"` // 名称
+	UserID   string   `json:"user_id"`   // ID
+	Source   int      `json:"source"`    // 来源
+	Hello    []string `json:"hello"`     // 招呼语
+	Time     string   `json:"time"`      // 时间
+}
+
+type ApplyUserRes struct {
+	module.Resp
+	Body []ApplyUser `json:"body"` // 数据结构
+}

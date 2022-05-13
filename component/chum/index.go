@@ -3,6 +3,7 @@ package chum
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	user3 "modTest/component/user"
 	"modTest/module/chum"
 	"modTest/module/user"
@@ -90,4 +91,19 @@ func AddChumUser(params *chum2.AddReq) error {
 	}
 
 	return nil
+}
+
+func GetApplyUser(uuid string) {
+	db, _ := DB.CreateDB()
+
+	var applyList []chum.ApplyChumSql
+
+	db.Model(chum.ApplyChumSql{}).Where("friend_id = ?", uuid).Find(&applyList)
+
+	fmt.Println(applyList)
+
+}
+
+func UpdateApplyUser(userId string) { // 更新好友审核
+
 }
