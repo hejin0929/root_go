@@ -2,11 +2,12 @@ package home
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"modTest/module"
-	"modTest/module/center"
+	"modTest/module/user"
 	"modTest/service/DB"
-	user2 "modTest/types/user"
+	"modTest/types/resHome"
 	"net/http"
 	"reflect"
 	"strings"
@@ -22,19 +23,18 @@ func GetUserMessage(g *gin.Context) {
 
 	db, _ := DB.CreateDB()
 
-	user := new(center.Message)
+	resUser := new(user.MessageSql)
 
-	resp := new(user2.Message)
+	resp := new(user.Message)
 
-	db.Model(&center.Message{}).First(&user, "uuid = ?", id)
+	db.Model(&user.MessageSql{}).First(&resUser, "uuid = ?", id)
 
-	if user.Uuid == "" {
-
+	if resUser.Uuid == "" {
 		g.JSON(http.StatusOK, module.ResponseErrorParams("查无此用户"))
 		return
 	}
 
-	data, _ := json.Marshal(user)
+	data, _ := json.Marshal(resUser)
 
 	_ = json.Unmarshal(data, &resp)
 
@@ -46,12 +46,10 @@ func GetUserMessage(g *gin.Context) {
 
 func UpdateUserMessage(g *gin.Context) {
 
-	reqData := new(struct {
-		Data user2.Message `json:"data"`
-	})
-	res := new(user2.MessageUpdate)
+	reqData := new(user.Message)
+	res := new(resHome.MessageUpdate)
 
-	if g.Bind(reqData) != nil {
+	if g.Bind(&reqData) != nil {
 		res.Res = "参数不全"
 		_ = g.Bind(res.Message)
 		g.JSON(http.StatusOK, module.ResponseErrorParams(res))
@@ -60,24 +58,24 @@ func UpdateUserMessage(g *gin.Context) {
 
 	db, _ := DB.CreateDB()
 
-	user := new(center.Message)
+	user := new(user.MessageSql)
 
-	data := reqData.Data
-
-	user.Uuid = data.Uuid
+	user.Uuid = reqData.Uuid
 
 	db.First(&user)
 
-	types := reflect.TypeOf(&data).Elem()
+	types := reflect.TypeOf(&reqData).Elem().Elem()
 
-	values := reflect.ValueOf(&data).Elem()
+	values := reflect.ValueOf(&reqData).Elem().Elem()
 
-	userT := reflect.TypeOf(user).Elem()
+	userT := reflect.TypeOf(&user.Message).Elem()
 
-	userV := reflect.ValueOf(user).Elem()
+	userV := reflect.ValueOf(&user.Message).Elem()
 
 	for i := 0; i < values.NumField(); i++ {
+		//fmt.Println("this is a ?? ", types.Field(i).Name, i)
 		for l := 0; l < userT.NumField(); l++ {
+			fmt.Println("this is a ?? ", userT.Field(l).Name, l)
 			if types.Field(i).Name == userT.Field(l).Name {
 
 				if values.Field(i).String() != "" || values.Field(i).String() != "nil" || types.Field(i).Name != "uuid" {
@@ -91,7 +89,8 @@ func UpdateUserMessage(g *gin.Context) {
 	user.Image = strings.Split(user.Image, "oss")[1]
 
 	res.Res = "修改成功"
-	res.Message = reqData.Data
+
+	res.Message = *reqData
 
 	db.Save(user)
 

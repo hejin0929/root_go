@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"modTest/component/home"
 	"modTest/module"
+	home2 "modTest/types/resHome"
 	"modTest/utlis/key"
 	"net/http"
 )
@@ -34,7 +35,7 @@ func AppHomePaths(g *gin.Context) {
 // @Produce      json
 // @Param        id   path      int  true  "Account ID"
 // @Param token header  string true "token"
-// @Success      200  {object}  home.KeysRes
+// @Success      200  {object}  resHome.KeysRes
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
@@ -46,7 +47,7 @@ func AppHomeKeyPaths(g *gin.Context) {
 
 	public, _ := ioutil.ReadFile(files[1])
 
-	res := KeysRes{}
+	res := home2.KeysRes{}
 
 	res.Body.Private = string(private)
 

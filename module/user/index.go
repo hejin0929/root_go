@@ -1,10 +1,16 @@
-package center
+package user
 
 import "modTest/module"
 
-// Message sql 数据表结构
-type Message struct {
+// MessageSql sql 数据表结构
+type MessageSql struct {
 	module.Model
+	Message
+}
+
+// Message 用户数据
+
+type Message struct {
 	Name      string `json:"name"`      // 用户名称
 	Uuid      string `json:"uuid"`      // 用户uuid
 	Introduce string `json:"introduce"` // 介绍
