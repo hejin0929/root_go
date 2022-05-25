@@ -87,6 +87,24 @@ func VerifyAction(strToken string) (*module.JWTClaims, error) {
 		return nil, errors.New(err.Error())
 	}
 
-	//fmt.Println("verify")
+	return claims, nil
+}
+
+func GetToken(g *gin.Context) string {
+	var token string
+	token = g.Request.Header.Get("token")
+	return token
+}
+
+func ParseToken(tokenString string) (*module.JWTClaims, error) {
+	token, _ := jwt.ParseWithClaims(tokenString, &module.JWTClaims{}, func(token *jwt.Token) (i interface{}, err error) {
+
+		return []byte(Secret), nil
+	})
+	claims, ok := token.Claims.(*module.JWTClaims)
+
+	if !ok {
+		return nil, errors.New("server parse err")
+	}
 	return claims, nil
 }

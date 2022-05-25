@@ -128,13 +128,9 @@ func SignUser(r *gin.Context) {
 		writeLog.Println(err)
 	}
 
-	inData := struct {
-		Data UserSignType `json:"data"`
-	}{}
+	inData := UserSignType{}
 
 	err = json.Unmarshal(body, &inData)
-
-	data := inData.Data
 
 	if err != nil {
 		return
@@ -142,15 +138,15 @@ func SignUser(r *gin.Context) {
 
 	newUser := Users{}
 
-	if RgxPassword(r, data.Password) {
+	if RgxPassword(r, inData.Password) {
 		return
 	}
 
-	if IsCode(r, data.Code) {
+	if IsCode(r, inData.Code) {
 		return
 	}
 
-	if RgxPhone(r, data.Phone) {
+	if RgxPhone(r, inData.Phone) {
 		return
 	}
 
@@ -160,9 +156,9 @@ func SignUser(r *gin.Context) {
 
 	codeRgx := login.UserCode{}
 
-	db.Model(&login.UserCode{}).Where("phone=?", data.Phone).First(&codeRgx)
+	db.Model(&login.UserCode{}).Where("phone=?", inData.Phone).First(&codeRgx)
 
-	if codeRgx.Code != data.Code {
+	if codeRgx.Code != inData.Code {
 		resp.MgsCode = 500
 		resp.MgsText = "验证码错误!"
 		r.JSON(200, resp)
@@ -173,7 +169,7 @@ func SignUser(r *gin.Context) {
 
 	isUser := Users{}
 
-	_ = db.Model(&Users{}).Where("phone=?", data.Phone).First(&isUser).Error
+	_ = db.Model(&Users{}).Where("phone=?", inData.Phone).First(&isUser).Error
 
 	if err != nil {
 
@@ -181,7 +177,7 @@ func SignUser(r *gin.Context) {
 		return
 	}
 
-	if isUser.Phone == data.Phone {
+	if isUser.Phone == inData.Phone {
 		resp.MgsCode = 500
 		resp.MgsText = "该账号已被注册!"
 		r.JSON(200, resp)
@@ -194,9 +190,9 @@ func SignUser(r *gin.Context) {
 	uid := strings.ReplaceAll(u2.String(), "-", "")
 
 	newUser.UUID = uid
-	newUser.Phone = data.Phone
-	newUser.Code = data.Code
-	newUser.Password = data.Password
+	newUser.Phone = inData.Phone
+	newUser.Code = inData.Code
+	newUser.Password = inData.Password
 
 	db.Create(&newUser)
 

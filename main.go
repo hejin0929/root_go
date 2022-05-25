@@ -93,6 +93,8 @@ func main() {
 
 	chum.GET("/search/:phone", chum2.SearchUserPaths) // 搜素好友
 	chum.POST("/add", chum2.AddUserFriendPaths)       // 添加好友
+	chum.GET("/apply", chum2.GetChumApply)            // 获取好友申请列表
+	chum.POST("/update", chum2.ApplyUpdate)           // 更新好友申请
 
 	router.StaticFS("/oss/images", http.Dir("./static/images/"))
 	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))

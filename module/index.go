@@ -40,6 +40,11 @@ type Response struct {
 	Body interface{} `json:"body"`
 }
 
+type ResponseBodyInString struct {
+	Resp
+	Body string `json:"body"`
+}
+
 // ResponseSuccess 统一返回类型
 func ResponseSuccess(data interface{}) Response {
 	return Response{

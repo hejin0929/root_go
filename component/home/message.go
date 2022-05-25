@@ -2,12 +2,12 @@ package home
 
 import (
 	"encoding/json"
-	"fmt"
 	"github.com/gin-gonic/gin"
 	"modTest/module"
 	"modTest/module/user"
 	"modTest/service/DB"
 	"modTest/types/resHome"
+	token2 "modTest/utlis/token"
 	"net/http"
 	"reflect"
 	"strings"
@@ -75,7 +75,7 @@ func UpdateUserMessage(g *gin.Context) {
 	for i := 0; i < values.NumField(); i++ {
 		//fmt.Println("this is a ?? ", types.Field(i).Name, i)
 		for l := 0; l < userT.NumField(); l++ {
-			fmt.Println("this is a ?? ", userT.Field(l).Name, l)
+			//fmt.Println("this is a ?? ", userT.Field(l).Name, l)
 			if types.Field(i).Name == userT.Field(l).Name {
 
 				if values.Field(i).String() != "" || values.Field(i).String() != "nil" || types.Field(i).Name != "uuid" {
@@ -96,4 +96,21 @@ func UpdateUserMessage(g *gin.Context) {
 
 	g.JSON(http.StatusOK, module.ResponseSuccess(res))
 
+}
+
+func HomesMessageGet(token string) (*user.MessageSql, error) {
+
+	message := new(user.MessageSql)
+
+	data, err := token2.ParseToken(token)
+
+	if err != nil {
+		return nil, err
+	}
+
+	db, _ := DB.CreateDB()
+
+	db.Model(user.MessageSql{}).Where("phone = ?", data.Username).Find(&message)
+
+	return message, nil
 }

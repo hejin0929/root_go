@@ -3,7 +3,6 @@ package chum
 import (
 	"encoding/json"
 	"errors"
-	"fmt"
 	user3 "modTest/component/user"
 	"modTest/module/chum"
 	"modTest/module/user"
@@ -93,17 +92,66 @@ func AddChumUser(params *chum2.AddReq) error {
 	return nil
 }
 
-func GetApplyUser(uuid string) {
+func GetApplyUser(uuid string) []chum2.ApplyUser {
+
 	db, _ := DB.CreateDB()
 
 	var applyList []chum.ApplyChumSql
 
-	db.Model(chum.ApplyChumSql{}).Where("friend_id = ?", uuid).Find(&applyList)
+	var users user.MessageSql
 
-	fmt.Println(applyList)
+	db.Model(user.MessageSql{}).Where("uuid = ?", uuid).Find(&users)
 
+	db.Model(chum.ApplyChumSql{}).Where("friend_id = ?", users.UserID).Find(&applyList)
+
+	var userID = ""
+	var res []chum2.ApplyUser
+	var resUser chum2.ApplyUser
+
+	for i := range applyList {
+		if userID == "" || applyList[i].Uuid != userID {
+			var sendUser user.MessageSql
+			db.Model(user.MessageSql{}).Where("user_id = ? ", applyList[i].Uuid).Find(&sendUser)
+			resUser.UserName = sendUser.Name
+			resUser.UserID = sendUser.UserID
+			resUser.Image = "http://localhost:8081/oss" + sendUser.Image
+			res = append(res, resUser)
+		}
+
+		resUser.UserID = applyList[i].Uuid
+
+		res[len(res)-1].Source = applyList[i].Source
+
+		res[len(res)-1].List = append(res[len(res)-1].List, struct {
+			Hello string `json:"hello"`
+			Time  string `json:"time"`
+		}{Hello: applyList[i].Hello, Time: applyList[i].CreatedAt.Format("2006-01-02 15:04:05")})
+
+		userID = applyList[i].Uuid
+	}
+
+	return res
 }
 
-func UpdateApplyUser(userId string) { // 更新好友审核
+func NewsApplyUser(userId string, dispose int, id string) error { // 更新好友审核
 
+	db, _ := DB.CreateDB()
+
+	applyData := new(chum.ApplyChumSql)
+
+	db.Model(chum.ApplyChumSql{}).Where("user_id = ? AND friend_id = ?").First(&applyData)
+
+	if dispose == chum2.AGREE {
+		friend := new(chum.UserChumSql)
+		friend.Uuid = id
+		friend.FriendID = userId
+		friend.Source = applyData.Source
+		friend.Permissions = applyData.Permissions
+		friend.Note = applyData.Note
+		_ = db.AutoMigrate(chum.UserChumSql{})
+		db.Create(friend)
+	}
+
+	db.Model(chum.ApplyChumSql{}).Delete("user_id = ? AND friend_id = ?", userId, id)
+	return nil
 }

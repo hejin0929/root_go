@@ -63,6 +63,63 @@
                 }
             }
         },
+        "/api/chum/apply": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chum"
+                ],
+                "summary": "获取好友申请",
+                "operationId": "getChumApply",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "发送数据",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/chum.ApplyUserRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
         "/api/chum/search/{phone}": {
             "get": {
                 "consumes": [
@@ -97,6 +154,65 @@
                         "description": "JSON数据",
                         "schema": {
                             "$ref": "#/definitions/chum.ResChum"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/chum/update": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chum"
+                ],
+                "summary": "更新好友申请",
+                "operationId": "ApplyUpdate",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "发送数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/chum.ApplyUpdateParams"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/chum.ApplyUserRes"
                         }
                     },
                     "400": {
@@ -647,6 +763,80 @@
                 }
             }
         },
+        "chum.ApplyUpdateParams": {
+            "type": "object",
+            "properties": {
+                "dispose": {
+                    "description": "0 表示拒绝 1 表示同意",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "string"
+                }
+            }
+        },
+        "chum.ApplyUser": {
+            "type": "object",
+            "properties": {
+                "image": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "hello": {
+                                "description": "招呼语",
+                                "type": "string"
+                            },
+                            "time": {
+                                "description": "时间",
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "source": {
+                    "description": "来源",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "ID",
+                    "type": "string"
+                },
+                "user_name": {
+                    "description": "名称",
+                    "type": "string"
+                }
+            }
+        },
+        "chum.ApplyUserRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "description": "数据结构",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/chum.ApplyUser"
+                    }
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
         "chum.ResChum": {
             "type": "object",
             "required": [
@@ -657,6 +847,10 @@
                 "body": {
                     "type": "object",
                     "properties": {
+                        "relation": {
+                            "description": "是否为好友",
+                            "type": "integer"
+                        },
                         "source": {
                             "description": "搜索方式",
                             "type": "integer"

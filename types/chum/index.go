@@ -19,6 +19,11 @@ const (
 	NotRelation
 )
 
+const (
+	REJECT = iota
+	AGREE
+)
+
 type AddReq struct {
 	Uuid        string `json:"uuid"`        // 本人ID
 	FriendID    string `json:"friend_id"`   // 朋友ID
@@ -58,14 +63,22 @@ type SearchUserRes struct {
 }
 
 type ApplyUser struct {
-	UserName string   `json:"user_name"` // 名称
-	UserID   string   `json:"user_id"`   // ID
-	Source   int      `json:"source"`    // 来源
-	Hello    []string `json:"hello"`     // 招呼语
-	Time     string   `json:"time"`      // 时间
+	UserName string `json:"user_name"` // 名称
+	UserID   string `json:"user_id"`   // ID
+	Source   int    `json:"source"`    // 来源
+	Image    string `json:"image"`     // 头像
+	List     []struct {
+		Hello string `json:"hello"` // 招呼语
+		Time  string `json:"time"`  // 时间
+	}
 }
 
 type ApplyUserRes struct {
 	module.Resp
 	Body []ApplyUser `json:"body"` // 数据结构
+}
+
+type ApplyUpdateParams struct {
+	ID      string `json:"id"`      // ID
+	Dispose int    `json:"dispose"` // 0 表示拒绝 1 表示同意
 }
