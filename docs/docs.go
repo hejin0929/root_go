@@ -16,239 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/chum/add": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Chum"
-                ],
-                "summary": "用户验证码登录",
-                "operationId": "AddUserFriendPaths",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "发送数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/chum.AddReq"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/chum.AddRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/chum/apply": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Chum"
-                ],
-                "summary": "获取好友申请",
-                "operationId": "getChumApply",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "发送数据",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/chum.ApplyUserRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/chum/search/{phone}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Chum"
-                ],
-                "summary": "索搜好友信息",
-                "operationId": "SearchUserPaths",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "朋友手机号",
-                        "name": "phone",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/chum.ResChum"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/chum/update": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Chum"
-                ],
-                "summary": "更新好友申请",
-                "operationId": "ApplyUpdate",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "发送数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/chum.ApplyUpdateParams"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/chum.ApplyUserRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/home/key": {
+        "/api/pathHome/key": {
             "get": {
                 "description": "get string by ID",
                 "consumes": [
@@ -281,7 +49,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/resHome.KeysRes"
+                            "$ref": "#/definitions/typeHome.KeysRes"
                         }
                     },
                     "400": {
@@ -305,7 +73,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/home/message": {
+        "/api/pathHome/message": {
             "get": {
                 "description": "get string by ID",
                 "consumes": [
@@ -362,38 +130,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/login/user/login": {
-            "post": {
-                "tags": [
-                    "Login"
-                ],
-                "summary": "用户登录操作",
-                "operationId": "LoginInPasswordPaths",
-                "parameters": [
-                    {
-                        "description": "JSON数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/login.UserName"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/login.UserBody"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/login/user/login_code": {
+        "/api/pathLogin/typeUser/login_code": {
             "post": {
                 "tags": [
                     "Login"
@@ -424,7 +161,38 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/login/user/sign": {
+        "/api/pathLogin/typeUser/pathLogin": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "用户登录操作",
+                "operationId": "LoginInPasswordPaths",
+                "parameters": [
+                    {
+                        "description": "JSON数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/login.UserName"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/login.UserBody"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/pathLogin/typeUser/sign": {
             "post": {
                 "tags": [
                     "Login"
@@ -452,7 +220,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/phone_code/user/{phone}": {
+        "/api/phone_code/typeUser/{phone}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -479,6 +247,345 @@ const docTemplate = `{
                         "description": "JSON数据",
                         "schema": {
                             "$ref": "#/definitions/getCode.ResCode"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/typeChum/add": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chum"
+                ],
+                "summary": "添加好友接口",
+                "operationId": "AddUserFriendPaths",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "description": "发送数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/typeChum.AddReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/typeChum.AddRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/typeChum/apply": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chum"
+                ],
+                "summary": "获取好友申请",
+                "operationId": "getChumApply",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "发送数据",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/typeChum.ApplyUserRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/typeChum/search/{phone}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chum"
+                ],
+                "summary": "索搜好友信息",
+                "operationId": "SearchUserPaths",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "朋友手机号",
+                        "name": "phone",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/typeChum.ResChum"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/typeChum/update": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Chum"
+                ],
+                "summary": "获取好友列表",
+                "operationId": "ChumsListGet",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/module.ResponseBodyInString"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/typeUser/user_message/update": {
+            "post": {
+                "description": "get string by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "修改个人信息",
+                "parameters": [
+                    {
+                        "description": "修改的数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/typeHome.Message"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/typeHome.MessageUpdateRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/typeUser/user_message/{id}": {
+            "get": {
+                "description": "get string by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "获取个人信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/typeHome.MessageRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
                         }
                     }
                 }
@@ -615,274 +722,9 @@ const docTemplate = `{
                     }
                 }
             }
-        },
-        "/api/user/user_message/update": {
-            "post": {
-                "description": "get string by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "修改个人信息",
-                "parameters": [
-                    {
-                        "description": "修改的数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/resHome.Message"
-                        }
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/resHome.MessageUpdateRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/user/user_message/{id}": {
-            "get": {
-                "description": "get string by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "获取个人信息",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Account ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/resHome.MessageRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    }
-                }
-            }
         }
     },
     "definitions": {
-        "chum.AddReq": {
-            "type": "object",
-            "properties": {
-                "friend_id": {
-                    "description": "朋友ID",
-                    "type": "string"
-                },
-                "permissions": {
-                    "description": "权限",
-                    "type": "string"
-                },
-                "source": {
-                    "description": "来源",
-                    "type": "integer"
-                },
-                "uuid": {
-                    "description": "本人ID",
-                    "type": "string"
-                }
-            }
-        },
-        "chum.AddRes": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "type": "string"
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "chum.ApplyUpdateParams": {
-            "type": "object",
-            "properties": {
-                "dispose": {
-                    "description": "0 表示拒绝 1 表示同意",
-                    "type": "integer"
-                },
-                "id": {
-                    "description": "ID",
-                    "type": "string"
-                }
-            }
-        },
-        "chum.ApplyUser": {
-            "type": "object",
-            "properties": {
-                "image": {
-                    "description": "头像",
-                    "type": "string"
-                },
-                "list": {
-                    "type": "array",
-                    "items": {
-                        "type": "object",
-                        "properties": {
-                            "hello": {
-                                "description": "招呼语",
-                                "type": "string"
-                            },
-                            "time": {
-                                "description": "时间",
-                                "type": "string"
-                            }
-                        }
-                    }
-                },
-                "source": {
-                    "description": "来源",
-                    "type": "integer"
-                },
-                "user_id": {
-                    "description": "ID",
-                    "type": "string"
-                },
-                "user_name": {
-                    "description": "名称",
-                    "type": "string"
-                }
-            }
-        },
-        "chum.ApplyUserRes": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "description": "数据结构",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/chum.ApplyUser"
-                    }
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
-        "chum.ResChum": {
-            "type": "object",
-            "required": [
-                "mgsCode",
-                "mgsText"
-            ],
-            "properties": {
-                "body": {
-                    "type": "object",
-                    "properties": {
-                        "relation": {
-                            "description": "是否为好友",
-                            "type": "integer"
-                        },
-                        "source": {
-                            "description": "搜索方式",
-                            "type": "integer"
-                        },
-                        "user": {
-                            "description": "用户信息",
-                            "$ref": "#/definitions/user.Message"
-                        }
-                    }
-                },
-                "mgsCode": {
-                    "description": "返回体状态码",
-                    "type": "integer"
-                },
-                "mgsText": {
-                    "description": "返回体信息",
-                    "type": "string"
-                }
-            }
-        },
         "getCode.GetPhoneCode": {
             "type": "object",
             "required": [
@@ -1039,7 +881,176 @@ const docTemplate = `{
                 }
             }
         },
-        "resHome.KeysRes": {
+        "module.ResponseBodyInString": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "typeChum.AddReq": {
+            "type": "object",
+            "properties": {
+                "friend_id": {
+                    "description": "朋友ID",
+                    "type": "string"
+                },
+                "permissions": {
+                    "description": "权限",
+                    "type": "string"
+                },
+                "source": {
+                    "description": "来源",
+                    "type": "integer"
+                },
+                "uuid": {
+                    "description": "本人ID",
+                    "type": "string"
+                }
+            }
+        },
+        "typeChum.AddRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "type": "string"
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "typeChum.ApplyUpdateParams": {
+            "type": "object",
+            "properties": {
+                "dispose": {
+                    "description": "0 表示拒绝 1 表示同意",
+                    "type": "integer"
+                },
+                "id": {
+                    "description": "ID",
+                    "type": "string"
+                }
+            }
+        },
+        "typeChum.ApplyUser": {
+            "type": "object",
+            "properties": {
+                "image": {
+                    "description": "头像",
+                    "type": "string"
+                },
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "hello": {
+                                "description": "招呼语",
+                                "type": "string"
+                            },
+                            "time": {
+                                "description": "时间",
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "source": {
+                    "description": "来源",
+                    "type": "integer"
+                },
+                "user_id": {
+                    "description": "ID",
+                    "type": "string"
+                },
+                "user_name": {
+                    "description": "名称",
+                    "type": "string"
+                }
+            }
+        },
+        "typeChum.ApplyUserRes": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "description": "数据结构",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/typeChum.ApplyUser"
+                    }
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "typeChum.ResChum": {
+            "type": "object",
+            "required": [
+                "mgsCode",
+                "mgsText"
+            ],
+            "properties": {
+                "body": {
+                    "type": "object",
+                    "properties": {
+                        "relation": {
+                            "description": "是否为好友",
+                            "type": "integer"
+                        },
+                        "source": {
+                            "description": "搜索方式",
+                            "type": "integer"
+                        },
+                        "typeUser": {
+                            "description": "用户信息",
+                            "$ref": "#/definitions/user.Message"
+                        }
+                    }
+                },
+                "mgsCode": {
+                    "description": "返回体状态码",
+                    "type": "integer"
+                },
+                "mgsText": {
+                    "description": "返回体信息",
+                    "type": "string"
+                }
+            }
+        },
+        "typeHome.KeysRes": {
             "type": "object",
             "required": [
                 "mgsCode",
@@ -1069,7 +1080,7 @@ const docTemplate = `{
                 }
             }
         },
-        "resHome.Message": {
+        "typeHome.Message": {
             "type": "object",
             "properties": {
                 "birthday": {
@@ -1114,7 +1125,7 @@ const docTemplate = `{
                 }
             }
         },
-        "resHome.MessageRes": {
+        "typeHome.MessageRes": {
             "type": "object",
             "required": [
                 "mgsCode",
@@ -1134,7 +1145,7 @@ const docTemplate = `{
                 }
             }
         },
-        "resHome.MessageUpdateRes": {
+        "typeHome.MessageUpdateRes": {
             "type": "object",
             "required": [
                 "mgsCode",

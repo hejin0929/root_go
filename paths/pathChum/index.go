@@ -1,11 +1,11 @@
-package chum
+package pathChum
 
 import (
 	"github.com/gin-gonic/gin"
 	"modTest/component/chum"
 	"modTest/component/home"
 	"modTest/module"
-	chum2 "modTest/types/chum"
+	"modTest/types/typeChum"
 	token2 "modTest/utlis/token"
 	"net/http"
 )
@@ -19,11 +19,11 @@ import (
 // @Accept  json
 // @Param phone path string true "朋友手机号"
 // @Param token header  string true "token"
-// @Success 200 {object} chum2.ResChum true "JSON数据"
+// @Success 200 {object} typeChum.ResChum true "JSON数据"
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/chum/search/{phone} [get]
+// @Router /api/typeChum/search/{phone} [get]
 func SearchUserPaths(g *gin.Context) {
 
 	mobile := g.Query("phone")
@@ -48,15 +48,15 @@ func SearchUserPaths(g *gin.Context) {
 // @Produce  json
 // @Accept  json
 // @Param token header  string true "token"
-// @Param data  body  AddReq true "发送数据"
-// @Success 200 {object} chum2.AddRes true "JSON数据"
+// @Param data  body  typeChum.AddReq true "发送数据"
+// @Success 200 {object} typeChum.AddRes true "JSON数据"
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/chum/add [post]
+// @Router /api/typeChum/add [post]
 func AddUserFriendPaths(g *gin.Context) {
 
-	reqChum := new(chum2.AddReq)
+	reqChum := new(typeChum.AddReq)
 
 	if g.Bind(&reqChum) != nil {
 		g.JSON(http.StatusOK, module.ResponseErrorParams("参数不全"))
@@ -93,11 +93,11 @@ func AddUserFriendPaths(g *gin.Context) {
 // @Accept  json
 // @Param token header  string true "token"
 // @Param id  path  string true "发送数据"
-// @Success 200 {object} chum2.ApplyUserRes true "JSON数据"
+// @Success 200 {object} typeChum.ApplyUserRes true "JSON数据"
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/chum/apply [get]
+// @Router /api/typeChum/apply [get]
 func GetChumApply(g *gin.Context) {
 	id := g.Query("id")
 
@@ -119,15 +119,15 @@ func GetChumApply(g *gin.Context) {
 // @Produce  json
 // @Accept  json
 // @Param token header  string true "token"
-// @Param data  body  chum2.ApplyUpdateParams true "发送数据"
+// @Param data  body  typeChum.ApplyUpdateParams true "发送数据"
 // @Success 200 {object} module.ResponseBodyInString true "JSON数据"
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/chum/update [post]
+// @Router /api/typeChum/update [post]
 func ApplyUpdate(g *gin.Context) {
 
-	params := new(chum2.ApplyUpdateParams)
+	params := new(typeChum.ApplyUpdateParams)
 	if g.Bind(params) != nil {
 		g.JSON(http.StatusOK, module.ResponseErrorParams("参数不全"))
 		return
@@ -145,7 +145,7 @@ func ApplyUpdate(g *gin.Context) {
 	err = chum.NewsApplyUser(params.ID, params.Dispose, auth.Uuid)
 
 	if err != nil {
-		g.JSON(http.StatusInternalServerError, module.ResponseServerError("server err new user chums"))
+		g.JSON(http.StatusInternalServerError, module.ResponseServerError("server err new typeUser chums"))
 		return
 	}
 
@@ -163,7 +163,7 @@ func ApplyUpdate(g *gin.Context) {
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/chum/update [post]
+// @Router /api/typeChum/update [post]
 func ChumsListGet() {
 
 }

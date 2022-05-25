@@ -12,7 +12,7 @@ import (
 // @ID LoginNewsUserPaths
 // @Param data body	login.UserSignType true "JSON数据"
 // @Success 200 {object} login.UserSignReps true "JSON数据"
-// @Router /api/login/user/sign [post]
+// @Router /api/pathLogin/typeUser/sign [post]
 func LoginNewsUserPaths(g *gin.Context) {
 	login.SignUser(g)
 }
@@ -24,7 +24,7 @@ func LoginNewsUserPaths(g *gin.Context) {
 // @ID LoginInPasswordPaths
 // @Param data body	login.UserName true "JSON数据"
 // @Success 200 {array} login.UserBody true "JSON数据"
-// @Router /api/login/user/login [post]
+// @Router /api/pathLogin/typeUser/pathLogin [post]
 func LoginInPasswordPaths(g *gin.Context) {
 	//params := new(login2.UserName)
 	//
@@ -43,7 +43,7 @@ func LoginInPasswordPaths(g *gin.Context) {
 // @ID LoginsUserCode
 // @Param data body	login.UserCode true "JSON数据"
 // @Success 200 {array} login.UserBody true "JSON数据"
-// @Router /api/login/user/login_code [post]
+// @Router /api/pathLogin/typeUser/login_code [post]
 func LoginInCodePaths(g *gin.Context) {
 	//params := new(login2.UserCode)
 	//if g.Bind(params) != nil {

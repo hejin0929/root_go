@@ -1,4 +1,4 @@
-package uploadFiles
+package pathUploadFiles
 
 import (
 	"fmt"

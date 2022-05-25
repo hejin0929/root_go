@@ -1,109 +1,4 @@
 definitions:
-  chum.AddReq:
-    properties:
-      friend_id:
-        description: 朋友ID
-        type: string
-      permissions:
-        description: 权限
-        type: string
-      source:
-        description: 来源
-        type: integer
-      uuid:
-        description: 本人ID
-        type: string
-    type: object
-  chum.AddRes:
-    properties:
-      body:
-        type: string
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
-  chum.ApplyUpdateParams:
-    properties:
-      dispose:
-        description: 0 表示拒绝 1 表示同意
-        type: integer
-      id:
-        description: ID
-        type: string
-    type: object
-  chum.ApplyUser:
-    properties:
-      image:
-        description: 头像
-        type: string
-      list:
-        items:
-          properties:
-            hello:
-              description: 招呼语
-              type: string
-            time:
-              description: 时间
-              type: string
-          type: object
-        type: array
-      source:
-        description: 来源
-        type: integer
-      user_id:
-        description: ID
-        type: string
-      user_name:
-        description: 名称
-        type: string
-    type: object
-  chum.ApplyUserRes:
-    properties:
-      body:
-        description: 数据结构
-        items:
-          $ref: '#/definitions/chum.ApplyUser'
-        type: array
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
-  chum.ResChum:
-    properties:
-      body:
-        properties:
-          relation:
-            description: 是否为好友
-            type: integer
-          source:
-            description: 搜索方式
-            type: integer
-          user:
-            $ref: '#/definitions/user.Message'
-            description: 用户信息
-        type: object
-      mgsCode:
-        description: 返回体状态码
-        type: integer
-      mgsText:
-        description: 返回体信息
-        type: string
-    required:
-    - mgsCode
-    - mgsText
-    type: object
   getCode.GetPhoneCode:
     properties:
       code:
@@ -212,7 +107,126 @@ definitions:
     - mgsText
     - msgCode
     type: object
-  resHome.KeysRes:
+  module.ResponseBodyInString:
+    properties:
+      body:
+        type: string
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  typeChum.AddReq:
+    properties:
+      friend_id:
+        description: 朋友ID
+        type: string
+      permissions:
+        description: 权限
+        type: string
+      source:
+        description: 来源
+        type: integer
+      uuid:
+        description: 本人ID
+        type: string
+    type: object
+  typeChum.AddRes:
+    properties:
+      body:
+        type: string
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  typeChum.ApplyUpdateParams:
+    properties:
+      dispose:
+        description: 0 表示拒绝 1 表示同意
+        type: integer
+      id:
+        description: ID
+        type: string
+    type: object
+  typeChum.ApplyUser:
+    properties:
+      image:
+        description: 头像
+        type: string
+      list:
+        items:
+          properties:
+            hello:
+              description: 招呼语
+              type: string
+            time:
+              description: 时间
+              type: string
+          type: object
+        type: array
+      source:
+        description: 来源
+        type: integer
+      user_id:
+        description: ID
+        type: string
+      user_name:
+        description: 名称
+        type: string
+    type: object
+  typeChum.ApplyUserRes:
+    properties:
+      body:
+        description: 数据结构
+        items:
+          $ref: '#/definitions/typeChum.ApplyUser'
+        type: array
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  typeChum.ResChum:
+    properties:
+      body:
+        properties:
+          relation:
+            description: 是否为好友
+            type: integer
+          source:
+            description: 搜索方式
+            type: integer
+          typeUser:
+            $ref: '#/definitions/user.Message'
+            description: 用户信息
+        type: object
+      mgsCode:
+        description: 返回体状态码
+        type: integer
+      mgsText:
+        description: 返回体信息
+        type: string
+    required:
+    - mgsCode
+    - mgsText
+    type: object
+  typeHome.KeysRes:
     properties:
       body:
         properties:
@@ -233,7 +247,7 @@ definitions:
     - mgsCode
     - mgsText
     type: object
-  resHome.Message:
+  typeHome.Message:
     properties:
       birthday:
         description: 生日
@@ -266,7 +280,7 @@ definitions:
         description: 用户uuid
         type: string
     type: object
-  resHome.MessageRes:
+  typeHome.MessageRes:
     properties:
       body:
         $ref: '#/definitions/user.Message'
@@ -280,7 +294,7 @@ definitions:
     - mgsCode
     - mgsText
     type: object
-  resHome.MessageUpdateRes:
+  typeHome.MessageUpdateRes:
     properties:
       body:
         $ref: '#/definitions/user.Message'
@@ -349,161 +363,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/chum/add:
-    post:
-      consumes:
-      - application/json
-      operationId: AddUserFriendPaths
-      parameters:
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      - description: 发送数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/chum.AddReq'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            $ref: '#/definitions/chum.AddRes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 用户验证码登录
-      tags:
-      - Chum
-  /api/chum/apply:
-    get:
-      consumes:
-      - application/json
-      operationId: getChumApply
-      parameters:
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      - description: 发送数据
-        in: path
-        name: id
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            $ref: '#/definitions/chum.ApplyUserRes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 获取好友申请
-      tags:
-      - Chum
-  /api/chum/search/{phone}:
-    get:
-      consumes:
-      - application/json
-      operationId: SearchUserPaths
-      parameters:
-      - description: 朋友手机号
-        in: path
-        name: phone
-        required: true
-        type: string
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            $ref: '#/definitions/chum.ResChum'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 索搜好友信息
-      tags:
-      - Chum
-  /api/chum/update:
-    post:
-      consumes:
-      - application/json
-      operationId: ApplyUpdate
-      parameters:
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      - description: 发送数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/chum.ApplyUpdateParams'
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            $ref: '#/definitions/chum.ApplyUserRes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 更新好友申请
-      tags:
-      - Chum
-  /api/home/key:
+  /api/pathHome/key:
     get:
       consumes:
       - application/json
@@ -525,7 +385,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/resHome.KeysRes'
+            $ref: '#/definitions/typeHome.KeysRes'
         "400":
           description: Bad Request
           schema:
@@ -541,7 +401,7 @@ paths:
       summary: 获取数据加密
       tags:
       - Home
-  /api/home/message:
+  /api/pathHome/message:
     get:
       consumes:
       - application/json
@@ -579,27 +439,7 @@ paths:
       summary: 首页接口
       tags:
       - Home
-  /api/login/user/login:
-    post:
-      operationId: LoginInPasswordPaths
-      parameters:
-      - description: JSON数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/login.UserName'
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            items:
-              $ref: '#/definitions/login.UserBody'
-            type: array
-      summary: 用户登录操作
-      tags:
-      - Login
-  /api/login/user/login_code:
+  /api/pathLogin/typeUser/login_code:
     post:
       operationId: LoginsUserCode
       parameters:
@@ -619,7 +459,27 @@ paths:
       summary: 用户登录操作
       tags:
       - Login
-  /api/login/user/sign:
+  /api/pathLogin/typeUser/pathLogin:
+    post:
+      operationId: LoginInPasswordPaths
+      parameters:
+      - description: JSON数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/login.UserName'
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            items:
+              $ref: '#/definitions/login.UserBody'
+            type: array
+      summary: 用户登录操作
+      tags:
+      - Login
+  /api/pathLogin/typeUser/sign:
     post:
       operationId: LoginNewsUserPaths
       parameters:
@@ -637,7 +497,7 @@ paths:
       summary: 用户注册操作
       tags:
       - Login
-  /api/phone_code/user/{phone}:
+  /api/phone_code/typeUser/{phone}:
     get:
       consumes:
       - application/json
@@ -658,6 +518,231 @@ paths:
       summary: 用户验证码登录
       tags:
       - Code
+  /api/typeChum/add:
+    post:
+      consumes:
+      - application/json
+      operationId: AddUserFriendPaths
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 发送数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/typeChum.AddReq'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/typeChum.AddRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 添加好友接口
+      tags:
+      - Chum
+  /api/typeChum/apply:
+    get:
+      consumes:
+      - application/json
+      operationId: getChumApply
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: 发送数据
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/typeChum.ApplyUserRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 获取好友申请
+      tags:
+      - Chum
+  /api/typeChum/search/{phone}:
+    get:
+      consumes:
+      - application/json
+      operationId: SearchUserPaths
+      parameters:
+      - description: 朋友手机号
+        in: path
+        name: phone
+        required: true
+        type: string
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/typeChum.ResChum'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 索搜好友信息
+      tags:
+      - Chum
+  /api/typeChum/update:
+    post:
+      consumes:
+      - application/json
+      operationId: ChumsListGet
+      parameters:
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/module.ResponseBodyInString'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 获取好友列表
+      tags:
+      - Chum
+  /api/typeUser/user_message/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/typeHome.MessageRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 获取个人信息
+      tags:
+      - User
+  /api/typeUser/user_message/update:
+    post:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: 修改的数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/typeHome.Message'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/typeHome.MessageUpdateRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 修改个人信息
+      tags:
+      - User
   /api/upload/deleteImg:
     get:
       operationId: UploadImagesDelete
@@ -744,81 +829,4 @@ paths:
       summary: 上传视频操作
       tags:
       - Upload
-  /api/user/user_message/{id}:
-    get:
-      consumes:
-      - application/json
-      description: get string by ID
-      parameters:
-      - description: Account ID
-        in: path
-        name: id
-        required: true
-        type: string
-      - description: token
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/resHome.MessageRes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 获取个人信息
-      tags:
-      - User
-  /api/user/user_message/update:
-    post:
-      consumes:
-      - application/json
-      description: get string by ID
-      parameters:
-      - description: 修改的数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/resHome.Message'
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/resHome.MessageUpdateRes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 修改个人信息
-      tags:
-      - User
 swagger: "2.0"

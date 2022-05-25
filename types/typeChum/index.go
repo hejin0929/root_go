@@ -1,9 +1,9 @@
-package chum
+package typeChum
 
 import (
 	"modTest/module"
 	"modTest/module/user"
-	user2 "modTest/types/user"
+	user2 "modTest/types/typeUser"
 	"time"
 )
 
@@ -39,7 +39,7 @@ type AddRes struct {
 type ResChum struct {
 	module.Resp
 	Body struct {
-		User     user.Message `json:"user"`     // 用户信息
+		User     user.Message `json:"typeUser"` // 用户信息
 		Source   int          `json:"source"`   // 搜索方式
 		Relation int          `json:"relation"` // 是否为好友
 	} `json:"body"`

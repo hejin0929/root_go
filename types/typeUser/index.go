@@ -1,4 +1,4 @@
-package user
+package typeUser
 
 // 接口返回的格式定义
 

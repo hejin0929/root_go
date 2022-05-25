@@ -19,8 +19,8 @@ import (
 // 密码登陆处理逻辑
 func LoginsUserPassword(g *gin.Context) {
 
-	//user := new(login2.UserName)
-	//if g.Bind(user) != nil {
+	//typeUser := new(login2.UserName)
+	//if g.Bind(typeUser) != nil {
 	//	g.JSON(http.StatusBadRequest, "参数错误")
 	//}
 
@@ -96,7 +96,7 @@ func LoginsUserPassword(g *gin.Context) {
 // @ID LoginsUserCode
 // @Param data body	UserCode true "JSON数据"
 // @Success 200 {array} UserBody true "JSON数据"
-// @Router /api/login/user/login_code [post]
+// @Router /api/pathLogin/typeUser/login_code [post]
 func LoginsUserCode(r *gin.Context) {
 	body, err := ioutil.ReadAll(r.Request.Body)
 
@@ -135,7 +135,6 @@ func LoginsUserCode(r *gin.Context) {
 	if user.Phone == "" {
 		resp.MgsCode = 500
 		resp.MgsText = "手机号码为空"
-		//writeLog.Println("登录缺少手机号", user.Code)
 		r.JSON(200, resp)
 		return
 	}
@@ -195,7 +194,7 @@ func LoginsUserCode(r *gin.Context) {
 	if login.Phone == "" {
 		db.Model(&module.ActiveUserLogin{}).Create(&loginUser)
 	} else {
-		db.Model(&module.ActiveUserLogin{}).Where("phone=?", userMessage.Phone).Updates(map[string]interface{}{"login": loginUser.Login, "token": loginUser.Token, "updated_at": time.Now()})
+		db.Model(&module.ActiveUserLogin{}).Where("phone=?", userMessage.Phone).Updates(map[string]interface{}{"pathLogin": loginUser.Login, "token": loginUser.Token, "updated_at": time.Now()})
 	}
 
 	resp.Body.Token = token

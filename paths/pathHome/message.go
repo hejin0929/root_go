@@ -1,4 +1,4 @@
-package home
+package pathHome
 
 import (
 	"github.com/gin-gonic/gin"
@@ -13,11 +13,11 @@ import (
 // @Produce      json
 // @Param        id   path      string  true  "Account ID"
 // @Param Authorization header  string true "token"
-// @Success      200  {object}  resHome.MessageRes
+// @Success      200  {object}  typeHome.MessageRes
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router       /api/user/user_message/{id} [get]
+// @Router       /api/typeUser/user_message/{id} [get]
 func GetUserMessagePaths(g *gin.Context) {
 	home.GetUserMessage(g)
 }
@@ -28,13 +28,13 @@ func GetUserMessagePaths(g *gin.Context) {
 // @Description  get string by ID
 // @Accept       json
 // @Produce      json
-// @Param        data   body      resHome.Message  true  "修改的数据"
+// @Param        data   body      typeHome.Message  true  "修改的数据"
 // @Param token header  string true "token"
-// @Success      200  {object}  resHome.MessageUpdateRes
+// @Success      200  {object}  typeHome.MessageUpdateRes
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router       /api/user/user_message/update [post]
+// @Router       /api/typeUser/user_message/update [post]
 func UpdateUserMessagePaths(g *gin.Context) {
 	home.UpdateUserMessage(g)
 }

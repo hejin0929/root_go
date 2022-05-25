@@ -6,7 +6,7 @@ import (
 	"modTest/module"
 	"modTest/module/user"
 	"modTest/service/DB"
-	"modTest/types/resHome"
+	"modTest/types/typeHome"
 	token2 "modTest/utlis/token"
 	"net/http"
 	"reflect"
@@ -47,7 +47,7 @@ func GetUserMessage(g *gin.Context) {
 func UpdateUserMessage(g *gin.Context) {
 
 	reqData := new(user.Message)
-	res := new(resHome.MessageUpdate)
+	res := new(typeHome.MessageUpdate)
 
 	if g.Bind(&reqData) != nil {
 		res.Res = "参数不全"

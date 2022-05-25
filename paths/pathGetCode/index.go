@@ -1,4 +1,4 @@
-package getCode
+package pathGetCode
 
 import (
 	"github.com/gin-gonic/gin"
@@ -14,8 +14,8 @@ import (
 // @Produce  json
 // @Accept  json
 // @Param phone path string true "用户手机号"
-// @Success 200 {object} ResCode true "JSON数据"
-// @Router /api/phone_code/user/{phone} [get]
+// @Success 200 {object} getCode.ResCode true "JSON数据"
+// @Router /api/phone_code/typeUser/{phone} [get]
 func GetPathsCode(r *gin.Context) {
 	phone := r.Query("phone")
 	var res getCode.ResCode

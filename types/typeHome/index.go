@@ -1,4 +1,4 @@
-package resHome
+package typeHome
 
 import (
 	"modTest/module"

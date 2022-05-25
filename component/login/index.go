@@ -111,7 +111,7 @@ type Users struct {
 // @ID SignUser
 // @Param data body	UserSignType true "JSON数据"
 // @Success 200 {object} UserSignReps true "JSON数据"
-// @Router /api/login/user/sign [post]
+// @Router /api/pathLogin/typeUser/sign [post]
 func SignUser(r *gin.Context) {
 
 	body, err := ioutil.ReadAll(r.Request.Body)

@@ -18,6 +18,6 @@ type JWTClaims struct { // token里面添加用户信息，验证token后可能�
 type ActiveUserLogin struct {
 	Model
 	Phone string `json:"phone"`
-	Login bool   `json:"login"`
+	Login bool   `json:"pathLogin"`
 	Token string `json:"token"`
 }

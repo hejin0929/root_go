@@ -7,7 +7,7 @@ import (
 	"modTest/module/chum"
 	"modTest/module/user"
 	"modTest/service/DB"
-	chum2 "modTest/types/chum"
+	chum2 "modTest/types/typeChum"
 	"regexp"
 	"time"
 )

@@ -1,11 +1,11 @@
-package home
+package pathHome
 
 import (
 	"github.com/gin-gonic/gin"
 	"io/ioutil"
 	"modTest/component/home"
 	"modTest/module"
-	home2 "modTest/types/resHome"
+	home2 "modTest/types/typeHome"
 	"modTest/utlis/key"
 	"net/http"
 )
@@ -22,7 +22,7 @@ import (
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router       /api/home/message [get]
+// @Router       /api/pathHome/message [get]
 func AppHomePaths(g *gin.Context) {
 	home.AppHone(g)
 }
@@ -35,11 +35,11 @@ func AppHomePaths(g *gin.Context) {
 // @Produce      json
 // @Param        id   path      int  true  "Account ID"
 // @Param token header  string true "token"
-// @Success      200  {object}  resHome.KeysRes
+// @Success      200  {object}  typeHome.KeysRes
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router       /api/home/key [get]
+// @Router       /api/pathHome/key [get]
 func AppHomeKeyPaths(g *gin.Context) {
 	files := key.GenerateRSAKey(2048)
 
