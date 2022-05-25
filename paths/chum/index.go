@@ -41,9 +41,9 @@ func SearchUserPaths(g *gin.Context) {
 }
 
 // AddUserFriendPaths
-// 获取验证码
+// 添加好友接口
 // @Tags Chum
-// @Summary 用户验证码登录
+// @Summary 添加好友接口
 // @ID AddUserFriendPaths
 // @Produce  json
 // @Accept  json
