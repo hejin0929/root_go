@@ -47,24 +47,24 @@ func main() {
 	//ws := web_socket.NewWsServer()
 	//_ = ws.Start()
 
-	loginGroup := Api.Group("/pathLogin")
+	loginGroup := Api.Group("/login")
 
-	loginGroup.GET("/typeUser/:name", login.GetSingCode) // 用户获取验证码登录接口
+	loginGroup.GET("/user/:name", login.GetSingCode) // 用户获取验证码登录接口
 
 	//Login.POST("/typeUser/pathLogin", pathLogin.LoginsUser) // 用户登录接口
 
-	loginGroup.POST("/typeUser/pathLogin", loginPaths.LoginInPasswordPaths) // 用户登录接口
+	loginGroup.POST("/user/login", loginPaths.LoginInPasswordPaths) // 用户登录接口
 
-	loginGroup.POST("/typeUser/login_code", loginPaths.LoginInCodePaths) // 用户验证码登陆
+	loginGroup.POST("/user/login_code", loginPaths.LoginInCodePaths) // 用户验证码登陆
 
-	loginGroup.POST("/typeUser/sign", loginPaths.LoginNewsUserPaths) // 用户注册接口
+	loginGroup.POST("/user/sign", loginPaths.LoginNewsUserPaths) // 用户注册接口
 	//
 	//Login.POST("/typeUser/set_password", pathLogin.SetPasswordUser) // 修改密码
 
 	// 验证码模块
 	code := Api.Group("/phone_code")
 
-	code.GET("/typeUser/:phone", pathGetCode.GetPathsCode) // 获取验证码
+	code.GET("/user/:phone", pathGetCode.GetPathsCode) // 获取验证码
 
 	// 文件上传模块
 	file := Api.Group("/upload")
@@ -76,20 +76,20 @@ func main() {
 	file.POST("/test", pathUploadFiles.UploadTestPaths)         // 测试
 
 	// 首页
-	home := Api.Group("/pathHome")
+	home := Api.Group("/home")
 
 	home.GET("/message", home2.AppHomePaths) // 首页信息模块
 
 	home.GET("/key", home2.AppHomeKeyPaths)
 
 	// 个人信息获取
-	user := Api.Group("/typeUser")
+	user := Api.Group("/user")
 
 	user.GET("/user_message/:id", home2.GetUserMessagePaths)
 	user.POST("/user_message/update", home2.UpdateUserMessagePaths)
 
 	// 好友功能
-	chum := Api.Group("/typeChum")
+	chum := Api.Group("/chum")
 
 	chum.GET("/search/:phone", chum2.SearchUserPaths) // 搜素好友
 	chum.POST("/add", chum2.AddUserFriendPaths)       // 添加好友

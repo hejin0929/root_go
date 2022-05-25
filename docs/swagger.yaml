@@ -363,162 +363,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /api/pathHome/key:
-    get:
-      consumes:
-      - application/json
-      description: get string by ID
-      parameters:
-      - description: Account ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: token
-        in: header
-        name: token
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/typeHome.KeysRes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 获取数据加密
-      tags:
-      - Home
-  /api/pathHome/message:
-    get:
-      consumes:
-      - application/json
-      description: get string by ID
-      parameters:
-      - description: Account ID
-        in: path
-        name: id
-        required: true
-        type: integer
-      - description: token
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            type: string
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 首页接口
-      tags:
-      - Home
-  /api/pathLogin/typeUser/login_code:
-    post:
-      operationId: LoginsUserCode
-      parameters:
-      - description: JSON数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/login.UserCode'
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            items:
-              $ref: '#/definitions/login.UserBody'
-            type: array
-      summary: 用户登录操作
-      tags:
-      - Login
-  /api/pathLogin/typeUser/pathLogin:
-    post:
-      operationId: LoginInPasswordPaths
-      parameters:
-      - description: JSON数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/login.UserName'
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            items:
-              $ref: '#/definitions/login.UserBody'
-            type: array
-      summary: 用户登录操作
-      tags:
-      - Login
-  /api/pathLogin/typeUser/sign:
-    post:
-      operationId: LoginNewsUserPaths
-      parameters:
-      - description: JSON数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/login.UserSignType'
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            $ref: '#/definitions/login.UserSignReps'
-      summary: 用户注册操作
-      tags:
-      - Login
-  /api/phone_code/typeUser/{phone}:
-    get:
-      consumes:
-      - application/json
-      operationId: GetPathsCode
-      parameters:
-      - description: 用户手机号
-        in: path
-        name: phone
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: JSON数据
-          schema:
-            $ref: '#/definitions/getCode.ResCode'
-      summary: 用户验证码登录
-      tags:
-      - Code
-  /api/typeChum/add:
+  /api/chum/add:
     post:
       consumes:
       - application/json
@@ -557,7 +402,7 @@ paths:
       summary: 添加好友接口
       tags:
       - Chum
-  /api/typeChum/apply:
+  /api/chum/apply:
     get:
       consumes:
       - application/json
@@ -595,7 +440,7 @@ paths:
       summary: 获取好友申请
       tags:
       - Chum
-  /api/typeChum/search/{phone}:
+  /api/chum/search/{phone}:
     get:
       consumes:
       - application/json
@@ -633,7 +478,7 @@ paths:
       summary: 索搜好友信息
       tags:
       - Chum
-  /api/typeChum/update:
+  /api/chum/update:
     post:
       consumes:
       - application/json
@@ -666,7 +511,7 @@ paths:
       summary: 获取好友列表
       tags:
       - Chum
-  /api/typeUser/user_message/{id}:
+  /api/home/key:
     get:
       consumes:
       - application/json
@@ -676,46 +521,7 @@ paths:
         in: path
         name: id
         required: true
-        type: string
-      - description: token
-        in: header
-        name: Authorization
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: OK
-          schema:
-            $ref: '#/definitions/typeHome.MessageRes'
-        "400":
-          description: Bad Request
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "404":
-          description: Not Found
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-        "500":
-          description: Internal Server Error
-          schema:
-            $ref: '#/definitions/module.HttpErrs'
-      summary: 获取个人信息
-      tags:
-      - User
-  /api/typeUser/user_message/update:
-    post:
-      consumes:
-      - application/json
-      description: get string by ID
-      parameters:
-      - description: 修改的数据
-        in: body
-        name: data
-        required: true
-        schema:
-          $ref: '#/definitions/typeHome.Message'
+        type: integer
       - description: token
         in: header
         name: token
@@ -727,7 +533,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/typeHome.MessageUpdateRes'
+            $ref: '#/definitions/typeHome.KeysRes'
         "400":
           description: Bad Request
           schema:
@@ -740,9 +546,126 @@ paths:
           description: Internal Server Error
           schema:
             $ref: '#/definitions/module.HttpErrs'
-      summary: 修改个人信息
+      summary: 获取数据加密
       tags:
-      - User
+      - Home
+  /api/home/message:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 首页接口
+      tags:
+      - Home
+  /api/login/user/login:
+    post:
+      operationId: LoginInPasswordPaths
+      parameters:
+      - description: JSON数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/login.UserName'
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            items:
+              $ref: '#/definitions/login.UserBody'
+            type: array
+      summary: 用户登录操作
+      tags:
+      - Login
+  /api/login/user/login_code:
+    post:
+      operationId: LoginInCodePaths
+      parameters:
+      - description: JSON数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/login.UserCode'
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            items:
+              $ref: '#/definitions/login.UserBody'
+            type: array
+      summary: 用户登录操作
+      tags:
+      - Login
+  /api/login/user/sign:
+    post:
+      operationId: LoginNewsUserPaths
+      parameters:
+      - description: JSON数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/login.UserSignType'
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/login.UserSignReps'
+      summary: 用户注册操作
+      tags:
+      - Login
+  /api/phone_code/typeUser/{phone}:
+    get:
+      consumes:
+      - application/json
+      operationId: GetPathsCode
+      parameters:
+      - description: 用户手机号
+        in: path
+        name: phone
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: JSON数据
+          schema:
+            $ref: '#/definitions/getCode.ResCode'
+      summary: 用户验证码登录
+      tags:
+      - Code
   /api/upload/deleteImg:
     get:
       operationId: UploadImagesDelete
@@ -829,4 +752,81 @@ paths:
       summary: 上传视频操作
       tags:
       - Upload
+  /api/user/user_message/{id}:
+    get:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: Account ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: token
+        in: header
+        name: Authorization
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/typeHome.MessageRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 获取个人信息
+      tags:
+      - User
+  /api/user/user_message/update:
+    post:
+      consumes:
+      - application/json
+      description: get string by ID
+      parameters:
+      - description: 修改的数据
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/typeHome.Message'
+      - description: token
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/typeHome.MessageUpdateRes'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/module.HttpErrs'
+      summary: 修改个人信息
+      tags:
+      - User
 swagger: "2.0"

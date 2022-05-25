@@ -21,7 +21,7 @@ func UserVerify() gin.HandlerFunc {
 		var url = g.Request.URL.Path
 
 		// 过滤静态资源
-		if strings.Index(url, "oss") != -1 || strings.Index(url, "ws") != -1 || strings.Index(url, "swagger") != -1 || strings.Index(url, "pathLogin") != -1 || strings.Index(url, "phone_code") != -1 || strings.Index(url, "upload") != -1 {
+		if strings.Index(url, "oss") != -1 || strings.Index(url, "ws") != -1 || strings.Index(url, "swagger") != -1 || strings.Index(url, "login") != -1 || strings.Index(url, "phone_code") != -1 || strings.Index(url, "upload") != -1 {
 			return
 		}
 

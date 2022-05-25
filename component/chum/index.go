@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	user3 "modTest/component/user"
-	"modTest/module/chum"
+	"modTest/module/moduleChum"
 	"modTest/module/user"
 	"modTest/service/DB"
 	chum2 "modTest/types/typeChum"
@@ -37,9 +37,9 @@ func SearchUser(phone string) *chum2.ResChum {
 
 	_ = json.Unmarshal(bytes, &res.Body.User)
 
-	var relation chum.UserChumSql
+	var relation moduleChum.UserChumSql
 
-	db.Model(&chum.UserChumSql{}).First(&relation, "user_id=?", res.Body.User.UserID)
+	db.Model(&moduleChum.UserChumSql{}).First(&relation, "user_id=?", res.Body.User.UserID)
 
 	if relation.ID != 0 {
 		res.Body.Relation = chum2.Relation
@@ -53,7 +53,7 @@ func SearchUser(phone string) *chum2.ResChum {
 // AddChumUser 函数不在返回请求
 func AddChumUser(params *chum2.AddReq) error {
 
-	newChum := new(chum.ApplyChumSql)
+	newChum := new(moduleChum.ApplyChumSql)
 
 	bytes, _ := json.Marshal(params)
 
@@ -67,7 +67,7 @@ func AddChumUser(params *chum2.AddReq) error {
 
 	db, _ := DB.CreateDB()
 
-	_ = db.AutoMigrate(chum.ApplyChumSql{})
+	_ = db.AutoMigrate(moduleChum.ApplyChumSql{})
 
 	times := time.Now()
 
@@ -75,13 +75,13 @@ func AddChumUser(params *chum2.AddReq) error {
 
 	start := time.Date(times.Year(), times.Month(), times.Day(), 0, 0, 0, 0, times.Location()).Format("2006-01-02 15:04:05")
 
-	var applyList []chum.ApplyChumSql
+	var applyList []moduleChum.ApplyChumSql
 
 	oldTime := time.Date(times.Year(), times.Month(), times.Day()-3, 0, 0, 0, 0, times.Location()).Format("2006-01-02 15:04:05")
 
-	db.Unscoped().Where("created_at < ?", oldTime).Delete(&chum.ApplyChumSql{})
+	db.Unscoped().Where("created_at < ?", oldTime).Delete(&moduleChum.ApplyChumSql{})
 
-	db.Model(chum.ApplyChumSql{}).Where("created_at BETWEEN ? AND ?", start, now).Find(&applyList)
+	db.Model(moduleChum.ApplyChumSql{}).Where("created_at BETWEEN ? AND ?", start, now).Find(&applyList)
 
 	if len(applyList) < 5 {
 		db.Create(&newChum)
@@ -96,13 +96,13 @@ func GetApplyUser(uuid string) []chum2.ApplyUser {
 
 	db, _ := DB.CreateDB()
 
-	var applyList []chum.ApplyChumSql
+	var applyList []moduleChum.ApplyChumSql
 
 	var users user.MessageSql
 
 	db.Model(user.MessageSql{}).Where("uuid = ?", uuid).Find(&users)
 
-	db.Model(chum.ApplyChumSql{}).Where("friend_id = ?", users.UserID).Find(&applyList)
+	db.Model(moduleChum.ApplyChumSql{}).Where("friend_id = ?", users.UserID).Find(&applyList)
 
 	var userID = ""
 	var res []chum2.ApplyUser
@@ -137,21 +137,21 @@ func NewsApplyUser(userId string, dispose int, id string) error { // 更新好�
 
 	db, _ := DB.CreateDB()
 
-	applyData := new(chum.ApplyChumSql)
+	applyData := new(moduleChum.ApplyChumSql)
 
-	db.Model(chum.ApplyChumSql{}).Where("user_id = ? AND friend_id = ?").First(&applyData)
+	db.Model(moduleChum.ApplyChumSql{}).Where("user_id = ? AND friend_id = ?").First(&applyData)
 
 	if dispose == chum2.AGREE {
-		friend := new(chum.UserChumSql)
+		friend := new(moduleChum.UserChumSql)
 		friend.Uuid = id
 		friend.FriendID = userId
 		friend.Source = applyData.Source
 		friend.Permissions = applyData.Permissions
 		friend.Note = applyData.Note
-		_ = db.AutoMigrate(chum.UserChumSql{})
+		_ = db.AutoMigrate(moduleChum.UserChumSql{})
 		db.Create(friend)
 	}
 
-	db.Model(chum.ApplyChumSql{}).Delete("user_id = ? AND friend_id = ?", userId, id)
+	db.Model(moduleChum.ApplyChumSql{}).Delete("user_id = ? AND friend_id = ?", userId, id)
 	return nil
 }

@@ -1,4 +1,4 @@
-package chum
+package moduleChum
 
 import (
 	"modTest/module"

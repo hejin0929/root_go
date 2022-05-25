@@ -16,243 +16,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/api/pathHome/key": {
-            "get": {
-                "description": "get string by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Home"
-                ],
-                "summary": "获取数据加密",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "token",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/typeHome.KeysRes"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/pathHome/message": {
-            "get": {
-                "description": "get string by ID",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Home"
-                ],
-                "summary": "首页接口",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "token",
-                        "name": "Authorization",
-                        "in": "header",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/module.HttpErrs"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/pathLogin/typeUser/login_code": {
-            "post": {
-                "tags": [
-                    "Login"
-                ],
-                "summary": "用户登录操作",
-                "operationId": "LoginsUserCode",
-                "parameters": [
-                    {
-                        "description": "JSON数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/login.UserCode"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/login.UserBody"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/pathLogin/typeUser/pathLogin": {
-            "post": {
-                "tags": [
-                    "Login"
-                ],
-                "summary": "用户登录操作",
-                "operationId": "LoginInPasswordPaths",
-                "parameters": [
-                    {
-                        "description": "JSON数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/login.UserName"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/login.UserBody"
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/api/pathLogin/typeUser/sign": {
-            "post": {
-                "tags": [
-                    "Login"
-                ],
-                "summary": "用户注册操作",
-                "operationId": "LoginNewsUserPaths",
-                "parameters": [
-                    {
-                        "description": "JSON数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/login.UserSignType"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/login.UserSignReps"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/phone_code/typeUser/{phone}": {
-            "get": {
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Code"
-                ],
-                "summary": "用户验证码登录",
-                "operationId": "GetPathsCode",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "用户手机号",
-                        "name": "phone",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "JSON数据",
-                        "schema": {
-                            "$ref": "#/definitions/getCode.ResCode"
-                        }
-                    }
-                }
-            }
-        },
-        "/api/typeChum/add": {
+        "/api/chum/add": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -311,7 +75,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/typeChum/apply": {
+        "/api/chum/apply": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -368,7 +132,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/typeChum/search/{phone}": {
+        "/api/chum/search/{phone}": {
             "get": {
                 "consumes": [
                     "application/json"
@@ -425,7 +189,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/typeChum/update": {
+        "/api/chum/update": {
             "post": {
                 "consumes": [
                     "application/json"
@@ -475,8 +239,8 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/typeUser/user_message/update": {
-            "post": {
+        "/api/home/key": {
+            "get": {
                 "description": "get string by ID",
                 "consumes": [
                     "application/json"
@@ -485,18 +249,16 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Home"
                 ],
-                "summary": "修改个人信息",
+                "summary": "获取数据加密",
                 "parameters": [
                     {
-                        "description": "修改的数据",
-                        "name": "data",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/typeHome.Message"
-                        }
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     },
                     {
                         "type": "string",
@@ -510,7 +272,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/typeHome.MessageUpdateRes"
+                            "$ref": "#/definitions/typeHome.KeysRes"
                         }
                     },
                     "400": {
@@ -534,7 +296,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/typeUser/user_message/{id}": {
+        "/api/home/message": {
             "get": {
                 "description": "get string by ID",
                 "consumes": [
@@ -544,12 +306,12 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "Home"
                 ],
-                "summary": "获取个人信息",
+                "summary": "首页接口",
                 "parameters": [
                     {
-                        "type": "string",
+                        "type": "integer",
                         "description": "Account ID",
                         "name": "id",
                         "in": "path",
@@ -567,7 +329,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/typeHome.MessageRes"
+                            "type": "string"
                         }
                     },
                     "400": {
@@ -586,6 +348,128 @@ const docTemplate = `{
                         "description": "Internal Server Error",
                         "schema": {
                             "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login/user/login": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "用户登录操作",
+                "operationId": "LoginInPasswordPaths",
+                "parameters": [
+                    {
+                        "description": "JSON数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/login.UserName"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/login.UserBody"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login/user/login_code": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "用户登录操作",
+                "operationId": "LoginInCodePaths",
+                "parameters": [
+                    {
+                        "description": "JSON数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/login.UserCode"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/login.UserBody"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/login/user/sign": {
+            "post": {
+                "tags": [
+                    "Login"
+                ],
+                "summary": "用户注册操作",
+                "operationId": "LoginNewsUserPaths",
+                "parameters": [
+                    {
+                        "description": "JSON数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/login.UserSignType"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/login.UserSignReps"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/phone_code/typeUser/{phone}": {
+            "get": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Code"
+                ],
+                "summary": "用户验证码登录",
+                "operationId": "GetPathsCode",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "用户手机号",
+                        "name": "phone",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "JSON数据",
+                        "schema": {
+                            "$ref": "#/definitions/getCode.ResCode"
                         }
                     }
                 }
@@ -718,6 +602,122 @@ const docTemplate = `{
                         "description": "JSON数据",
                         "schema": {
                             "$ref": "#/definitions/uploadFiles.FilesRes"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/user_message/update": {
+            "post": {
+                "description": "get string by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "修改个人信息",
+                "parameters": [
+                    {
+                        "description": "修改的数据",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/typeHome.Message"
+                        }
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "token",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/typeHome.MessageUpdateRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/user/user_message/{id}": {
+            "get": {
+                "description": "get string by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "获取个人信息",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "token",
+                        "name": "Authorization",
+                        "in": "header",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/typeHome.MessageRes"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/module.HttpErrs"
                         }
                     }
                 }

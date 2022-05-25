@@ -2,6 +2,7 @@ package typeChum
 
 import (
 	"modTest/module"
+	"modTest/module/moduleChum"
 	"modTest/module/user"
 	user2 "modTest/types/typeUser"
 	"time"
@@ -81,4 +82,9 @@ type ApplyUserRes struct {
 type ApplyUpdateParams struct {
 	ID      string `json:"id"`      // ID
 	Dispose int    `json:"dispose"` // 0 表示拒绝 1 表示同意
+}
+
+type ChumsListResponse struct {
+	module.Resp
+	Body []moduleChum.UserChumSql `json:"body"` // 好友列表
 }

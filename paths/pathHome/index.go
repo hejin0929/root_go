@@ -22,7 +22,7 @@ import (
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router       /api/pathHome/message [get]
+// @Router       /api/home/message [get]
 func AppHomePaths(g *gin.Context) {
 	home.AppHone(g)
 }
@@ -39,7 +39,7 @@ func AppHomePaths(g *gin.Context) {
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router       /api/pathHome/key [get]
+// @Router       /api/home/key [get]
 func AppHomeKeyPaths(g *gin.Context) {
 	files := key.GenerateRSAKey(2048)
 

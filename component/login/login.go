@@ -96,7 +96,7 @@ func LoginsUserPassword(g *gin.Context) {
 // @ID LoginsUserCode
 // @Param data body	UserCode true "JSON数据"
 // @Success 200 {array} UserBody true "JSON数据"
-// @Router /api/pathLogin/typeUser/login_code [post]
+// @Router /api/login/user/login_code [post]
 func LoginsUserCode(r *gin.Context) {
 	body, err := ioutil.ReadAll(r.Request.Body)
 

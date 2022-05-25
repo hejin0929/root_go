@@ -23,7 +23,7 @@ import (
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/typeChum/search/{phone} [get]
+// @Router /api/chum/search/{phone} [get]
 func SearchUserPaths(g *gin.Context) {
 
 	mobile := g.Query("phone")
@@ -53,7 +53,7 @@ func SearchUserPaths(g *gin.Context) {
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/typeChum/add [post]
+// @Router /api/chum/add [post]
 func AddUserFriendPaths(g *gin.Context) {
 
 	reqChum := new(typeChum.AddReq)
@@ -97,7 +97,7 @@ func AddUserFriendPaths(g *gin.Context) {
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/typeChum/apply [get]
+// @Router /api/chum/apply [get]
 func GetChumApply(g *gin.Context) {
 	id := g.Query("id")
 
@@ -124,7 +124,7 @@ func GetChumApply(g *gin.Context) {
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/typeChum/update [post]
+// @Router /api/chum/update [post]
 func ApplyUpdate(g *gin.Context) {
 
 	params := new(typeChum.ApplyUpdateParams)
@@ -163,7 +163,7 @@ func ApplyUpdate(g *gin.Context) {
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router /api/typeChum/update [post]
+// @Router /api/chum/update [post]
 func ChumsListGet() {
 
 }

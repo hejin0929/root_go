@@ -17,7 +17,7 @@ import (
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router       /api/typeUser/user_message/{id} [get]
+// @Router       /api/user/user_message/{id} [get]
 func GetUserMessagePaths(g *gin.Context) {
 	home.GetUserMessage(g)
 }
@@ -34,7 +34,7 @@ func GetUserMessagePaths(g *gin.Context) {
 // @Failure      400  {object}  module.HttpErrs
 // @Failure      404  {object}  module.HttpErrs
 // @Failure      500  {object}  module.HttpErrs
-// @Router       /api/typeUser/user_message/update [post]
+// @Router       /api/user/user_message/update [post]
 func UpdateUserMessagePaths(g *gin.Context) {
 	home.UpdateUserMessage(g)
 }
