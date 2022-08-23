@@ -82,10 +82,10 @@ func LoginsUserPassword(g *gin.Context) {
 
 	redisToken.Set(context.Background(), mqlUser.UUID, token, 0)
 
-	res.MgsCode = 200
+	res.MgsCode = 401
 	res.MgsText = "登陆成功"
 
-	g.JSON(http.StatusOK, res)
+	g.JSON(http.StatusUnauthorized, res)
 
 }
 

@@ -99,6 +99,11 @@ func main() {
 	router.StaticFS("/oss/images", http.Dir("./static/images/"))
 	router.StaticFS("/oss/videos", http.Dir("./static/videos/"))
 
+	// 开发程序测试
+	test := router.Group("/test")
+
+	test.GET("/folder", )
+
 	ginSwagger.URL("http://localhost:8080/docs/swagger.json")
 
 	Api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))

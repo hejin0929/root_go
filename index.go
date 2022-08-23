@@ -8,7 +8,6 @@ import (
 	"io/ioutil"
 	"modTest/module"
 	"modTest/utlis/key"
-	"modTest/utlis/token"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -26,11 +25,11 @@ func UserVerify() gin.HandlerFunc {
 		}
 
 		// token验证
-		_, err := token.VerifyToken(g)
-		if err != nil {
-			g.JSON(http.StatusOK, module.Resp{MgsCode: 500, MgsText: "token失败"})
-			g.Abort()
-		}
+		//_, err := token.VerifyToken(g)
+		//if err != nil {
+		//	g.JSON(http.StatusOK, module.Resp{MgsCode: 500, MgsText: "token失败"})
+		//	g.Abort()
+		//}
 
 		if g.Request.Header.Get("key") != "" {
 			baseUrl, _ := filepath.Abs("./static/keys/")
